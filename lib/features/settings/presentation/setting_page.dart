@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vault_chain/features/auth/application/auth_controller.dart';
 import 'package:vault_chain/features/settings/application/theme_controller.dart';
 
@@ -57,38 +58,33 @@ class SettingPage extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              RadioListTile<ThemeMode>(
-                title: const Text('Light'),
-                value: ThemeMode.light,
+              RadioGroup<ThemeMode>(
                 groupValue: currentMode,
                 onChanged: (mode) {
                   if (mode != null) {
-                    ref.read(themeControllerProvider.notifier).setThemeMode(mode);
+                    ref
+                        .read(themeControllerProvider.notifier)
+                        .setThemeMode(mode);
                   }
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
-              ),
-              RadioListTile<ThemeMode>(
-                title: const Text('Dark'),
-                value: ThemeMode.dark,
-                groupValue: currentMode,
-                onChanged: (mode) {
-                  if (mode != null) {
-                    ref.read(themeControllerProvider.notifier).setThemeMode(mode);
-                  }
-                  Navigator.of(context).pop();
-                },
-              ),
-              RadioListTile<ThemeMode>(
-                title: const Text('System'),
-                value: ThemeMode.system,
-                groupValue: currentMode,
-                onChanged: (mode) {
-                  if (mode != null) {
-                    ref.read(themeControllerProvider.notifier).setThemeMode(mode);
-                  }
-                  Navigator.of(context).pop();
-                },
+                child: const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RadioListTile<ThemeMode>(
+                      title: Text('Light'),
+                      value: ThemeMode.light,
+                    ),
+                    RadioListTile<ThemeMode>(
+                      title: Text('Dark'),
+                      value: ThemeMode.dark,
+                    ),
+                    RadioListTile<ThemeMode>(
+                      title: Text('System'),
+                      value: ThemeMode.system,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
