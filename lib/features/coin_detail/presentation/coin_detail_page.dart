@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vault_chain/core/utils/app_colors.dart';
+import 'package:vault_chain/app/design/app_design.dart';
 import 'package:vault_chain/core/utils/formatter.dart';
 import 'package:vault_chain/core/utils/util.dart';
 import 'package:vault_chain/features/coin_detail/application/coin_detail_controller.dart';
@@ -25,19 +25,9 @@ class CoinDetailPage extends ConsumerStatefulWidget {
 }
 
 class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
-  late final FlLine _gridLine;
   final _textCoinController = TextEditingController();
   final _textCurrencyController = TextEditingController();
   bool _isInitializedConverter = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _gridLine = FlLine(
-      color: Colors.blueGrey.withValues(alpha: 0.4),
-      strokeWidth: 0.8,
-    );
-  }
 
   @override
   void dispose() {
@@ -124,7 +114,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       Card.filled(
                         color: defaultPrimaryContainer(context),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius:
+                              BorderRadius.circular(AppDesign.r8),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -173,7 +164,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
             },
             isSelected: isFav,
             icon: const Icon(Icons.star_border_outlined),
-            selectedIcon: const Icon(Icons.star, color: Colors.yellow),
+            selectedIcon: Icon(Icons.star, color: appAccentColor(context)),
           ),
         ],
       ),
@@ -194,11 +185,17 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
 
           _initConverters(detail);
 
+          final hairline = Theme.of(context).colorScheme.outline;
+          final positive = positiveColor(context);
+          final negative = negativeColor(context);
+          final accent = appAccentColor(context);
+          final change24h = detail.marketData.changes['24h'];
+
           return RefreshIndicator(
             onRefresh: () =>
                 ref.read(coinDetailControllerProvider(id).notifier).refresh(),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
@@ -211,28 +208,30 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                             Formatter.formatCurrency(
                               detail.marketData.currentPrice['idr']!,
                             ),
-                            style: const TextStyle(
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.bold,
+                            style: TextStyle(
+                              fontFamily: 'SFPro',
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -1,
+                              color: defaultTitleColor(context),
                             ),
                           ),
                         const SizedBox(width: 8),
-                        detail.marketData.changes['24h'] == null
+                        change24h == null
                             ? const NullText()
                             : Row(
                                 children: [
                                   PriceChangeIcon(
-                                    detail.marketData.changes['24h']! <= 0,
+                                    change24h > 0,
+                                    label: Formatter.formatPercent(change24h),
                                   ),
+                                  const SizedBox(width: 6),
                                   Text(
-                                    '${Formatter.formatPercent(detail.marketData.changes['24h']!)}(24H)',
+                                    '(24H)',
                                     style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          detail.marketData.changes['24h']! < 0
-                                          ? Colors.red
-                                          : Colors.green,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: defaultTertiaryColor(context),
                                     ),
                                   ),
                                 ],
@@ -240,7 +239,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 24),
                   AspectRatio(
                     aspectRatio: 1.5,
                     child: Padding(
@@ -266,7 +265,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                             show: true,
                             getDrawingVerticalLine: (_) =>
                                 const FlLine(strokeWidth: 0),
-                            getDrawingHorizontalLine: (_) => _gridLine,
+                            getDrawingHorizontalLine: (_) =>
+                                FlLine(color: hairline, strokeWidth: 0.8),
                           ),
                           titlesData: FlTitlesData(
                             show: true,
@@ -306,11 +306,10 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                 final data = ohlc[index];
                                 return VerticalLine(
                                   x: x,
-                                  color:
-                                      (data.open < data.close
-                                              ? Colors.green
-                                              : Colors.red)
-                                          .withValues(alpha: 0.5),
+                                  color: (data.open < data.close
+                                          ? negative
+                                          : positive)
+                                      .withValues(alpha: 0.5),
                                   strokeWidth: 1,
                                 );
                               },
@@ -318,16 +317,16 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                 y: y,
                                 label: HorizontalLineLabel(
                                   show: true,
-                                  style: const TextStyle(
-                                    color: AppColors.contentColorYellow,
+                                  style: TextStyle(
+                                    color: accent,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                   labelResolver: (hLine) =>
                                       hLine.y.toInt().toString(),
                                   alignment: Alignment.topLeft,
                                 ),
-                                color: Colors.yellow.withValues(alpha: 0.8),
+                                color: accent.withValues(alpha: 0.8),
                                 strokeWidth: 1,
                               ),
                             ),
@@ -359,18 +358,18 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                   width: double.infinity,
                                   child: Divider(thickness: 1.5),
                                 ),
-                                e.value == null
-                                    ? const NullText()
-                                    : Text(
-                                        Formatter.formatPercent(e.value!),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: e.value! >= 0
-                                              ? Colors.green
-                                              : Colors.red,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
+                                 e.value == null
+                                     ? const NullText()
+                                     : Text(
+                                         Formatter.formatPercent(e.value!),
+                                         overflow: TextOverflow.ellipsis,
+                                         style: TextStyle(
+                                           color: e.value! >= 0
+                                               ? positive
+                                               : negative,
+                                           fontWeight: FontWeight.w600,
+                                         ),
+                                       ),
                               ],
                             ),
                           );
@@ -378,7 +377,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     children: [
                       Expanded(

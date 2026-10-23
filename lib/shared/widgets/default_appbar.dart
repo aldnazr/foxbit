@@ -11,27 +11,38 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: defaultBackground(context),
-      surfaceTintColor: defaultBackground(context),
-      actionsPadding: const EdgeInsets.only(right: 4.0),
-      leadingWidth: 50,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      actionsPadding: const EdgeInsets.only(right: 16.0),
+      leadingWidth: 58,
       leading: const Padding(
-        padding: EdgeInsets.only(left: 14),
+        padding: EdgeInsets.only(left: 20),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           backgroundImage: AssetImage('assets/app_logo.png'),
         ),
       ),
       titleSpacing: 10,
-      title: const Text(
+      title: Text(
         'Vault Chain',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+              fontSize: 18,
+              letterSpacing: -0.3,
+            ),
       ),
       actions: [
-        IconButton(
-          tooltip: 'Pengaturan',
-          onPressed: () => context.push('/settings'),
-          icon: const Icon(Icons.settings),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: defaultContainer(context),
+            border: Border.all(color: Theme.of(context).colorScheme.outline),
+          ),
+          child: IconButton(
+            tooltip: 'Pengaturan',
+            onPressed: () => context.push('/settings'),
+            icon: const Icon(Icons.settings_outlined, size: 20),
+            visualDensity: VisualDensity.compact,
+          ),
         ),
       ],
     );

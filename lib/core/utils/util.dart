@@ -1,49 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vault_chain/app/design/app_design.dart';
 
-Color defaultBackground(BuildContext context) {
-  return Theme.of(context).colorScheme.surface;
-}
+Brightness _bright(BuildContext context) =>
+    Theme.of(context).brightness;
 
-Color defaultContainer(BuildContext context) {
-  return Theme.of(context).colorScheme.surfaceContainer;
-}
+Color defaultBackground(BuildContext context) =>
+    Theme.of(context).colorScheme.surface;
 
-Color defaultTitleColor(BuildContext context) {
-  return Theme.of(context).textTheme.titleMedium!.color!;
-}
+Color defaultContainer(BuildContext context) =>
+    AppDesign.surfaceAlt(_bright(context));
 
-Color lightBorderColor() {
-  return const Color(0xFFEFF2F5);
-}
+Color defaultTitleColor(BuildContext context) =>
+    AppDesign.textPrimary(_bright(context));
 
-Color darkBorderColor() {
-  return const Color(0xFF212D3B);
-}
+Color defaultSecondaryColor(BuildContext context) =>
+    AppDesign.textSecondary(_bright(context));
 
-Color customDarkContainer() {
-  return Color(0xFF1B232D);
-}
+Color defaultTertiaryColor(BuildContext context) =>
+    AppDesign.textTertiary(_bright(context));
 
-Color customDarkOnContainer() {
-  return Color(0xFF8EA3BE);
-}
+Color positiveColor(BuildContext context) =>
+    AppDesign.positive(_bright(context));
 
-Color customLightContainer() {
-  return Color(0xFFF1F5F9);
-}
+Color negativeColor(BuildContext context) =>
+    AppDesign.negative(_bright(context));
 
-Color customLightOnContainer() {
-  return Color(0xFF64748B);
-}
+Color warningColor(BuildContext context) =>
+    AppDesign.warning(_bright(context));
 
-Color defaultPrimaryContainer(BuildContext context) {
-  return Theme.of(context).colorScheme.primaryContainer;
-}
+Color appAccentColor(BuildContext context) =>
+    AppDesign.primary(_bright(context));
 
-Color defaultOnPrimaryContainer(BuildContext context) {
-  return Theme.of(context).colorScheme.onPrimaryContainer;
-}
+Color lightBorderColor() => AppDesign.lHairline;
+
+Color darkBorderColor() => AppDesign.dHairline;
+
+Color customDarkContainer() => AppDesign.dSurfaceAlt;
+
+Color customDarkOnContainer() => AppDesign.dTextSecondary;
+
+Color customLightContainer() => AppDesign.lSurfaceAlt;
+
+Color customLightOnContainer() => AppDesign.lTextSecondary;
+
+Color defaultPrimaryContainer(BuildContext context) =>
+    Theme.of(context).colorScheme.primaryContainer;
+
+Color defaultOnPrimaryContainer(BuildContext context) =>
+    Theme.of(context).colorScheme.onPrimaryContainer;
 
 Future<bool?> isLogin() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

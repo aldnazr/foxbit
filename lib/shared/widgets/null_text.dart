@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 class NullText extends StatelessWidget {
   const NullText({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 40,
+    return Container(
+      width: 44,
       height: 20,
-      child: Card(
-        elevation: 0,
-        margin: EdgeInsets.all(0),
-        child: Center(
-          child: Text('Null', style: TextStyle(fontWeight: FontWeight.w500)),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: defaultContainer(context),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        'Null',
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+          color: defaultTertiaryColor(context),
         ),
       ),
     );

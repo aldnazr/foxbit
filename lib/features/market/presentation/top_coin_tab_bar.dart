@@ -32,7 +32,7 @@ class TopCoinTabBar extends ConsumerWidget {
           onRefresh: () =>
               ref.read(topCoinsControllerProvider.notifier).refresh(),
           child: ListView.builder(
-            padding: const EdgeInsets.only(top: 3),
+            padding: const EdgeInsets.only(bottom: 16),
             itemCount: topCoins.length,
             itemBuilder: (context, index) {
               final coin = topCoins[index].item;
@@ -43,12 +43,8 @@ class TopCoinTabBar extends ConsumerWidget {
                 children: [
                   ListTile(
                     key: ValueKey(coin.id),
-                    minTileHeight: 0,
-                    contentPadding: const EdgeInsets.only(
-                      top: 0,
-                      bottom: 0,
-                      left: 18.0,
-                      right: 16.0,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
                     ),
                     onTap: () {
                       context.push(
@@ -63,18 +59,24 @@ class TopCoinTabBar extends ConsumerWidget {
                       );
                     },
                     leading: CircleAvatar(
-                      radius: 18,
+                      radius: 22,
                       foregroundImage: NetworkImage(coin.small),
                       backgroundColor: Colors.transparent,
                     ),
                     title: Text(
                       coin.name,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    subtitle: Text(coin.symbol.toUpperCase()),
+                    subtitle: Text(
+                      coin.symbol.toUpperCase(),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 12,
+                            letterSpacing: 0.5,
+                          ),
+                    ),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -86,26 +88,18 @@ class TopCoinTabBar extends ConsumerWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            PriceChangeIcon(priceChange <= 0),
-                            Text(
-                              Formatter.formatPercent(priceChange),
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: priceChange < 0
-                                    ? Colors.red
-                                    : Colors.green,
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: PriceChangeIcon(
+                            priceChange > 0,
+                            label: Formatter.formatPercent(priceChange),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   if (index < topCoins.length - 1)
-                    const Divider(height: 0, thickness: 1),
+                    const Divider(height: 0, thickness: 1, indent: 72),
                 ],
               );
             },

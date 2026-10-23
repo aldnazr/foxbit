@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vault_chain/core/utils/util.dart';
 import 'package:vault_chain/features/insight/domain/news_item.dart';
 
 class NewsList extends StatelessWidget {
@@ -32,17 +33,25 @@ class NewsList extends StatelessWidget {
     }
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Berita', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              'BERITA',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+                color: defaultTertiaryColor(context),
+              ),
+            ),
             const SizedBox(height: 8),
             ...items.map((n) {
               return InkWell(
                 onTap: () => _open(n.link),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -50,24 +59,27 @@ class NewsList extends StatelessWidget {
                         n.title,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
                           Text(
                             n.source,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey,
+                              color: defaultTertiaryColor(context),
                             ),
                           ),
                           const SizedBox(width: 8),
                           Text(
                             _relative(n.pubDate),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey,
+                              color: defaultTertiaryColor(context),
                             ),
                           ),
                         ],
@@ -78,7 +90,7 @@ class NewsList extends StatelessWidget {
                           n.summary!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 12),
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ],

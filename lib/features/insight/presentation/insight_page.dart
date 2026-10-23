@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vault_chain/app/design/app_design.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 import 'package:vault_chain/features/insight/presentation/providers/insight_providers.dart';
 import 'package:vault_chain/features/insight/presentation/widgets/fear_greed_card.dart';
@@ -37,9 +39,8 @@ class InsightPage extends ConsumerWidget {
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+            section(
+              AppEntry(
                 child: fg.when(
                   loading: () => const _LoadingCard(label: 'Fear & Greed'),
                   error: (e, _) => ErrorHandler(
@@ -50,9 +51,8 @@ class InsightPage extends ConsumerWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+            section(
+              AppEntry(
                 child: gm.when(
                   loading: () =>
                       const _LoadingCard(label: 'Ringkasan Pasar Global'),
@@ -64,9 +64,8 @@ class InsightPage extends ConsumerWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+            section(
+              AppEntry(
                 child: tr.when(
                   loading: () => const _LoadingCard(label: 'Trending'),
                   error: (e, _) => ErrorHandler(
@@ -79,9 +78,8 @@ class InsightPage extends ConsumerWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+            section(
+              AppEntry(
                 child: nw.when(
                   loading: () => const _LoadingCard(label: 'Berita'),
                   error: (e, _) => ErrorHandler(
@@ -94,20 +92,31 @@ class InsightPage extends ConsumerWidget {
                 ),
               ),
             ),
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(16),
+            SliverPadding(
+              padding: const EdgeInsets.all(24),
+              sliver: SliverToBoxAdapter(
                 child: Center(
                   child: Text(
                     'Data: CoinGecko, Alternative.me',
-                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: defaultTertiaryColor(context),
+                    ),
                   ),
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 8)),
           ],
         ),
       ),
+    );
+  }
+
+  static SliverPadding section(Widget child) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      sliver: SliverToBoxAdapter(child: child),
     );
   }
 }
@@ -124,8 +133,8 @@ class _LoadingCard extends StatelessWidget {
           child: Column(
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(height: 8),
-              Text(label),
+              const SizedBox(height: 12),
+              Text(label, style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),
@@ -142,7 +151,9 @@ class _EmptyCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Center(child: Text(label)),
+        child: Center(
+          child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+        ),
       ),
     );
   }

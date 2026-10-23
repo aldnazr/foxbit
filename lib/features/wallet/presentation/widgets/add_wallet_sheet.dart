@@ -71,9 +71,9 @@ class _AddWalletSheetState extends ConsumerState<AddWalletSheet> {
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
-        left: 16,
-        right: 16,
-        top: 16,
+        left: 24,
+        right: 24,
+        top: 4,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -81,9 +81,9 @@ class _AddWalletSheetState extends ConsumerState<AddWalletSheet> {
         children: [
           const Text(
             'Tambah Alamat',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           SegmentedButton<Chain>(
             segments: const [
               ButtonSegment(value: Chain.btc, label: Text('BTC')),
@@ -92,7 +92,7 @@ class _AddWalletSheetState extends ConsumerState<AddWalletSheet> {
             selected: {_chain},
             onSelectionChanged: (s) => setState(() => _chain = s.first),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           TextField(
             controller: _labelCtrl,
             decoration: const InputDecoration(labelText: 'Label (opsional)'),
@@ -104,22 +104,32 @@ class _AddWalletSheetState extends ConsumerState<AddWalletSheet> {
               labelText: 'Alamat',
               suffixIcon: IconButton(
                 onPressed: _paste,
-                icon: const Icon(Icons.paste),
+                icon: const Icon(Icons.paste_outlined),
               ),
             ),
           ),
           if (_error != null) ...[
             const SizedBox(height: 8),
-            Text(_error!, style: const TextStyle(color: Colors.red)),
+            Text(
+              _error!,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 12,
+              ),
+            ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           FilledButton(
             onPressed: _saving ? null : _submit,
             child: _saving
-                ? const CircularProgressIndicator(color: Colors.white)
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Text('Simpan'),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
         ],
       ),
     );

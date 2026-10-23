@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vault_chain/app/design/app_design.dart';
 import 'package:vault_chain/core/utils/util.dart';
 
 class EmptyPortofolio extends StatelessWidget {
@@ -8,37 +9,47 @@ class EmptyPortofolio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      width: double.infinity,
-      child: Card.filled(
-        margin: const EdgeInsets.all(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      child: AppEntry(
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: defaultContainer(context),
+            borderRadius: BorderRadius.circular(AppDesign.r24),
+            border: Border.all(color: Theme.of(context).colorScheme.outline),
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Belum ada koin',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: defaultTitleColor(context),
-                ),
-              ),
-              const Text(
-                'Tambahkan beberapa koin untuk mulai melacak harga mereka '
-                'dan tetap mengikuti pergerakan.',
-              ),
-              ElevatedButton(
-                onPressed: onAddTap,
-                style: ButtonStyle(
-                  elevation: WidgetStateProperty.all<double>(1),
-                  fixedSize: WidgetStateProperty.all(
-                    const Size(double.infinity, 40),
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).colorScheme.surface,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 ),
+                child: const Icon(Icons.star_outline, size: 24),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Belum ada koin',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Tambahkan beberapa koin untuk mulai melacak harga mereka '
+                'dan tetap mengikuti pergerakan.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 20),
+              FilledButton(
+                onPressed: onAddTap,
+                style: FilledButton.styleFrom(minimumSize: const Size(0, 48)),
                 child: const Text('Tambahkan Koin'),
               ),
             ],

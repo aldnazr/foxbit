@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vault_chain/app/design/app_design.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 import 'package:vault_chain/features/wallet/presentation/providers/wallet_providers.dart';
 import 'package:vault_chain/features/wallet/presentation/widgets/add_wallet_sheet.dart';
@@ -14,7 +16,7 @@ class WalletPage extends ConsumerWidget {
     final walletsAsync = ref.watch(walletsControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dompet')),
+      appBar: AppBar(title: const Text('Dompet'), titleSpacing: 20),
       body: walletsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => ErrorHandler(
@@ -27,31 +29,41 @@ class WalletPage extends ConsumerWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 40),
-                    const Icon(
-                      Icons.account_balance_wallet_outlined,
-                      size: 64,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Dompet Watch-Only',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                child: AppEntry(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      Container(
+                        width: 72,
+                        height: 72,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: defaultContainer(context),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.account_balance_wallet_outlined,
+                          size: 28,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Pantau saldo dan riwayat transaksi dari alamat publik BTC/ETH. '
-                      'Tidak ada private key atau transaksi.',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    const _SecretBanner(),
-                  ],
+                      const SizedBox(height: 20),
+                      Text(
+                        'Dompet Watch-Only',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Pantau saldo dan riwayat transaksi dari alamat publik BTC/ETH. '
+                        'Tidak ada private key atau transaksi.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 20),
+                      const _SecretBanner(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -67,10 +79,10 @@ class WalletPage extends ConsumerWidget {
             },
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
               children: [
                 const _SecretBanner(),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 ...wallets.map(
                   (w) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -102,10 +114,15 @@ class WalletPage extends ConsumerWidget {
                           .read(walletsControllerProvider.notifier)
                           .remove(w.id),
                       background: Container(
-                        color: Colors.red,
+                        decoration: BoxDecoration(
+                          color: negativeColor(context).withValues(alpha: 0.9),
+                          borderRadius:
+                              BorderRadius.circular(AppDesign.r24),
+                        ),
                         alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 16),
-                        child: const Icon(Icons.delete, color: Colors.white),
+                        padding: const EdgeInsets.only(right: 24),
+                        child: const Icon(Icons.delete_outline,
+                            color: Colors.white, size: 22),
                       ),
                       child: WalletCard(wallet: w),
                     ),
@@ -122,7 +139,7 @@ class WalletPage extends ConsumerWidget {
           isScrollControlled: true,
           builder: (_) => const AddWalletSheet(),
         ),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, size: 26),
       ),
     );
   }
@@ -132,20 +149,24 @@ class _SecretBanner extends StatelessWidget {
   const _SecretBanner();
   @override
   Widget build(BuildContext context) {
+    final color = warningColor(context);
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.amber.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppDesign.r16),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.warning_amber, color: Colors.amber),
-          SizedBox(width: 8),
+          Icon(Icons.warning_amber, color: color, size: 20),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
               'Hanya alamat publik. Jangan pernah memasukkan seed phrase atau private key.',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(
+                fontSize: 12,
+                color: defaultSecondaryColor(context),
+              ),
             ),
           ),
         ],

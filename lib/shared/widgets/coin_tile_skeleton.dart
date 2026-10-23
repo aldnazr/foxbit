@@ -10,18 +10,21 @@ class CoinTileSkeleton extends StatelessWidget {
       child: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return const ListTile(
-            minTileHeight: 60,
-            contentPadding: EdgeInsets.only(
-              top: 0,
-              bottom: 0,
-              left: 18.0,
-              right: 16.0,
+          return ListTile(
+            minTileHeight: 72,
+            contentPadding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 8,
             ),
-            leading: Bone.circle(size: 40),
-            title: Bone.text(words: 2),
-            subtitle: Bone.text(words: 1),
-            trailing: Bone.text(words: 1),
+            leading: const Bone.circle(size: 44),
+            title: const Bone.text(words: 2),
+            subtitle: const Bone.text(words: 1),
+            trailing: const Bone(
+              width: 68,
+              height: 30,
+              borderRadius: BorderRadius.all(Radius.circular(999)),
+            ),
           );
         },
       ),

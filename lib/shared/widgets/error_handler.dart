@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vault_chain/app/design/app_design.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 class ErrorHandler extends StatelessWidget {
   final String errorText;
@@ -13,27 +15,32 @@ class ErrorHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(errorText),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            onPressed: onPressed,
-            style: ButtonStyle(
-              elevation: WidgetStateProperty.all(1),
-              shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-              ),
-              fixedSize: WidgetStateProperty.all(
-                const Size(double.infinity, 40),
-              ),
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: defaultContainer(context),
+          borderRadius: BorderRadius.circular(AppDesign.r24),
+          border: Border.all(color: Theme.of(context).colorScheme.outline),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 28),
+            const SizedBox(height: 12),
+            Text(
+              errorText,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            child: const Text('Coba lagi'),
-          ),
-        ],
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: onPressed,
+              style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+              child: const Text('Coba lagi'),
+            ),
+          ],
+        ),
       ),
     );
   }

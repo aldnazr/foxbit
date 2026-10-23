@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vault_chain/app/design/app_design.dart';
 import 'package:vault_chain/features/auth/application/auth_controller.dart';
 import 'package:vault_chain/features/auth/presentation/login_page.dart';
 import 'package:vault_chain/features/auth/presentation/register_page.dart';
@@ -15,6 +16,33 @@ import 'package:vault_chain/features/wallet/presentation/wallet_page.dart';
 import 'package:vault_chain/shared/models/coin_detail_args.dart';
 
 part 'router.g.dart';
+
+CustomTransitionPage<void> _fadeSlidePage({
+  required LocalKey key,
+  required Widget child,
+}) {
+  return CustomTransitionPage<void>(
+    key: key,
+    child: child,
+    transitionDuration: AppDesign.base,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: AppDesign.curve,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 0.04),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
 
 class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
@@ -56,21 +84,36 @@ GoRouter router(Ref ref) {
     },
     routes: [
       GoRoute(path: '/', redirect: (_, _) => '/market'),
-      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(
+        path: '/login',
+        pageBuilder: (context, state) => _fadeSlidePage(
+          key: state.pageKey,
+          child: const LoginPage(),
+        ),
+      ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => const RegisterPage(),
+        pageBuilder: (context, state) => _fadeSlidePage(
+          key: state.pageKey,
+          child: const RegisterPage(),
+        ),
       ),
       GoRoute(
         path: '/settings',
-        builder: (context, state) => const SettingPage(),
+        pageBuilder: (context, state) => _fadeSlidePage(
+          key: state.pageKey,
+          child: const SettingPage(),
+        ),
       ),
       GoRoute(
         path: '/coin/:id',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final id = state.pathParameters['id'] ?? '';
           final args = state.extra as CoinDetailArgs?;
-          return CoinDetailPage(id: id, args: args);
+          return _fadeSlidePage(
+            key: state.pageKey,
+            child: CoinDetailPage(id: id, args: args),
+          );
         },
       ),
       StatefulShellRoute.indexedStack(

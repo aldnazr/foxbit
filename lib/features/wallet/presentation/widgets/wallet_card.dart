@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vault_chain/app/design/app_design.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
 import 'package:vault_chain/features/wallet/presentation/providers/wallet_providers.dart';
@@ -26,9 +28,26 @@ class WalletCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         onTap: () => context.push('/wallet/${wallet.id}'),
-        // will use go_router instead; override below
-        title: Text(wallet.label.isEmpty ? wallet.chain.label : wallet.label),
-        subtitle: Text(_shortAddress(wallet.address)),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDesign.r24),
+        ),
+        title: Text(
+          wallet.label.isEmpty ? wallet.chain.label : wallet.label,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        subtitle: Text(
+          _shortAddress(wallet.address),
+          style: TextStyle(
+            fontSize: 12,
+            fontFeatures: const [FontFeature.tabularFigures()],
+            color: defaultTertiaryColor(context),
+          ),
+        ),
         trailing: balanceAsync.when(
           loading: () => const SizedBox(
             width: 16,
@@ -37,7 +56,7 @@ class WalletCard extends ConsumerWidget {
           ),
           error: (e, _) => Text(
             e.toString(),
-            style: const TextStyle(fontSize: 11, color: Colors.red),
+            style: TextStyle(fontSize: 11, color: negativeColor(context)),
           ),
           data: (b) {
             final fiatUsd = b.coinAmount * price;
@@ -47,12 +66,20 @@ class WalletCard extends ConsumerWidget {
               children: [
                 Text(
                   '${b.coinAmount.toStringAsFixed(6)} ${wallet.chain.label}',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                    color: defaultTitleColor(context),
+                  ),
                 ),
                 if (price > 0)
                   Text(
                     '\$${fiatUsd.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: defaultSecondaryColor(context),
+                    ),
                   ),
               ],
             );

@@ -41,7 +41,7 @@ class CryptoTabBar extends ConsumerWidget {
               return false;
             },
             child: ListView.builder(
-              padding: const EdgeInsets.only(top: 3),
+              padding: const EdgeInsets.only(bottom: 16),
               itemCount: markets.length + (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == markets.length) {
@@ -58,12 +58,8 @@ class CryptoTabBar extends ConsumerWidget {
                   children: [
                     ListTile(
                       key: ValueKey(coin.id),
-                      minTileHeight: 0,
-                      contentPadding: const EdgeInsets.only(
-                        top: 0,
-                        bottom: 0,
-                        left: 18.0,
-                        right: 16.0,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
                       ),
                       onTap: () {
                         if (coin.id == null) return;
@@ -79,7 +75,7 @@ class CryptoTabBar extends ConsumerWidget {
                         );
                       },
                       leading: CircleAvatar(
-                        radius: 18,
+                        radius: 22,
                         foregroundImage: coin.image != null
                             ? NetworkImage(
                                 coin.image!.replaceAll('/large/', '/small_2x/'),
@@ -90,11 +86,17 @@ class CryptoTabBar extends ConsumerWidget {
                       title: Text(
                         coin.name ?? '',
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      subtitle: Text((coin.symbol ?? '').toUpperCase()),
+                      subtitle: Text(
+                        (coin.symbol ?? '').toUpperCase(),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 12,
+                              letterSpacing: 0.5,
+                            ),
+                      ),
                       trailing: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -110,30 +112,19 @@ class CryptoTabBar extends ConsumerWidget {
                                 ),
                           coin.priceChangePercentage24h == null
                               ? const NullText()
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    PriceChangeIcon(
-                                      coin.priceChangePercentage24h! <= 0,
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: PriceChangeIcon(
+                                    coin.priceChangePercentage24h! > 0,
+                                    label: Formatter.formatPercent(
+                                      coin.priceChangePercentage24h!,
                                     ),
-                                    Text(
-                                      Formatter.formatPercent(
-                                        coin.priceChangePercentage24h!,
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color:
-                                            coin.priceChangePercentage24h! < 0
-                                            ? Colors.red
-                                            : Colors.green,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                         ],
                       ),
                     ),
-                    const Divider(height: 0, thickness: 1),
+                    const Divider(height: 0, thickness: 1, indent: 72),
                   ],
                 );
               },
