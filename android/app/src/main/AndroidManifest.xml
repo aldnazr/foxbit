@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     
     <application
-        android:label="Vault Chain"
+        android:label="Foxbit"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -24,11 +24,9 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
       titleSpacing: 10,
       title: Text(
-        'Vault Chain',
-        style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-              fontSize: 18,
-              letterSpacing: -0.3,
-            ),
+        'Foxbit',
+        style: Theme.of(context).appBarTheme.titleTextStyle
+            ?.copyWith(fontSize: 18, letterSpacing: -0.3),
       ),
       actions: [
         Container(

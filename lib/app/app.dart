@@ -14,7 +14,7 @@ class VaultChainApp extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Vault Chain',
+      title: 'Foxbit',
       routerConfig: router,
       themeMode: themeMode,
       theme: AppTheme.lightTheme,

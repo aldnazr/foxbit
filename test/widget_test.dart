@@ -17,7 +17,7 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Vault Chain'), findsOneWidget);
+    expect(find.text('Foxbit'), findsOneWidget);
     expect(find.text('Login'), findsOneWidget);
   });
 }

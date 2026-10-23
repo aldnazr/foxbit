@@ -56,10 +56,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 40,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -87,7 +84,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'Vault Chain',
+                          'Foxbit',
                           style: TextStyle(
                             fontFamily: 'SFPro',
                             fontSize: 28,
