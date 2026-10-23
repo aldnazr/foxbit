@@ -82,10 +82,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
     final displayRank = args?.marketCapRank;
 
     return Scaffold(
-      backgroundColor: defaultBackground(context),
       appBar: AppBar(
-        backgroundColor: defaultBackground(context),
-        surfaceTintColor: defaultBackground(context),
         titleSpacing: 0,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,100 +258,98 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       duration: AppDesign.base,
                       opacity: state.isRangeLoading ? 0.4 : 1,
                       child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: CandlestickChart(
-                            CandlestickChartData(
-                              borderData: FlBorderData(show: false),
-                              candlestickSpots: ohlc.asMap().entries.map((
-                                entry,
-                              ) {
-                                final index = entry.key;
-                                final data = entry.value;
-                                return CandlestickSpot(
-                                  x: index.toDouble(),
-                                  open: data.open,
-                                  high: data.high,
-                                  low: data.low,
-                                  close: data.close,
-                                  show: true,
-                                );
-                              }).toList(),
-                              minX: 0,
-                              maxX: ohlc.length.toDouble(),
-                              gridData: FlGridData(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: CandlestickChart(
+                          CandlestickChartData(
+                            borderData: FlBorderData(show: false),
+                            candlestickSpots: ohlc.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final data = entry.value;
+                              return CandlestickSpot(
+                                x: index.toDouble(),
+                                open: data.open,
+                                high: data.high,
+                                low: data.low,
+                                close: data.close,
                                 show: true,
-                                getDrawingVerticalLine: (_) =>
-                                    const FlLine(strokeWidth: 0),
-                                getDrawingHorizontalLine: (_) =>
-                                    FlLine(color: hairline, strokeWidth: 0.8),
+                              );
+                            }).toList(),
+                            minX: 0,
+                            maxX: ohlc.length.toDouble(),
+                            gridData: FlGridData(
+                              show: true,
+                              getDrawingVerticalLine: (_) =>
+                                  const FlLine(strokeWidth: 0),
+                              getDrawingHorizontalLine: (_) =>
+                                  FlLine(color: hairline, strokeWidth: 0.8),
+                            ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
                               ),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                rightTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                topTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                leftTitles: AxisTitles(
-                                  drawBelowEverything: true,
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    maxIncluded: false,
-                                    minIncluded: false,
-                                    reservedSize: 40,
-                                    getTitlesWidget: _leftTitles,
-                                  ),
-                                ),
-                                bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    reservedSize: 36,
-                                    maxIncluded: false,
-                                    interval: 1,
-                                    getTitlesWidget: _bottomTitles,
-                                  ),
+                              topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              leftTitles: AxisTitles(
+                                drawBelowEverything: true,
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  maxIncluded: false,
+                                  minIncluded: false,
+                                  reservedSize: 40,
+                                  getTitlesWidget: _leftTitles,
                                 ),
                               ),
-                              touchedPointIndicator: AxisSpotIndicator(
-                                painter: AxisLinesIndicatorPainter(
-                                  verticalLineProvider: (x) {
-                                    final index = x.toInt();
-                                    if (index < 0 || index >= ohlc.length) {
-                                      return VerticalLine(x: x, strokeWidth: 0);
-                                    }
-                                    final data = ohlc[index];
-                                    return VerticalLine(
-                                      x: x,
-                                      color:
-                                          (data.open < data.close
-                                                  ? negative
-                                                  : positive)
-                                              .withValues(alpha: 0.5),
-                                      strokeWidth: 1,
-                                    );
-                                  },
-                                  horizontalLineProvider: (y) => HorizontalLine(
-                                    y: y,
-                                    label: HorizontalLineLabel(
-                                      show: true,
-                                      style: TextStyle(
-                                        color: accent,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                      labelResolver: (hLine) =>
-                                          hLine.y.toInt().toString(),
-                                      alignment: Alignment.topLeft,
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 36,
+                                  maxIncluded: false,
+                                  interval: 1,
+                                  getTitlesWidget: _bottomTitles,
+                                ),
+                              ),
+                            ),
+                            touchedPointIndicator: AxisSpotIndicator(
+                              painter: AxisLinesIndicatorPainter(
+                                verticalLineProvider: (x) {
+                                  final index = x.toInt();
+                                  if (index < 0 || index >= ohlc.length) {
+                                    return VerticalLine(x: x, strokeWidth: 0);
+                                  }
+                                  final data = ohlc[index];
+                                  return VerticalLine(
+                                    x: x,
+                                    color:
+                                        (data.open < data.close
+                                                ? negative
+                                                : positive)
+                                            .withValues(alpha: 0.5),
+                                    strokeWidth: 1,
+                                  );
+                                },
+                                horizontalLineProvider: (y) => HorizontalLine(
+                                  y: y,
+                                  label: HorizontalLineLabel(
+                                    show: true,
+                                    style: TextStyle(
+                                      color: accent,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                              color: accent.withValues(alpha: 0.8),
-                              strokeWidth: 1,
+                                    labelResolver: (hLine) =>
+                                        hLine.y.toInt().toString(),
+                                    alignment: Alignment.topLeft,
+                                  ),
+                                  color: accent.withValues(alpha: 0.8),
+                                  strokeWidth: 1,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
                     ),
                   ),
                   const SizedBox(height: 8),
