@@ -27,7 +27,9 @@ class ErrorHandler extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
               ),
-              fixedSize: WidgetStateProperty.all(const Size(double.infinity, 40)),
+              fixedSize: WidgetStateProperty.all(
+                const Size(double.infinity, 40),
+              ),
             ),
             child: const Text('Coba lagi'),
           ),

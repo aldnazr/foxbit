@@ -19,7 +19,7 @@ class AppBottomNavBar extends StatelessWidget {
     final items = const [
       _NavItem(icon: 'assets/icons/finance.svg', label: 'Pasar'),
       _NavItem(icon: 'assets/icons/star.svg', label: 'Portofolio'),
-      _NavItem(icon: 'assets/icons/trade.svg', label: 'Beli/Jual'),
+      _NavItem(icon: 'assets/icons/insight.svg', label: 'Insight'),
       _NavItem(icon: 'assets/icons/wallet.svg', label: 'Dompet'),
     ];
 

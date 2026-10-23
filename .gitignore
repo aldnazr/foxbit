@@ -44,4 +44,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-.kilo/*
+# env
+env.json
+
+# kilo
+.kilo

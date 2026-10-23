@@ -10,12 +10,10 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('App renders login page when unauthenticated', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: VaultChainApp(),
-      ),
-    );
+  testWidgets('App renders login page when unauthenticated', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const ProviderScope(child: VaultChainApp()));
 
     await tester.pumpAndSettle();
 

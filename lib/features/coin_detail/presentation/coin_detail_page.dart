@@ -18,11 +18,7 @@ class CoinDetailPage extends ConsumerStatefulWidget {
   final String id;
   final CoinDetailArgs? args;
 
-  const CoinDetailPage({
-    super.key,
-    required this.id,
-    this.args,
-  });
+  const CoinDetailPage({super.key, required this.id, this.args});
 
   @override
   ConsumerState<CoinDetailPage> createState() => _CoinDetailPageState();
@@ -163,7 +159,9 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(portofolioControllerProvider.notifier).toggleFavorite(
+              ref
+                  .read(portofolioControllerProvider.notifier)
+                  .toggleFavorite(
                     PortofolioModel(
                       id: id,
                       name: displayName,
@@ -183,9 +181,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
         loading: () => const CoinDetailSkeleton(),
         error: (err, st) => ErrorHandler(
           errorText: 'Error: $err',
-          onPressed: () => ref
-              .read(coinDetailControllerProvider(id).notifier)
-              .refresh(),
+          onPressed: () =>
+              ref.read(coinDetailControllerProvider(id).notifier).refresh(),
         ),
         data: (state) {
           final detail = state.detail;
@@ -198,9 +195,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
           _initConverters(detail);
 
           return RefreshIndicator(
-            onRefresh: () => ref
-                .read(coinDetailControllerProvider(id).notifier)
-                .refresh(),
+            onRefresh: () =>
+                ref.read(coinDetailControllerProvider(id).notifier).refresh(),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(10.0),
               physics: const AlwaysScrollableScrollPhysics(),
@@ -233,7 +229,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: detail.marketData.changes['24h']! < 0
+                                      color:
+                                          detail.marketData.changes['24h']! < 0
                                           ? Colors.red
                                           : Colors.green,
                                     ),
@@ -309,10 +306,11 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                 final data = ohlc[index];
                                 return VerticalLine(
                                   x: x,
-                                  color: (data.open < data.close
-                                          ? Colors.green
-                                          : Colors.red)
-                                      .withValues(alpha: 0.5),
+                                  color:
+                                      (data.open < data.close
+                                              ? Colors.green
+                                              : Colors.red)
+                                          .withValues(alpha: 0.5),
                                   strokeWidth: 1,
                                 );
                               },

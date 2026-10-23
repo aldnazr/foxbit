@@ -10,9 +10,5 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
-  runApp(
-    const ProviderScope(
-      child: VaultChainApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: VaultChainApp()));
 }

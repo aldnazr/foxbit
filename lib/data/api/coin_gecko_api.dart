@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:vault_chain/core/config/env.dart';
 import 'package:vault_chain/shared/models/coin_detail.dart';
 import 'package:vault_chain/shared/models/coin_ohlc.dart';
 import 'package:vault_chain/shared/models/market_model.dart';
@@ -7,7 +9,7 @@ import 'package:vault_chain/shared/models/top_coin_model.dart';
 
 class CoinGeckoApi {
   static final _baseUrl = 'https://api.coingecko.com/api/v3';
-  static final _header = {'x-cg-demo-api-key': 'CG-fG8KAiNzkZtwkafsmTVTjnXT'};
+  static final _header = {'x-cg-demo-api-key': Env.coingeckoDemoKey};
 
   Future<List<MarketModel>> getMarkets(String endpoint) async {
     final url = Uri.parse("$_baseUrl$endpoint");

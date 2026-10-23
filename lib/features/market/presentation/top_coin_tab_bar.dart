@@ -19,7 +19,8 @@ class TopCoinTabBar extends ConsumerWidget {
       loading: () => const CoinTileSkeleton(),
       error: (err, st) => ErrorHandler(
         errorText: "Error: $err",
-        onPressed: () => ref.read(topCoinsControllerProvider.notifier).refresh(),
+        onPressed: () =>
+            ref.read(topCoinsControllerProvider.notifier).refresh(),
       ),
       data: (topCoinModel) {
         final topCoins = topCoinModel.coins;

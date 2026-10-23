@@ -35,7 +35,9 @@ class EmptyPortofolio extends StatelessWidget {
                 onPressed: onAddTap,
                 style: ButtonStyle(
                   elevation: WidgetStateProperty.all<double>(1),
-                  fixedSize: WidgetStateProperty.all(const Size(double.infinity, 40)),
+                  fixedSize: WidgetStateProperty.all(
+                    const Size(double.infinity, 40),
+                  ),
                 ),
                 child: const Text('Tambahkan Koin'),
               ),

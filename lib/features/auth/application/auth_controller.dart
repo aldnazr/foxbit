@@ -10,13 +10,11 @@ class AuthState {
 
   const AuthState({required this.isAuthenticated, this.username});
 
-  const AuthState.unauthenticated()
-      : isAuthenticated = false,
-        username = null;
+  const AuthState.unauthenticated() : isAuthenticated = false, username = null;
 
   const AuthState.authenticated(String name)
-      : isAuthenticated = true,
-        username = name;
+    : isAuthenticated = true,
+      username = name;
 }
 
 @Riverpod(keepAlive: true)

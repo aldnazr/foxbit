@@ -33,15 +33,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       final confirmPassword = _confirmPasswordController.text.trim();
 
       if (username.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Masukkan username')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Masukkan username')));
         return;
       }
       if (password.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Masukkan password')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Masukkan password')));
         return;
       }
       if (confirmPassword.isEmpty) {
@@ -51,9 +49,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         return;
       }
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sandi tidak sama')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Sandi tidak sama')));
         return;
       }
 

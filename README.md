@@ -26,6 +26,19 @@ A crypto market tracking app built with Flutter. Shows live coin prices (IDR), c
 - [freezed](https://pub.dev/packages/freezed) + [json_serializable](https://pub.dev/packages/json_serializable) — code generation
 - [CoinGecko API](https://docs.coingecko.com/) — market data
 
+## API Keys (optional, tanpa commit)
+
+Beberapa fitur butuh API key gratis (salin `env.example.json` menjadi `env.json`, isi key):
+
+```bash
+flutter run --dart-define-from-file=env.json
+```
+
+- `COINGECKO_DEMO_KEY`: CoinGecko Demo (disarankan, mengurangi rate limit)
+- `ETHERSCAN_API_KEY`: wajib untuk fitur saldo/transaksi alamat ETH (wallet BTC tetap jalan tanpa key)
+
+`env.json` sudah masuk `.gitignore` — jangan commit. Build release juga perlu `--dart-define-from-file=env.json`.
+
 ## Getting Started
 
 Prerequisites: [Flutter SDK](https://docs.flutter.dev/get-started/install) 3.x / Dart ^3.9.2.
@@ -33,13 +46,13 @@ Prerequisites: [Flutter SDK](https://docs.flutter.dev/get-started/install) 3.x /
 ```bash
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs   # generate freezed/json code
-flutter run
+flutter run --dart-define-from-file=env.json
 ```
 
 ## Build APK
 
 ```bash
-flutter build apk --release
+flutter build apk --release --dart-define-from-file=env.json
 # output: build/app/outputs/flutter-apk/app-release.apk
 ```
 

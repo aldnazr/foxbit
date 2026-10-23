@@ -23,9 +23,7 @@ class PortofolioTab extends ConsumerWidget {
           child: portofolioList.isEmpty
               ? SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  child: EmptyPortofolio(
-                    onAddTap: () => context.go('/market'),
-                  ),
+                  child: EmptyPortofolio(onAddTap: () => context.go('/market')),
                 )
               : ListView.builder(
                   itemCount: portofolioList.length,

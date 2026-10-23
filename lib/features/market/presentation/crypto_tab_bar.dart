@@ -124,8 +124,8 @@ class CryptoTabBar extends ConsumerWidget {
                                         fontSize: 13,
                                         color:
                                             coin.priceChangePercentage24h! < 0
-                                                ? Colors.red
-                                                : Colors.green,
+                                            ? Colors.red
+                                            : Colors.green,
                                       ),
                                     ),
                                   ],

@@ -33,7 +33,7 @@ final class MarketControllerProvider
   MarketController create() => MarketController();
 }
 
-String _$marketControllerHash() => r'32cb09fe8ad6691ac7502ab4eccb0f13a7d2e9e1';
+String _$marketControllerHash() => r'ce0b8583f88425731fc5059c44ee24ae14694805';
 
 abstract class _$MarketController extends $AsyncNotifier<MarketState> {
   FutureOr<MarketState> build();

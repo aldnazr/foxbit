@@ -102,10 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  FilledButton(
-                    onPressed: _login,
-                    child: const Text('Login'),
-                  ),
+                  FilledButton(onPressed: _login, child: const Text('Login')),
                   const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

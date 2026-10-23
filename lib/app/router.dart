@@ -6,11 +6,12 @@ import 'package:vault_chain/features/auth/presentation/login_page.dart';
 import 'package:vault_chain/features/auth/presentation/register_page.dart';
 import 'package:vault_chain/features/coin_detail/presentation/coin_detail_page.dart';
 import 'package:vault_chain/features/home/presentation/home_shell.dart';
+import 'package:vault_chain/features/insight/presentation/insight_page.dart';
 import 'package:vault_chain/features/market/presentation/market_tab.dart';
 import 'package:vault_chain/features/portofolio/presentation/portofolio_tab.dart';
 import 'package:vault_chain/features/settings/presentation/setting_page.dart';
-import 'package:vault_chain/features/trade/presentation/trade_tab.dart';
-import 'package:vault_chain/features/wallet/presentation/wallet_tab.dart';
+import 'package:vault_chain/features/wallet/presentation/wallet_detail_page.dart';
+import 'package:vault_chain/features/wallet/presentation/wallet_page.dart';
 import 'package:vault_chain/shared/models/coin_detail_args.dart';
 
 part 'router.g.dart';
@@ -96,8 +97,9 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/trade',
-                builder: (context, state) => const TradeTab(),
+                path: '/insight',
+                name: 'insight',
+                builder: (context, state) => const InsightPage(),
               ),
             ],
           ),
@@ -105,7 +107,16 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: '/wallet',
-                builder: (context, state) => const WalletTab(),
+                name: 'wallet',
+                builder: (context, state) => const WalletPage(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: 'walletDetail',
+                    builder: (context, state) =>
+                        WalletDetailPage(walletId: state.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),
