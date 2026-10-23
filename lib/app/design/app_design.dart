@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppDesign {
   // ---- Dark (near-OLED + glass) ----
-  static const dBg = Color(0xFF050607);
-  static const dSurface = Color(0xFF0C0E10);
-  static const dSurfaceAlt = Color(0xFF16191D);
-  static const dHairline = Color(0x1FFFFFFF);
+  static const dBg = Color(0xFF0A0B0E);
+  static const dSurface = Color(0xFF14171D);
+  static const dSurfaceAlt = Color(0xFF1C2029);
+  static const dHairline = Color(0x14FFFFFF);
   static const dTextPrimary = Color(0xFFF4F6F8);
   static const dTextSecondary = Color(0xFF9AA3AF);
   static const dTextTertiary = Color(0xFF667085);
-  static const dPrimary = Color(0xFF4DD8F0);
-  static const dOnPrimary = Color(0xFF05222A);
+  static const dPrimary = Color(0xFFFF4B00);
+  static const dOnPrimary = Color(0xFFFFFFFF);
   static const dPositive = Color(0xFF34D399);
   static const dNegative = Color(0xFFF87171);
   static const dWarning = Color(0xFFFBBF24);
@@ -23,7 +23,7 @@ class AppDesign {
   static const lTextPrimary = Color(0xFF0B0D0F);
   static const lTextSecondary = Color(0xFF5A6472);
   static const lTextTertiary = Color(0xFF98A2B3);
-  static const lPrimary = Color(0xFF0891B2);
+  static const lPrimary = Color(0xFFFF4B00);
   static const lOnPrimary = Color(0xFFFFFFFF);
   static const lPositive = Color(0xFF0E9F6E);
   static const lNegative = Color(0xFFDC3D3D);
@@ -328,7 +328,7 @@ class AppDesign {
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.selected)
                 ? (isDark
-                      ? dPrimary.withValues(alpha: 0.18)
+                      ? dPrimary.withValues(alpha: 0.12)
                       : lPrimary.withValues(alpha: 0.12))
                 : Colors.transparent,
           ),

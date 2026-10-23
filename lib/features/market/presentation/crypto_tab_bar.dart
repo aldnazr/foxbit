@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:vault_chain/shared/widgets/coin_tile_skeleton.dart';
 import 'package:vault_chain/shared/widgets/error_handler.dart';
 import 'package:vault_chain/shared/widgets/null_text.dart';
 import 'package:vault_chain/shared/widgets/price_change_icon.dart';
+import 'package:vault_chain/core/utils/util.dart';
 
 class CryptoTabBar extends ConsumerWidget {
   const CryptoTabBar({super.key});
@@ -54,6 +56,7 @@ class CryptoTabBar extends ConsumerWidget {
                 }
 
                 final coin = markets[index];
+                final spark = coin.sparklineIn7d?.price;
                 return Column(
                   children: [
                     ListTile(
@@ -74,53 +77,90 @@ class CryptoTabBar extends ConsumerWidget {
                           ),
                         );
                       },
-                      leading: CircleAvatar(
-                        radius: 22,
-                        foregroundImage: coin.image != null
-                            ? NetworkImage(
-                                coin.image!.replaceAll('/large/', '/small_2x/'),
-                              )
-                            : null,
-                        backgroundColor: Colors.transparent,
+                      leading: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 18,
+                            child: Text(
+                              '${coin.marketCapRank ?? '-'}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: defaultTertiaryColor(context),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          CircleAvatar(
+                            radius: 20,
+                            foregroundImage: coin.image != null
+                                ? NetworkImage(
+                                    coin.image!.replaceAll(
+                                      '/large/',
+                                      '/small_2x/',
+                                    ),
+                                  )
+                                : null,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ],
                       ),
                       title: Text(
                         coin.name ?? '',
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       subtitle: Text(
                         (coin.symbol ?? '').toUpperCase(),
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontSize: 12,
-                              letterSpacing: 0.5,
-                            ),
+                        style: Theme.of(context).textTheme.bodySmall
+                            ?.copyWith(fontSize: 12, letterSpacing: 0.5),
                       ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          coin.currentPrice == null
-                              ? const NullText()
-                              : Text(
-                                  Formatter.formatCurrency(coin.currentPrice!),
-                                  style: const TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                          coin.priceChangePercentage24h == null
-                              ? const NullText()
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: PriceChangeIcon(
-                                    coin.priceChangePercentage24h! > 0,
-                                    label: Formatter.formatPercent(
-                                      coin.priceChangePercentage24h!,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              coin.currentPrice == null
+                                  ? const NullText()
+                                  : Text(
+                                      Formatter.formatCurrency(
+                                        coin.currentPrice!,
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: defaultTitleColor(context),
+                                        fontFeatures: const [
+                                          FontFeature.tabularFigures(),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
+                              coin.priceChangePercentage24h == null
+                                  ? const NullText()
+                                  : Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: PriceChangeIcon(
+                                        coin.priceChangePercentage24h! > 0,
+                                        label: Formatter.formatPercent(
+                                          coin.priceChangePercentage24h!,
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                          if (spark != null && spark.length > 2) ...[
+                            const SizedBox(width: 14),
+                            _MicroSparkline(
+                              prices: spark,
+                              isUp: (coin.priceChangePercentage24h ?? 0) > 0,
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -132,6 +172,61 @@ class CryptoTabBar extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _MicroSparkline extends StatelessWidget {
+  final List<num> prices;
+  final bool isUp;
+
+  const _MicroSparkline({required this.prices, required this.isUp});
+
+  @override
+  Widget build(BuildContext context) {
+    const stride = 6;
+    final count = (prices.length / stride).ceil();
+    final spots = <FlSpot>[
+      for (var i = 0; i < prices.length; i += stride)
+        FlSpot((i ~/ stride).toDouble(), prices[i].toDouble()),
+      if ((prices.length - 1) % stride != 0)
+        FlSpot((count - 1).toDouble(), prices.last.toDouble()),
+    ];
+    final color = isUp ? positiveColor(context) : negativeColor(context);
+    var minX = spots.first.x;
+    final maxX = spots.last.x;
+    var minY = spots.first.y;
+    var maxY = spots.first.y;
+    for (final s in spots) {
+      minY = s.y < minY ? s.y : minY;
+      maxY = s.y > maxY ? s.y : maxY;
+    }
+    final pad = maxY > minY ? (maxY - minY) * 0.12 : (maxY.abs() * 0.12 + 1);
+
+    return SizedBox(
+      width: 56,
+      height: 28,
+      child: LineChart(
+        LineChartData(
+          minX: minX,
+          maxX: maxX,
+          minY: minY - pad,
+          maxY: maxY + pad,
+          lineTouchData: const LineTouchData(enabled: false),
+          gridData: const FlGridData(show: false),
+          borderData: FlBorderData(show: false),
+          titlesData: const FlTitlesData(show: false),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              barWidth: 1.5,
+              color: color,
+              dotData: const FlDotData(show: false),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

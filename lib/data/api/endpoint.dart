@@ -6,7 +6,7 @@ class Endpoint {
   }) {
     return '/coins/markets?vs_currency=$vsCurrency'
         '&page=$page&per_page=$perPage'
-        '&sparkline=false&price_change_percentage=24h';
+        '&sparkline=true&price_change_percentage=24h';
   }
 
   static String details(String id) {
@@ -22,7 +22,7 @@ class Endpoint {
     return '/coins/$coinId/market_chart?vs_currency=$vsCurrency&days=$days';
   }
 
-  static String ohlc(String coinId, {String vsCurrency = 'idr', int days = 1}) {
+  static String ohlc(String coinId, {String vsCurrency = 'idr', dynamic days = 1}) {
     return '/coins/$coinId/ohlc?vs_currency=$vsCurrency&days=$days';
   }
 

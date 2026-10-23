@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vault_chain/app/design/app_design.dart';
 import 'package:vault_chain/core/utils/util.dart';
+import 'package:vault_chain/features/market/presentation/portfolio_hero_card.dart';
 import 'package:vault_chain/features/market/presentation/crypto_tab_bar.dart';
 import 'package:vault_chain/features/market/presentation/top_coin_tab_bar.dart';
 
@@ -13,10 +14,7 @@ class MarketTab extends StatefulWidget {
 
 class _MarketTabState extends State<MarketTab>
     with SingleTickerProviderStateMixin {
-  late final TabController _controller = TabController(
-    length: 2,
-    vsync: this,
-  );
+  late final TabController _controller = TabController(length: 2, vsync: this);
 
   static const _tabs = ['All Coins', 'Trending Coins'];
 
@@ -30,8 +28,9 @@ class _MarketTabState extends State<MarketTab>
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const PortfolioHeroCard(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
           child: Row(
             children: [
               for (var i = 0; i < _tabs.length; i++) ...[
@@ -66,8 +65,9 @@ class _MarketTabState extends State<MarketTab>
                           _tabs[i],
                           style: TextStyle(
                             fontSize: 13,
-                            fontWeight:
-                                selected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: selected
                                 ? appAccentColor(context)
                                 : defaultSecondaryColor(context),

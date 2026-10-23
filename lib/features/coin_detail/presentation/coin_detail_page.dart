@@ -29,6 +29,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
   final _textCurrencyController = TextEditingController();
   bool _isInitializedConverter = false;
 
+  static const _ranges = ['1D', '1W', '1M', '1Y', 'All'];
+
   @override
   void dispose() {
     _textCoinController.dispose();
@@ -114,8 +116,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       Card.filled(
                         color: defaultPrimaryContainer(context),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppDesign.r8),
+                          borderRadius: BorderRadius.circular(AppDesign.r8),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -190,6 +191,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
           final negative = negativeColor(context);
           final accent = appAccentColor(context);
           final change24h = detail.marketData.changes['24h'];
+          final range = state.range;
+          final symbol = displaySymbol.toUpperCase();
 
           return RefreshIndicator(
             onRefresh: () =>
@@ -201,7 +204,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: .start,
                       children: [
                         if (detail.marketData.currentPrice['idr'] != null)
                           Text(
@@ -210,10 +214,13 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                             ),
                             style: TextStyle(
                               fontFamily: 'SFPro',
-                              fontSize: 30.0,
+                              fontSize: 32.0,
                               fontWeight: FontWeight.w800,
                               letterSpacing: -1,
                               color: defaultTitleColor(context),
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
                             ),
                           ),
                         const SizedBox(width: 8),
@@ -239,100 +246,115 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  AspectRatio(
-                    aspectRatio: 1.5,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: CandlestickChart(
-                        CandlestickChartData(
-                          borderData: FlBorderData(show: false),
-                          candlestickSpots: ohlc.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final data = entry.value;
-                            return CandlestickSpot(
-                              x: index.toDouble(),
-                              open: data.open,
-                              high: data.high,
-                              low: data.low,
-                              close: data.close,
-                              show: true,
-                            );
-                          }).toList(),
-                          minX: 0,
-                          maxX: ohlc.length.toDouble(),
-                          gridData: FlGridData(
-                            show: true,
-                            getDrawingVerticalLine: (_) =>
-                                const FlLine(strokeWidth: 0),
-                            getDrawingHorizontalLine: (_) =>
-                                FlLine(color: hairline, strokeWidth: 0.8),
-                          ),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            leftTitles: AxisTitles(
-                              drawBelowEverything: true,
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                maxIncluded: false,
-                                minIncluded: false,
-                                reservedSize: 40,
-                                getTitlesWidget: _leftTitles,
-                              ),
-                            ),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 36,
-                                maxIncluded: false,
-                                interval: 1,
-                                getTitlesWidget: _bottomTitles,
-                              ),
-                            ),
-                          ),
-                          touchedPointIndicator: AxisSpotIndicator(
-                            painter: AxisLinesIndicatorPainter(
-                              verticalLineProvider: (x) {
-                                final index = x.toInt();
-                                if (index < 0 || index >= ohlc.length) {
-                                  return VerticalLine(x: x, strokeWidth: 0);
-                                }
-                                final data = ohlc[index];
-                                return VerticalLine(
-                                  x: x,
-                                  color: (data.open < data.close
-                                          ? negative
-                                          : positive)
-                                      .withValues(alpha: 0.5),
-                                  strokeWidth: 1,
-                                );
-                              },
-                              horizontalLineProvider: (y) => HorizontalLine(
-                                y: y,
-                                label: HorizontalLineLabel(
+                  const SizedBox(height: 16),
+                  _RangeChips(
+                    ranges: _ranges,
+                    selected: range,
+                    onSelected: (r) => ref
+                        .read(coinDetailControllerProvider(id).notifier)
+                        .setRange(r),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 160,
+                    child: AnimatedOpacity(
+                      duration: AppDesign.base,
+                      opacity: state.isRangeLoading ? 0.4 : 1,
+                      child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: CandlestickChart(
+                            CandlestickChartData(
+                              borderData: FlBorderData(show: false),
+                              candlestickSpots: ohlc.asMap().entries.map((
+                                entry,
+                              ) {
+                                final index = entry.key;
+                                final data = entry.value;
+                                return CandlestickSpot(
+                                  x: index.toDouble(),
+                                  open: data.open,
+                                  high: data.high,
+                                  low: data.low,
+                                  close: data.close,
                                   show: true,
-                                  style: TextStyle(
-                                    color: accent,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  labelResolver: (hLine) =>
-                                      hLine.y.toInt().toString(),
-                                  alignment: Alignment.topLeft,
-                                ),
-                                color: accent.withValues(alpha: 0.8),
-                                strokeWidth: 1,
+                                );
+                              }).toList(),
+                              minX: 0,
+                              maxX: ohlc.length.toDouble(),
+                              gridData: FlGridData(
+                                show: true,
+                                getDrawingVerticalLine: (_) =>
+                                    const FlLine(strokeWidth: 0),
+                                getDrawingHorizontalLine: (_) =>
+                                    FlLine(color: hairline, strokeWidth: 0.8),
                               ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                rightTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                leftTitles: AxisTitles(
+                                  drawBelowEverything: true,
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    maxIncluded: false,
+                                    minIncluded: false,
+                                    reservedSize: 40,
+                                    getTitlesWidget: _leftTitles,
+                                  ),
+                                ),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 36,
+                                    maxIncluded: false,
+                                    interval: 1,
+                                    getTitlesWidget: _bottomTitles,
+                                  ),
+                                ),
+                              ),
+                              touchedPointIndicator: AxisSpotIndicator(
+                                painter: AxisLinesIndicatorPainter(
+                                  verticalLineProvider: (x) {
+                                    final index = x.toInt();
+                                    if (index < 0 || index >= ohlc.length) {
+                                      return VerticalLine(x: x, strokeWidth: 0);
+                                    }
+                                    final data = ohlc[index];
+                                    return VerticalLine(
+                                      x: x,
+                                      color:
+                                          (data.open < data.close
+                                                  ? negative
+                                                  : positive)
+                                              .withValues(alpha: 0.5),
+                                      strokeWidth: 1,
+                                    );
+                                  },
+                                  horizontalLineProvider: (y) => HorizontalLine(
+                                    y: y,
+                                    label: HorizontalLineLabel(
+                                      show: true,
+                                      style: TextStyle(
+                                        color: accent,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      labelResolver: (hLine) =>
+                                          hLine.y.toInt().toString(),
+                                      alignment: Alignment.topLeft,
+                                    ),
+                              color: accent.withValues(alpha: 0.8),
+                              strokeWidth: 1,
                             ),
                           ),
                         ),
                       ),
+                    ),
+                  ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -358,18 +380,18 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                   width: double.infinity,
                                   child: Divider(thickness: 1.5),
                                 ),
-                                 e.value == null
-                                     ? const NullText()
-                                     : Text(
-                                         Formatter.formatPercent(e.value!),
-                                         overflow: TextOverflow.ellipsis,
-                                         style: TextStyle(
-                                           color: e.value! >= 0
-                                               ? positive
-                                               : negative,
-                                           fontWeight: FontWeight.w600,
-                                         ),
-                                       ),
+                                e.value == null
+                                    ? const NullText()
+                                    : Text(
+                                        Formatter.formatPercent(e.value!),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: e.value! >= 0
+                                              ? positive
+                                              : negative,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                               ],
                             ),
                           );
@@ -432,6 +454,67 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _RangeChips extends StatelessWidget {
+  final List<String> ranges;
+  final String selected;
+  final ValueChanged<String> onSelected;
+
+  const _RangeChips({
+    required this.ranges,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final outline = Theme.of(context).colorScheme.outline;
+    final accent = appAccentColor(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Row(
+        children: [
+          for (var i = 0; i < ranges.length; i++) ...[
+            if (i > 0) const SizedBox(width: 10),
+            GestureDetector(
+              onTap: () => onSelected(ranges[i]),
+              child: AnimatedContainer(
+                duration: AppDesign.base,
+                curve: AppDesign.curve,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: selected == ranges[i]
+                      ? accent.withValues(alpha: 0.12)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(AppDesign.full),
+                  border: Border.all(
+                    color: selected == ranges[i] ? accent : outline,
+                  ),
+                ),
+                child: Text(
+                  ranges[i],
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: selected == ranges[i]
+                        ? FontWeight.w700
+                        : FontWeight.w500,
+                    color: selected == ranges[i]
+                        ? accent
+                        : defaultSecondaryColor(context),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

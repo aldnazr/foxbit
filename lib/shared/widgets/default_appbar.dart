@@ -23,10 +23,18 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       titleSpacing: 10,
-      title: Text(
-        'Foxbit',
+      title: Text.rich(
+        TextSpan(
+          children: [
+            const TextSpan(text: 'Fox'),
+            TextSpan(
+              text: 'bit',
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ],
+        ),
         style: Theme.of(context).appBarTheme.titleTextStyle
-            ?.copyWith(fontSize: 18, letterSpacing: -0.3),
+            ?.copyWith(fontSize: 20, letterSpacing: -0.3),
       ),
       actions: [
         Container(

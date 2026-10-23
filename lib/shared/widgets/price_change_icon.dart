@@ -9,7 +9,7 @@ class PriceChangeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isPositive ? positiveColor(context) : negativeColor(context);
-    final child = Row(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
@@ -27,15 +27,6 @@ class PriceChangeIcon extends StatelessWidget {
             ),
           ),
       ],
-    );
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: child,
     );
   }
 }
