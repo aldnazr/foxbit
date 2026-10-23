@@ -1,10 +1,10 @@
-# vault_chain
+# Foxbit
 
 A crypto market tracking app built with Flutter. Shows live coin prices (IDR), charts, top coins/NFTs, and a local portfolio — powered by the CoinGecko API.
 
 ## Preview
 
-<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/1.png" width="300" />
+<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/banner.png" />
 
 ## Features
 
@@ -60,19 +60,19 @@ flutter build apk --release --dart-define-from-file=env.json
 
 GitHub Actions workflow (`.github/workflows/build-apk.yml`) builds the release APK:
 
-| Trigger | Result |
-| --- | --- |
-| Push to `main` / Pull request | Build APK → artifact `app-release-apk` |
-| Tag `v*` | Build APK → artifact + attach to GitHub Release |
+| Trigger                       | Result                                          |
+| ----------------------------- | ----------------------------------------------- |
+| Push to `main` / Pull request | Build APK → artifact `app-release-apk`          |
+| Tag `v*`                      | Build APK → artifact + attach to GitHub Release |
 
 ## Project Structure
 
 ```
 lib/
-├── core/utils/            # colors, formatters, csv parser, constants
-├── data/model/            # freezed/json models
-├── data/services/api/     # CoinGecko client + endpoints
-├── data/services/providers/ # providers (market, detail, portfolio, theme, ...)
-├── presentation/pages/    # screens & tabs
-└── widgets/               # shared widgets (skeletons, appbar, ...)
+├── app/                      # root app, design, shared widgets (skeletons, appbar, nav)
+├── core/                     # config, error, network, utils (colors, formatters, csv parser)
+├── data/                     # freezed/json models, CoinGecko client + endpoints, local storage
+├── features/                 # feature modules (auth, home, market, coin_detail, wallet, ...)
+├── presentation/             # legacy screens & tabs
+└── shared/                   # shared models & widgets
 ```
