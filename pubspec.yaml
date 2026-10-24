@@ -2,7 +2,7 @@ name: vault_chain
 description: "A cypto project."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.5+3
+version: 1.1.6+3
 
 environment:
   sdk: ^3.13.0
