@@ -8,7 +8,7 @@ import 'package:vault_chain/shared/models/market_model.dart';
 import 'package:vault_chain/shared/models/top_coin_model.dart';
 
 class CoinGeckoApi {
-  static final _baseUrl = 'https://api.coingecko.com/api/v3';
+  static final _baseUrl = Env.coingeckoBaseUrl;
   static final _header = {'x-cg-demo-api-key': Env.coingeckoDemoKey};
 
   Future<List<MarketModel>> getMarkets(String endpoint) async {

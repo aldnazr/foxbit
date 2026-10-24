@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart';
 
+import 'package:vault_chain/core/config/env.dart';
 import 'package:vault_chain/core/error/app_failure.dart';
 import 'package:vault_chain/core/network/dio_error_mapper.dart';
 import 'package:vault_chain/features/insight/domain/fear_greed.dart';
@@ -73,10 +74,9 @@ class InsightRemoteSource {
   }
 
   static final _feeds = <String, String>{
-    'Cointelegraph': 'https://cointelegraph.com/rss',
-    'CoinDesk':
-        'https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml',
-    'Decrypt': 'https://decrypt.co/feed',
+    'Cointelegraph': Env.rssCointelegraphUrl,
+    'CoinDesk': Env.rssCoindeskUrl,
+    'Decrypt': Env.rssDecryptUrl,
   };
 
   Future<List<NewsItem>> fetchNews() async {

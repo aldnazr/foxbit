@@ -34,14 +34,14 @@ Dio coingeckoDio(Ref ref) {
     headers['x-cg-demo-api-key'] = Env.coingeckoDemoKey;
   }
   return _baseDio(
-    baseUrl: 'https://api.coingecko.com/api/v3',
+    baseUrl: Env.coingeckoBaseUrl,
     headers: headers,
   );
 }
 
 @Riverpod(keepAlive: true)
 Dio alternativeDio(Ref ref) {
-  return _baseDio(baseUrl: 'https://api.alternative.me');
+  return _baseDio(baseUrl: Env.alternativeBaseUrl);
 }
 
 @Riverpod(keepAlive: true)
@@ -58,10 +58,10 @@ Dio rssDio(Ref ref) {
 
 @Riverpod(keepAlive: true)
 Dio mempoolDio(Ref ref) {
-  return _baseDio(baseUrl: 'https://mempool.space/api');
+  return _baseDio(baseUrl: Env.mempoolBaseUrl);
 }
 
 @Riverpod(keepAlive: true)
 Dio etherscanDio(Ref ref) {
-  return _baseDio(baseUrl: 'https://api.etherscan.io/v2/api');
+  return _baseDio(baseUrl: Env.etherscanBaseUrl);
 }

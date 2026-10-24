@@ -1,78 +1,71 @@
+<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/banner.png" alt="Foxbit Banner" />
+
 # Foxbit
 
-A crypto market tracking app built with Flutter. Shows live coin prices (IDR), charts, top coins/NFTs, and a local portfolio — powered by the CoinGecko API.
-
-## Preview
-
-<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/banner.png" />
+Foxbit is a Flutter-based cryptocurrency market tracking, portfolio management, and wallet monitoring application powered by the CoinGecko, Mempool, and Etherscan APIs.
 
 ## Features
 
-- Market list of top coins with 24h price change (IDR)
-- Coin detail page with OHLC chart and coin stats
-- Top coins and top NFTs tabs
-- Local portfolio tracking
-- Trade and wallet tabs
-- Local login/register (SharedPreferences)
-- Dark/light theme
-- Skeleton loading states
+- **Market Overview**: Live cryptocurrency prices (IDR), market trends, top coins, gainers, and detailed market stats.
+- **Interactive Price Charts**: Detailed coin view with historical charts powered by `fl_chart`.
+- **Portfolio Tracking**: Track custom holdings and assets stored locally via Hive CE.
+- **Market Insights**: Market news, trends, and overview data.
+- **Wallet Monitoring**: On-chain Bitcoin and Ethereum wallet balance tracking using Mempool and Etherscan APIs with address validation.
+- **Authentication & Settings**: Local auth management, dark-themed UI, and customizable application settings.
 
 ## Tech Stack
 
-- Flutter (Dart ^3.9.2)
-- [provider](https://pub.dev/packages/provider) — state management
-- [hive_ce](https://pub.dev/packages/hive_ce) + [shared_preferences](https://pub.dev/packages/shared_preferences) — local storage
-- [fl_chart](https://pub.dev/packages/fl_chart) — charts
-- [freezed](https://pub.dev/packages/freezed) + [json_serializable](https://pub.dev/packages/json_serializable) — code generation
-- [CoinGecko API](https://docs.coingecko.com/) — market data
+- **Framework**: Flutter (Dart SDK `>=3.13.0`)
+- **State Management**: Flutter Riverpod (`flutter_riverpod`, `riverpod_generator`)
+- **Navigation**: GoRouter with `StatefulShellRoute` & custom transition animations
+- **Networking**: Dio & Http
+- **Local Storage**: Hive CE & Shared Preferences
+- **UI Components**: FL Chart, Skeletonizer, Flutter SVG, custom SF Pro typography
+- **Code Generation**: Freezed, JSON Serializable, Riverpod Generator
 
-## API Keys (optional, tanpa commit)
+## Configuration
 
-Beberapa fitur butuh API key gratis (salin `env.example.json` menjadi `env.json`, isi key):
+Copy `env.example.json` to `env.json` and populate required API keys:
 
-```bash
-flutter run --dart-define-from-file=env.json
+```json
+{
+  "COINGECKO_DEMO_KEY": "your_coingecko_demo_api_key",
+  "ETHERSCAN_API_KEY": "your_etherscan_api_key"
+}
 ```
 
-- `COINGECKO_DEMO_KEY`: CoinGecko Demo (disarankan, mengurangi rate limit)
-- `ETHERSCAN_API_KEY`: wajib untuk fitur saldo/transaksi alamat ETH (wallet BTC tetap jalan tanpa key)
+### Environment Variables
 
-`env.json` sudah masuk `.gitignore` — jangan commit. Build release juga perlu `--dart-define-from-file=env.json`.
+- `COINGECKO_DEMO_KEY`: CoinGecko API Key for fetching cryptocurrency market data and charts.
+- `ETHERSCAN_API_KEY`: Etherscan API Key for querying Ethereum wallet transactions and balances.
 
-## Getting Started
+## Setup & Running
 
-Prerequisites: [Flutter SDK](https://docs.flutter.dev/get-started/install) 3.x / Dart ^3.9.2.
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/aldnazr/vault-chain.git
+   cd foxbit
+   ```
 
-```bash
-flutter pub get
-dart run build_runner build --delete-conflicting-outputs   # generate freezed/json code
-flutter run --dart-define-from-file=env.json
-```
+2. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
 
-## Build APK
+3. **Generate code (Freezed / Riverpod / JSON Serializable)**:
+   ```bash
+   dart run build_runner build --delete-conflicting-outputs
+   ```
+
+4. **Run application**:
+   ```bash
+   flutter run --dart-define-from-file=env.json
+   ```
+
+## Building for Production
+
+To build an Android APK:
 
 ```bash
 flutter build apk --release --dart-define-from-file=env.json
-# output: build/app/outputs/flutter-apk/app-release.apk
-```
-
-## CI/CD
-
-GitHub Actions workflow (`.github/workflows/build-apk.yml`) builds the release APK:
-
-| Trigger                       | Result                                          |
-| ----------------------------- | ----------------------------------------------- |
-| Push to `main` / Pull request | Build APK → artifact `app-release-apk`          |
-| Tag `v*`                      | Build APK → artifact + attach to GitHub Release |
-
-## Project Structure
-
-```
-lib/
-├── app/                      # root app, design, shared widgets (skeletons, appbar, nav)
-├── core/                     # config, error, network, utils (colors, formatters, csv parser)
-├── data/                     # freezed/json models, CoinGecko client + endpoints, local storage
-├── features/                 # feature modules (auth, home, market, coin_detail, wallet, ...)
-├── presentation/             # legacy screens & tabs
-└── shared/                   # shared models & widgets
 ```
