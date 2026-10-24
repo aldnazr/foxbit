@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/banner.png" alt="Foxbit Banner" />
+<img src="https://raw.githubusercontent.com/aldnazr/vault-chain/refs/heads/main/preview/banner.webp" alt="Foxbit Banner" />
 
 # Foxbit
 
@@ -42,17 +42,20 @@ Copy `env.example.json` to `env.json` and populate required API keys:
 ## Setup & Running
 
 1. **Clone repository**:
+
    ```bash
    git clone https://github.com/aldnazr/vault-chain.git
    cd foxbit
    ```
 
 2. **Install dependencies**:
+
    ```bash
    flutter pub get
    ```
 
 3. **Generate code (Freezed / Riverpod / JSON Serializable)**:
+
    ```bash
    dart run build_runner build --delete-conflicting-outputs
    ```
