@@ -189,7 +189,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
           final accent = appAccentColor(context);
           final change24h = detail.marketData.changes['24h'];
           final range = state.range;
-          final symbol = displaySymbol.toUpperCase();
+          // final symbol = displaySymbol.toUpperCase();
 
           return RefreshIndicator(
             onRefresh: () =>
