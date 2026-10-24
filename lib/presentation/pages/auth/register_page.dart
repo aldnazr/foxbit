@@ -1,17 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vault_chain/core/utils/pref_key.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vault_chain/app/design/app_design.dart';
+import 'package:vault_chain/core/utils/util.dart';
+import 'package:vault_chain/features/auth/application/auth_controller.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
   final formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -24,27 +25,23 @@ class _RegisterPageState extends State<RegisterPage> {
     _usernameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-
     super.dispose();
   }
 
-  Future<void> register() async {
+  Future<void> _register() async {
     if (formKey.currentState!.validate()) {
-      final pref = await SharedPreferences.getInstance();
       final username = _usernameController.text.trim();
       final password = _passwordController.text.trim();
       final confirmPassword = _confirmPasswordController.text.trim();
 
       if (username.isEmpty) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Masukkan username')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Masukkan username')));
         return;
       }
       if (password.isEmpty) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Masukkan password')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Masukkan password')));
         return;
       }
       if (confirmPassword.isEmpty) {
@@ -54,57 +51,76 @@ class _RegisterPageState extends State<RegisterPage> {
         return;
       }
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Sandi tidak sama')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Sandi tidak sama')));
         return;
       }
-      await pref.setString(PrefKey.username.key, username);
-      await pref.setString(PrefKey.password.key, password);
+
+      await ref
+          .read(authControllerProvider.notifier)
+          .register(username, password);
+
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Registrasi berhasil! Silakan login.')),
       );
-      Navigator.pop(context);
+      context.pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(14.0),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: context.pop,
+          icon: const Icon(Icons.arrow_back_outlined),
+        ),
+      ),
+      body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 40,
+            ),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 15,
                 children: [
-                  Text(
-                    'Registrasi',
-                    style: TextStyle(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
+                  AppEntry(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Registrasi',
+                          style: TextStyle(
+                            fontFamily: 'SFPro',
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.8,
+                            color: defaultTitleColor(context),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 35),
                   TextFormField(
                     controller: _usernameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person_outline),
                       labelText: "Username",
                       counterText: "",
                     ),
                   ),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
                     obscureText: isObscure,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       labelText: "Password",
                       counterText: "",
                       suffixIcon: IconButton(
@@ -114,38 +130,45 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         },
                         icon: Icon(
-                          isObscure ? Icons.visibility : Icons.visibility_off,
+                          isObscure
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _confirmPasswordController,
                     obscureText: isObscureConfirmPassword,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       labelText: "Konfirmasi Password",
                       counterText: "",
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
-                            isObscure = !isObscure;
+                            isObscureConfirmPassword =
+                                !isObscureConfirmPassword;
                           });
                         },
                         icon: Icon(
-                          isObscure ? Icons.visibility : Icons.visibility_off,
+                          isObscureConfirmPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 24),
                   FilledButton(
-                    onPressed: () => register(),
-                    child: Text('Daftar'),
+                    onPressed: _register,
+                    child: const Text('Daftar'),
                   ),
+                  const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('Masuk'),
+                    onPressed: () => context.pop(),
+                    child: const Text('Masuk'),
                   ),
                 ],
               ),

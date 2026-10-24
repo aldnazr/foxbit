@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 import 'package:vault_chain/core/utils/util.dart';
 import 'package:vault_chain/data/services/providers/detail_provider.dart';
@@ -18,6 +20,9 @@ import 'package:vault_chain/presentation/pages/auth/register_page.dart';
 import 'package:vault_chain/presentation/pages/setting_page.dart';
 
 final ValueNotifier<Key> appKeyNotifier = ValueNotifier(Key('initial'));
+=======
+import 'package:vault_chain/app/app.dart';
+>>>>>>> main
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +30,7 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
+<<<<<<< HEAD
   // Cek login
   final bool isLoggedIn = await isLogin() ?? false;
 
@@ -216,4 +222,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+=======
+  runApp(const ProviderScope(child: VaultChainApp()));
+>>>>>>> main
 }

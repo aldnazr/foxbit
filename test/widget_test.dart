@@ -1,34 +1,23 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vault_chain/core/utils/util.dart';
-
-import 'package:vault_chain/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vault_chain/app/app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Cek login
-    final bool isLoggedIn = await isLogin() ?? false;
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(isLoggedIn: isLoggedIn));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('App renders login page when unauthenticated', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const ProviderScope(child: VaultChainApp()));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Foxbit'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
   });
 }
