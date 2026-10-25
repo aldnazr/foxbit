@@ -1,5 +1,5 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/core/utils/util.dart';
 
 class PriceChangeIcon extends StatelessWidget {
   final bool isPositive;

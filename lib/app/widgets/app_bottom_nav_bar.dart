@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
 
 class _NavItem {
   final String icon;
@@ -29,7 +29,12 @@ class AppBottomNavBar extends StatelessWidget {
     ];
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 0, 16, MediaQuery.viewPaddingOf(context).bottom + 10),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        0,
+        16,
+        MediaQuery.viewPaddingOf(context).bottom + 10,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppDesign.full),
         child: BackdropFilter(
@@ -49,7 +54,9 @@ class AppBottomNavBar extends StatelessWidget {
               children: List.generate(items.length, (index) {
                 final isSelected = index == currentIndex;
                 final item = items[index];
-                final color = isSelected ? accent : defaultTertiaryColor(context);
+                final color = isSelected
+                    ? accent
+                    : defaultTertiaryColor(context);
 
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,

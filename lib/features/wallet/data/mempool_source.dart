@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:vault_chain/core/network/dio_error_mapper.dart';
-import 'package:vault_chain/features/wallet/domain/wallet_models.dart';
+import 'package:foxbit/core/network/dio_error_mapper.dart';
+import 'package:foxbit/features/wallet/domain/wallet_models.dart';
 
 class MempoolSource {
   final Dio dio;

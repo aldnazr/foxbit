@@ -1,5 +1,5 @@
 import 'package:hive_ce/hive.dart';
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
 
 class WalletRepository {
   static const boxName = 'watchedWalletsBox';

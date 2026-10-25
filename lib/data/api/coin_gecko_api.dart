@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:vault_chain/core/config/env.dart';
-import 'package:vault_chain/shared/models/coin_detail.dart';
-import 'package:vault_chain/shared/models/coin_ohlc.dart';
-import 'package:vault_chain/shared/models/market_model.dart';
-import 'package:vault_chain/shared/models/top_coin_model.dart';
+import 'package:foxbit/core/config/env.dart';
+import 'package:foxbit/shared/models/coin_detail.dart';
+import 'package:foxbit/shared/models/coin_ohlc.dart';
+import 'package:foxbit/shared/models/market_model.dart';
+import 'package:foxbit/shared/models/top_coin_model.dart';
 
 class CoinGeckoApi {
   static final _baseUrl = Env.coingeckoBaseUrl;

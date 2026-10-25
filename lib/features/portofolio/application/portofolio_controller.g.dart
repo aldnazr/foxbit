@@ -61,6 +61,45 @@ abstract class _$PortofolioController
   }
 }
 
+@ProviderFor(portfolioSummary)
+final portfolioSummaryProvider = PortfolioSummaryProvider._();
+
+final class PortfolioSummaryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<PortfolioSummary>,
+          PortfolioSummary,
+          FutureOr<PortfolioSummary>
+        >
+    with $FutureModifier<PortfolioSummary>, $FutureProvider<PortfolioSummary> {
+  PortfolioSummaryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'portfolioSummaryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$portfolioSummaryHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<PortfolioSummary> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<PortfolioSummary> create(Ref ref) {
+    return portfolioSummary(ref);
+  }
+}
+
+String _$portfolioSummaryHash() => r'5456755ac33187b682826929e682cd1ce7f4f113';
+
 @ProviderFor(isFavorite)
 final isFavoriteProvider = IsFavoriteFamily._();
 

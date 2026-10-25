@@ -1,13 +1,14 @@
+import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/core/utils/util.dart';
 
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
-import 'package:vault_chain/features/wallet/domain/wallet_models.dart';
-import 'package:vault_chain/features/wallet/presentation/providers/wallet_providers.dart';
-import 'package:vault_chain/shared/widgets/error_handler.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/features/wallet/domain/wallet_models.dart';
+import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
+import 'package:foxbit/shared/widgets/error_handler.dart';
 
 class WalletDetailPage extends ConsumerWidget {
   final String walletId;
@@ -56,11 +57,8 @@ class WalletDetailPage extends ConsumerWidget {
         : 'https://etherscan.io/address/${wallet.address}';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          wallet.label.isEmpty ? wallet.chain.label : wallet.label,
-        ),
-        titleSpacing: 20,
+      appBar: DefaultAppbar(
+        title: wallet.label.isEmpty ? wallet.chain.label : wallet.label,
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -116,13 +114,11 @@ class WalletDetailPage extends ConsumerWidget {
                             if (price > 0) ...[
                               Text(
                                 '≈ \$${usd.toStringAsFixed(2)}',
-                                style:
-                                    Theme.of(context).textTheme.bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               Text(
                                 '≈ Rp ${idr.toStringAsFixed(0)}',
-                                style:
-                                    Theme.of(context).textTheme.bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ],
@@ -139,9 +135,7 @@ class WalletDetailPage extends ConsumerWidget {
                                 ClipboardData(text: wallet.address),
                               );
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Alamat disalin'),
-                                ),
+                                const SnackBar(content: Text('Alamat disalin')),
                               );
                             },
                             icon: const Icon(Icons.copy_outlined, size: 18),
@@ -160,8 +154,7 @@ class WalletDetailPage extends ConsumerWidget {
                                 );
                               }
                             },
-                            icon:
-                                const Icon(Icons.open_in_new, size: 18),
+                            icon: const Icon(Icons.open_in_new, size: 18),
                             label: const Text('Explorer'),
                           ),
                         ),
@@ -205,8 +198,13 @@ class WalletDetailPage extends ConsumerWidget {
                 }
                 return Column(
                   children: txs
-                      .map((t) => _TxTile(
-                          key: ValueKey(t.hashCode), tx: t, symbol: wallet.chain.label))
+                      .map(
+                        (t) => _TxTile(
+                          key: ValueKey(t.hashCode),
+                          tx: t,
+                          symbol: wallet.chain.label,
+                        ),
+                      )
                       .toList(),
                 );
               },
@@ -225,15 +223,16 @@ class _TxTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        tx.isIn ? positiveColor(context) : negativeColor(context);
+    final color = tx.isIn ? positiveColor(context) : negativeColor(context);
     final sign = tx.isIn ? '+' : '-';
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Card(
         child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 8,
+          ),
           leading: Container(
             width: 40,
             height: 40,

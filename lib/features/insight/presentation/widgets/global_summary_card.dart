@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/insight/domain/global_market.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/insight/domain/global_market.dart';
 
 class GlobalSummaryCard extends StatelessWidget {
   final GlobalMarket data;
@@ -12,8 +12,9 @@ class GlobalSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final change = data.marketCapChange24h;
-    final changeColor =
-        change >= 0 ? positiveColor(context) : negativeColor(context);
+    final changeColor = change >= 0
+        ? positiveColor(context)
+        : negativeColor(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -77,18 +78,12 @@ class GlobalSummaryCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
+        Text(label, style: Theme.of(context).textTheme.bodyMedium),
         Row(
           children: [
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
             if (changeText != null) ...[
               const SizedBox(width: 8),

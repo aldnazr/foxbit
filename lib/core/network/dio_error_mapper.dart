@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:vault_chain/core/error/app_failure.dart';
+import 'package:foxbit/core/error/app_failure.dart';
 
 AppFailure mapDioError(Object error) {
   if (error is AppFailure) return error;

@@ -1,56 +1,55 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:foxbit/core/utils/util.dart';
 
-class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const DefaultAppbar({super.key});
-
+class const DefaultAppbar({
+  super.key,
+  required final String title,
+  final List<Widget>? actions,
+}) extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
+    final canPop = context.canPop();
+
     return AppBar(
-      backgroundColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      actionsPadding: const EdgeInsets.only(right: 16.0),
-      leadingWidth: 58,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 20),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage('assets/app_logo.png'),
-        ),
-      ),
-      titleSpacing: 10,
-      title: Text.rich(
-        TextSpan(
-          children: [
-            const TextSpan(text: 'Fox'),
-            TextSpan(
-              text: 'bit',
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      title: Text(title),
+      titleTextStyle: .new(fontSize: 20, fontWeight: .bold),
+      titleSpacing: 22,
+      actions: actions,
+      automaticallyImplyLeading: false,
+      leadingWidth: canPop ? 60 : null,
+      leading: canPop ? const _AppbarBackButton() : null,
+    );
+  }
+}
+
+class _AppbarBackButton extends StatelessWidget {
+  const _AppbarBackButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Center(
+        child: Material(
+          color: defaultContainer(context),
+          shape: CircleBorder(
+            side: BorderSide(color: Theme.of(context).colorScheme.outline),
+          ),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () => context.pop(),
+            child: const SizedBox(
+              width: 40,
+              height: 40,
+              child: Icon(Icons.arrow_back_ios_new_rounded, size: 18),
             ),
-          ],
+          ),
         ),
-        style: Theme.of(context).appBarTheme.titleTextStyle
-            ?.copyWith(fontSize: 20, letterSpacing: -0.3),
       ),
-      actions: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: defaultContainer(context),
-            border: Border.all(color: Theme.of(context).colorScheme.outline),
-          ),
-          child: IconButton(
-            tooltip: 'Pengaturan',
-            onPressed: () => context.push('/settings'),
-            icon: const Icon(Icons.settings_outlined, size: 20),
-            visualDensity: VisualDensity.compact,
-          ),
-        ),
-      ],
     );
   }
 }

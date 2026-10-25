@@ -1,4 +1,4 @@
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
 
 class WalletValidation {
   static String? validateAddress(Chain chain, String raw) {

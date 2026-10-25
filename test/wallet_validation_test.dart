@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
-import 'package:vault_chain/features/wallet/domain/wallet_validation.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/features/wallet/domain/wallet_validation.dart';
 
 void main() {
   test('alamat valid diterima', () {

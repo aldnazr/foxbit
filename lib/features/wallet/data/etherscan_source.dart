@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:vault_chain/core/config/env.dart';
-import 'package:vault_chain/core/error/app_failure.dart';
-import 'package:vault_chain/core/network/dio_error_mapper.dart';
-import 'package:vault_chain/features/wallet/domain/wallet_models.dart';
+import 'package:foxbit/core/config/env.dart';
+import 'package:foxbit/core/error/app_failure.dart';
+import 'package:foxbit/core/network/dio_error_mapper.dart';
+import 'package:foxbit/features/wallet/domain/wallet_models.dart';
 
 class EtherscanSource {
   final Dio dio;

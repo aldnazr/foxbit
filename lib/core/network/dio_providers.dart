@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vault_chain/core/config/env.dart';
+import 'package:foxbit/core/config/env.dart';
 
 part 'dio_providers.g.dart';
 
@@ -33,10 +33,7 @@ Dio coingeckoDio(Ref ref) {
   if (Env.coingeckoDemoKey.isNotEmpty) {
     headers['x-cg-demo-api-key'] = Env.coingeckoDemoKey;
   }
-  return _baseDio(
-    baseUrl: Env.coingeckoBaseUrl,
-    headers: headers,
-  );
+  return _baseDio(baseUrl: Env.coingeckoBaseUrl, headers: headers);
 }
 
 @Riverpod(keepAlive: true)

@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
 
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
-import 'package:vault_chain/features/wallet/presentation/providers/wallet_providers.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
 
 class WalletCard extends ConsumerWidget {
   final WatchedWallet wallet;
@@ -28,17 +28,16 @@ class WalletCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         onTap: () => context.push('/wallet/${wallet.id}'),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 12,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDesign.r24),
         ),
         title: Text(
           wallet.label.isEmpty ? wallet.chain.label : wallet.label,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
         subtitle: Text(
           _shortAddress(wallet.address),

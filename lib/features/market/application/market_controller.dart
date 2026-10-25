@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vault_chain/data/api/coin_gecko_api.dart';
-import 'package:vault_chain/data/api/endpoint.dart';
-import 'package:vault_chain/shared/models/market_model.dart';
-import 'package:vault_chain/shared/models/top_coin_model.dart';
+import 'package:foxbit/data/api/coin_gecko_api.dart';
+import 'package:foxbit/data/api/endpoint.dart';
+import 'package:foxbit/shared/models/market_model.dart';
+import 'package:foxbit/shared/models/top_coin_model.dart';
 
 part 'market_controller.g.dart';
 

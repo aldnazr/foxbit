@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/core/utils/formatter.dart';
-import 'package:vault_chain/features/market/application/market_controller.dart';
-import 'package:vault_chain/shared/models/coin_detail_args.dart';
-import 'package:vault_chain/shared/widgets/coin_tile_skeleton.dart';
-import 'package:vault_chain/shared/widgets/error_handler.dart';
-import 'package:vault_chain/shared/widgets/price_change_icon.dart';
+import 'package:foxbit/core/utils/formatter.dart';
+import 'package:foxbit/features/market/application/market_controller.dart';
+import 'package:foxbit/shared/models/coin_detail_args.dart';
+import 'package:foxbit/shared/widgets/error_handler.dart';
+import 'package:foxbit/shared/widgets/price_change_icon.dart';
 
 class TopCoinTabBar extends ConsumerWidget {
   const TopCoinTabBar({super.key});
@@ -16,23 +16,63 @@ class TopCoinTabBar extends ConsumerWidget {
     final topCoinsAsync = ref.watch(topCoinsControllerProvider);
 
     return topCoinsAsync.when(
-      loading: () => const CoinTileSkeleton(),
-      error: (err, st) => ErrorHandler(
-        errorText: "Error: $err",
-        onPressed: () =>
-            ref.read(topCoinsControllerProvider.notifier).refresh(),
+      loading: () => Skeletonizer.sliver(
+        child: SliverPadding(
+          padding: const EdgeInsets.only(bottom: 16),
+          sliver: SliverList.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) => Column(
+              children: [
+                ListTile(
+                  key: ValueKey(index),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20),
+                  leading: const Bone.circle(size: 44),
+                  title: const Bone.text(words: 2),
+                  subtitle: const Bone.text(words: 1),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const [
+                      Bone.text(words: 1),
+                      SizedBox(height: 4),
+                      Bone(
+                        width: 50,
+                        height: 12,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (index < 9)
+                  const Divider(height: 0, thickness: 1, indent: 72),
+              ],
+            ),
+          ),
+        ),
+      ),
+      error: (err, st) => SliverFillRemaining(
+        hasScrollBody: false,
+        child: ErrorHandler(
+          errorText: "Error: $err",
+          onPressed: () =>
+              ref.read(topCoinsControllerProvider.notifier).refresh(),
+        ),
       ),
       data: (topCoinModel) {
         final topCoins = topCoinModel.coins;
         if (topCoins.isEmpty) {
-          return const Center(child: Text("No data found"));
+          return const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(child: Text("No data found")),
+          );
         }
 
-        return RefreshIndicator(
-          onRefresh: () =>
-              ref.read(topCoinsControllerProvider.notifier).refresh(),
-          child: ListView.builder(
-            padding: const EdgeInsets.only(bottom: 16),
+        return SliverPadding(
+          padding: const EdgeInsets.only(bottom: 16),
+          sliver: SliverList.builder(
             itemCount: topCoins.length,
             itemBuilder: (context, index) {
               final coin = topCoins[index].item;
@@ -43,9 +83,7 @@ class TopCoinTabBar extends ConsumerWidget {
                 children: [
                   ListTile(
                     key: ValueKey(coin.id),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     onTap: () {
                       context.push(
                         '/coin/${coin.id}',
@@ -72,10 +110,8 @@ class TopCoinTabBar extends ConsumerWidget {
                     ),
                     subtitle: Text(
                       coin.symbol.toUpperCase(),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 12,
-                            letterSpacing: 0.5,
-                          ),
+                      style: Theme.of(context).textTheme.bodySmall
+                          ?.copyWith(fontSize: 12, letterSpacing: 0.5),
                     ),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

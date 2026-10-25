@@ -1,9 +1,10 @@
+import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/auth/application/auth_controller.dart';
-import 'package:vault_chain/features/settings/application/theme_controller.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/auth/application/auth_controller.dart';
+import 'package:foxbit/features/settings/application/theme_controller.dart';
 
 class SettingPage extends ConsumerWidget {
   const SettingPage({super.key});
@@ -26,7 +27,7 @@ class SettingPage extends ConsumerWidget {
     final brightness = Theme.of(context).brightness;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Pengaturan'), titleSpacing: 20),
+      appBar: DefaultAppbar(title: 'Pengaturan'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(

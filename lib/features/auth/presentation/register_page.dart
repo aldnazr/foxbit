@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/auth/application/auth_controller.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/auth/application/auth_controller.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -81,10 +81,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 40,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,

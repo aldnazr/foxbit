@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/widgets/app_bottom_nav_bar.dart';
-import 'package:vault_chain/shared/widgets/default_appbar.dart';
+import 'package:foxbit/app/widgets/app_bottom_nav_bar.dart';
 
 class HomeShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -11,7 +10,6 @@ class HomeShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DefaultAppbar(),
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(navigationShell: navigationShell),
     );

@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vault_chain/core/utils/pref_key.dart';
+import 'package:foxbit/core/utils/pref_key.dart';
 
 part 'auth_controller.g.dart';
 

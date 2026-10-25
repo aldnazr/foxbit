@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/shared/models/coin_detail_args.dart';
-import 'package:vault_chain/features/insight/domain/trending_coin.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/shared/models/coin_detail_args.dart';
+import 'package:foxbit/features/insight/domain/trending_coin.dart';
 
 class TrendingList extends StatelessWidget {
   final List<TrendingCoin> items;
@@ -59,10 +59,7 @@ class TrendingList extends StatelessWidget {
                   ),
                 ),
                 trailing: change != null
-                    ? PriceChiplike(
-                        change: change,
-                        changeColor: changeColor,
-                      )
+                    ? PriceChiplike(change: change, changeColor: changeColor)
                     : null,
                 onTap: () {
                   context.push(
@@ -88,7 +85,11 @@ class TrendingList extends StatelessWidget {
 class PriceChiplike extends StatelessWidget {
   final double change;
   final Color changeColor;
-  const PriceChiplike({super.key, required this.change, required this.changeColor});
+  const PriceChiplike({
+    super.key,
+    required this.change,
+    required this.changeColor,
+  });
 
   @override
   Widget build(BuildContext context) {

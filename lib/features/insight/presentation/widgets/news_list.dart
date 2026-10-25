@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/insight/domain/news_item.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/insight/domain/news_item.dart';
 
 class NewsList extends StatelessWidget {
   final List<NewsItem> items;

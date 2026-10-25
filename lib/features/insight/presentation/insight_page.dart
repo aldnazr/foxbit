@@ -1,14 +1,15 @@
+import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
 
-import 'package:vault_chain/features/insight/presentation/providers/insight_providers.dart';
-import 'package:vault_chain/features/insight/presentation/widgets/fear_greed_card.dart';
-import 'package:vault_chain/features/insight/presentation/widgets/global_summary_card.dart';
-import 'package:vault_chain/features/insight/presentation/widgets/news_list.dart';
-import 'package:vault_chain/features/insight/presentation/widgets/trending_list.dart';
-import 'package:vault_chain/shared/widgets/error_handler.dart';
+import 'package:foxbit/features/insight/presentation/providers/insight_providers.dart';
+import 'package:foxbit/features/insight/presentation/widgets/fear_greed_card.dart';
+import 'package:foxbit/features/insight/presentation/widgets/global_summary_card.dart';
+import 'package:foxbit/features/insight/presentation/widgets/news_list.dart';
+import 'package:foxbit/features/insight/presentation/widgets/trending_list.dart';
+import 'package:foxbit/shared/widgets/error_handler.dart';
 
 class InsightPage extends ConsumerWidget {
   const InsightPage({super.key});
@@ -34,6 +35,7 @@ class InsightPage extends ConsumerWidget {
     }
 
     return Scaffold(
+      appBar: DefaultAppbar(title: 'Insight'),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: CustomScrollView(

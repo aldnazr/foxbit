@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vault_chain/app/router.dart';
-import 'package:vault_chain/app/theme.dart';
-import 'package:vault_chain/features/settings/application/theme_controller.dart';
+import 'package:foxbit/app/router.dart';
+import 'package:foxbit/app/theme.dart';
+import 'package:foxbit/features/settings/application/theme_controller.dart';
 
-class VaultChainApp extends ConsumerWidget {
-  const VaultChainApp({super.key});
+class FoxbitApp extends ConsumerWidget {
+  const FoxbitApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

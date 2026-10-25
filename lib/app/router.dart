@@ -1,19 +1,19 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/features/auth/application/auth_controller.dart';
-import 'package:vault_chain/features/auth/presentation/login_page.dart';
-import 'package:vault_chain/features/auth/presentation/register_page.dart';
-import 'package:vault_chain/features/coin_detail/presentation/coin_detail_page.dart';
-import 'package:vault_chain/features/home/presentation/home_shell.dart';
-import 'package:vault_chain/features/insight/presentation/insight_page.dart';
-import 'package:vault_chain/features/market/presentation/market_tab.dart';
-import 'package:vault_chain/features/portofolio/presentation/portofolio_tab.dart';
-import 'package:vault_chain/features/settings/presentation/setting_page.dart';
-import 'package:vault_chain/features/wallet/presentation/wallet_detail_page.dart';
-import 'package:vault_chain/features/wallet/presentation/wallet_page.dart';
-import 'package:vault_chain/shared/models/coin_detail_args.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/features/auth/application/auth_controller.dart';
+import 'package:foxbit/features/auth/presentation/login_page.dart';
+import 'package:foxbit/features/auth/presentation/register_page.dart';
+import 'package:foxbit/features/coin_detail/presentation/coin_detail_page.dart';
+import 'package:foxbit/features/home/presentation/home_shell.dart';
+import 'package:foxbit/features/insight/presentation/insight_page.dart';
+import 'package:foxbit/features/market/presentation/market_tab.dart';
+import 'package:foxbit/features/portofolio/presentation/portofolio_tab.dart';
+import 'package:foxbit/features/settings/presentation/setting_page.dart';
+import 'package:foxbit/features/wallet/presentation/wallet_detail_page.dart';
+import 'package:foxbit/features/wallet/presentation/wallet_page.dart';
+import 'package:foxbit/shared/models/coin_detail_args.dart';
 
 part 'router.g.dart';
 
@@ -26,10 +26,7 @@ CustomTransitionPage<void> _fadeSlidePage({
     child: child,
     transitionDuration: AppDesign.base,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final curved = CurvedAnimation(
-        parent: animation,
-        curve: AppDesign.curve,
-      );
+      final curved = CurvedAnimation(parent: animation, curve: AppDesign.curve);
       return FadeTransition(
         opacity: curved,
         child: SlideTransition(
@@ -86,24 +83,18 @@ GoRouter router(Ref ref) {
       GoRoute(path: '/', redirect: (_, _) => '/market'),
       GoRoute(
         path: '/login',
-        pageBuilder: (context, state) => _fadeSlidePage(
-          key: state.pageKey,
-          child: const LoginPage(),
-        ),
+        pageBuilder: (context, state) =>
+            _fadeSlidePage(key: state.pageKey, child: const LoginPage()),
       ),
       GoRoute(
         path: '/register',
-        pageBuilder: (context, state) => _fadeSlidePage(
-          key: state.pageKey,
-          child: const RegisterPage(),
-        ),
+        pageBuilder: (context, state) =>
+            _fadeSlidePage(key: state.pageKey, child: const RegisterPage()),
       ),
       GoRoute(
         path: '/settings',
-        pageBuilder: (context, state) => _fadeSlidePage(
-          key: state.pageKey,
-          child: const SettingPage(),
-        ),
+        pageBuilder: (context, state) =>
+            _fadeSlidePage(key: state.pageKey, child: const SettingPage()),
       ),
       GoRoute(
         path: '/coin/:id',

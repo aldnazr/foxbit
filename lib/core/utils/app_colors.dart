@@ -1,5 +1,5 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:vault_chain/app/design/app_design.dart';
+import 'package:foxbit/app/design/app_design.dart';
 
 /// Deprecated: use tokens from `lib/app/design/app_design.dart`.
 class AppColors {

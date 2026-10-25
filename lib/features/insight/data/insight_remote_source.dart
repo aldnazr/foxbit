@@ -4,13 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart';
 
-import 'package:vault_chain/core/config/env.dart';
-import 'package:vault_chain/core/error/app_failure.dart';
-import 'package:vault_chain/core/network/dio_error_mapper.dart';
-import 'package:vault_chain/features/insight/domain/fear_greed.dart';
-import 'package:vault_chain/features/insight/domain/global_market.dart';
-import 'package:vault_chain/features/insight/domain/news_item.dart';
-import 'package:vault_chain/features/insight/domain/trending_coin.dart';
+import 'package:foxbit/core/config/env.dart';
+import 'package:foxbit/core/error/app_failure.dart';
+import 'package:foxbit/core/network/dio_error_mapper.dart';
+import 'package:foxbit/features/insight/domain/fear_greed.dart';
+import 'package:foxbit/features/insight/domain/global_market.dart';
+import 'package:foxbit/features/insight/domain/news_item.dart';
+import 'package:foxbit/features/insight/domain/trending_coin.dart';
 
 class InsightRemoteSource {
   final Dio coingeckoDio;

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:vault_chain/core/network/dio_providers.dart';
-import 'package:vault_chain/features/wallet/data/etherscan_source.dart';
-import 'package:vault_chain/features/wallet/data/mempool_source.dart';
-import 'package:vault_chain/features/wallet/data/wallet_repository.dart';
-import 'package:vault_chain/features/wallet/domain/wallet_models.dart';
-import 'package:vault_chain/features/wallet/domain/watched_wallet.dart';
+import 'package:foxbit/core/network/dio_providers.dart';
+import 'package:foxbit/features/wallet/data/etherscan_source.dart';
+import 'package:foxbit/features/wallet/data/mempool_source.dart';
+import 'package:foxbit/features/wallet/data/wallet_repository.dart';
+import 'package:foxbit/features/wallet/domain/wallet_models.dart';
+import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
 
 part 'wallet_providers.g.dart';
 

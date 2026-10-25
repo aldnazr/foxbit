@@ -1,12 +1,14 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
 
-import 'package:vault_chain/features/wallet/presentation/providers/wallet_providers.dart';
-import 'package:vault_chain/features/wallet/presentation/widgets/add_wallet_sheet.dart';
-import 'package:vault_chain/features/wallet/presentation/widgets/wallet_card.dart';
-import 'package:vault_chain/shared/widgets/error_handler.dart';
+import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
+import 'package:foxbit/features/wallet/presentation/widgets/add_wallet_sheet.dart';
+import 'package:foxbit/features/wallet/presentation/widgets/wallet_card.dart';
+import 'package:foxbit/shared/widgets/default_appbar.dart';
+import 'package:foxbit/shared/widgets/error_handler.dart';
 
 class WalletPage extends ConsumerWidget {
   const WalletPage({super.key});
@@ -16,7 +18,7 @@ class WalletPage extends ConsumerWidget {
     final walletsAsync = ref.watch(walletsControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dompet'), titleSpacing: 20),
+      appBar: DefaultAppbar(title: 'Dompet'),
       body: walletsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => ErrorHandler(
@@ -71,61 +73,84 @@ class WalletPage extends ConsumerWidget {
           return RefreshIndicator(
             onRefresh: () async {
               ref.invalidate(walletsControllerProvider);
-              for (final w in wallets) {
-                ref.invalidate(walletBalanceProvider(w.id));
-                ref.invalidate(walletTxsProvider(w.id));
+              for (final wallet in wallets) {
+                ref.invalidate(walletBalanceProvider(wallet.id));
+                ref.invalidate(walletTxsProvider(wallet.id));
               }
               ref.invalidate(fiatPricesProvider);
             },
-            child: ListView(
+            child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-              children: [
-                const _SecretBanner(),
-                const SizedBox(height: 12),
-                ...wallets.map(
-                  (w) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Dismissible(
-                      key: ValueKey(w.id),
-                      direction: DismissDirection.endToStart,
-                      confirmDismiss: (_) async {
-                        return await showDialog<bool>(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            title: const Text('Hapus alamat?'),
-                            content: const Text(
-                              'Alamat akan dihapus dari daftar.',
+              slivers: [
+                const SliverPadding(
+                  padding: EdgeInsets.fromLTRB(20, 4, 20, 12),
+                  sliver: SliverToBoxAdapter(child: _SecretBanner()),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverList.builder(
+                    itemCount: wallets.length,
+                    itemBuilder: (context, index) {
+                      final wallet = wallets[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Dismissible(
+                          key: ValueKey(wallet.id),
+                          direction: DismissDirection.endToStart,
+                          confirmDismiss: (_) async {
+                            return await showDialog<bool>(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Hapus alamat?'),
+                                content: const Text(
+                                  'Alamat akan dihapus dari daftar.',
+                                ),
+                                actionsPadding: .only(
+                                  top: 8,
+                                  bottom: 20,
+                                  right: 20,
+                                  left: 20,
+                                ),
+                                actions: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: OutlinedButton(
+                                      onPressed: () => ctx.pop(false),
+                                      child: const Text('Batal'),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  FilledButton(
+                                    onPressed: () => ctx.pop(true),
+                                    child: const Text('Hapus'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          onDismissed: (_) => ref
+                              .read(walletsControllerProvider.notifier)
+                              .remove(wallet.id),
+                          background: Container(
+                            decoration: BoxDecoration(
+                              color: negativeColor(context)
+                                  .withValues(alpha: 0.9),
+                              borderRadius: BorderRadius.circular(
+                                AppDesign.r24,
+                              ),
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(ctx, false),
-                                child: const Text('Batal'),
-                              ),
-                              FilledButton(
-                                onPressed: () => Navigator.pop(ctx, true),
-                                child: const Text('Hapus'),
-                              ),
-                            ],
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 24),
+                            child: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.white,
+                              size: 22,
+                            ),
                           ),
-                        );
-                      },
-                      onDismissed: (_) => ref
-                          .read(walletsControllerProvider.notifier)
-                          .remove(w.id),
-                      background: Container(
-                        decoration: BoxDecoration(
-                          color: negativeColor(context).withValues(alpha: 0.9),
-                          borderRadius:
-                              BorderRadius.circular(AppDesign.r24),
+                          child: WalletCard(wallet: wallet),
                         ),
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 24),
-                        child: const Icon(Icons.delete_outline,
-                            color: Colors.white, size: 22),
-                      ),
-                      child: WalletCard(wallet: w),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -137,6 +162,11 @@ class WalletPage extends ConsumerWidget {
         onPressed: () => showModalBottomSheet(
           context: context,
           isScrollControlled: true,
+          useSafeArea: true,
+          showDragHandle: false,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           builder: (_) => const AddWalletSheet(),
         ),
         child: const Icon(Icons.add, size: 26),

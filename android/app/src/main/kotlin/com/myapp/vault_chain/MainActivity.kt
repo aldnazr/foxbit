@@ -1,4 +1,4 @@
-package com.myapp.vault_chain
+package com.myapp.foxbit
 
 import io.flutter.embedding.android.FlutterActivity
 

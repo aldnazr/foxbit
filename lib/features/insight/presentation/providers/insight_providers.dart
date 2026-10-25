@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:vault_chain/core/network/dio_providers.dart';
-import 'package:vault_chain/features/insight/data/insight_remote_source.dart';
-import 'package:vault_chain/features/insight/domain/fear_greed.dart';
-import 'package:vault_chain/features/insight/domain/global_market.dart';
-import 'package:vault_chain/features/insight/domain/news_item.dart';
-import 'package:vault_chain/features/insight/domain/trending_coin.dart';
+import 'package:foxbit/core/network/dio_providers.dart';
+import 'package:foxbit/features/insight/data/insight_remote_source.dart';
+import 'package:foxbit/features/insight/domain/fear_greed.dart';
+import 'package:foxbit/features/insight/domain/global_market.dart';
+import 'package:foxbit/features/insight/domain/news_item.dart';
+import 'package:foxbit/features/insight/domain/trending_coin.dart';
 
 part 'insight_providers.g.dart';
 

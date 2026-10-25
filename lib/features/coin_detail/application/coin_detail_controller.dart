@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vault_chain/data/api/coin_gecko_api.dart';
-import 'package:vault_chain/data/api/endpoint.dart';
-import 'package:vault_chain/shared/models/coin_detail.dart';
-import 'package:vault_chain/shared/models/coin_ohlc.dart';
+import 'package:foxbit/data/api/coin_gecko_api.dart';
+import 'package:foxbit/data/api/endpoint.dart';
+import 'package:foxbit/shared/models/coin_detail.dart';
+import 'package:foxbit/shared/models/coin_ohlc.dart';
 
 part 'coin_detail_controller.g.dart';
 

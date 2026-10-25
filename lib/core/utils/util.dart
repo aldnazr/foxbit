@@ -1,9 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vault_chain/app/design/app_design.dart';
+import 'package:foxbit/app/design/app_design.dart';
 
-Brightness _bright(BuildContext context) =>
-    Theme.of(context).brightness;
+Brightness _bright(BuildContext context) => Theme.of(context).brightness;
 
 Color defaultBackground(BuildContext context) =>
     Theme.of(context).colorScheme.surface;
@@ -26,8 +25,7 @@ Color positiveColor(BuildContext context) =>
 Color negativeColor(BuildContext context) =>
     AppDesign.negative(_bright(context));
 
-Color warningColor(BuildContext context) =>
-    AppDesign.warning(_bright(context));
+Color warningColor(BuildContext context) => AppDesign.warning(_bright(context));
 
 Color appAccentColor(BuildContext context) =>
     AppDesign.primary(_bright(context));

@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:vault_chain/app/design/app_design.dart';
+import 'package:foxbit/app/design/app_design.dart';
 
 class CoinDetailSkeleton extends StatelessWidget {
   const CoinDetailSkeleton({super.key});

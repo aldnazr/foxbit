@@ -47,7 +47,7 @@ final class CoingeckoDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$coingeckoDioHash() => r'6a9b3566be04560d6f0d57c7c54be01a7df64fbe';
+String _$coingeckoDioHash() => r'be1fec8d261c86b413bb7d8444f2949bb7101ae7';
 
 @ProviderFor(alternativeDio)
 final alternativeDioProvider = AlternativeDioProvider._();
@@ -87,7 +87,7 @@ final class AlternativeDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$alternativeDioHash() => r'a8944983b318d6e4e921cd431d268a07284b3ded';
+String _$alternativeDioHash() => r'7a1e1ec8e9360fc3ac8f2d2c27644a6c5015e40e';
 
 @ProviderFor(rssDio)
 final rssDioProvider = RssDioProvider._();
@@ -167,7 +167,7 @@ final class MempoolDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$mempoolDioHash() => r'6e62f5f8e3b9bf534eb5386eb0a91d21ab5fbc68';
+String _$mempoolDioHash() => r'efb160d74dd1c06d5619a62dd75b6eef2329576a';
 
 @ProviderFor(etherscanDio)
 final etherscanDioProvider = EtherscanDioProvider._();
@@ -207,4 +207,4 @@ final class EtherscanDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$etherscanDioHash() => r'bad14d0ed3561283edbd82142a28fc7fc5eaf6e1';
+String _$etherscanDioHash() => r'61f87055d908694dd66d856ab87d3daf4c2fed89';

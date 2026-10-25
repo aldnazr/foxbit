@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/auth/application/auth_controller.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/auth/application/auth_controller.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -68,6 +68,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         Container(
                           width: 72,
                           height: 72,
+                          padding: .all(6),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: defaultContainer(context),
@@ -75,11 +76,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               color: Theme.of(context).colorScheme.outline,
                             ),
                           ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/app_logo.png',
-                              fit: BoxFit.cover,
-                            ),
+                          child: Image.asset(
+                            'assets/app_logo.png',
+                            fit: .cover,
                           ),
                         ),
                         const SizedBox(height: 20),

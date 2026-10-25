@@ -51,7 +51,7 @@ final class CoinDetailControllerProvider
 }
 
 String _$coinDetailControllerHash() =>
-    r'1900592a733a09bcd35b7ebb00e00abf4f10387a';
+    r'28f35288be72bd77c090bd473b533a456732b0be';
 
 final class CoinDetailControllerFamily extends $Family
     with

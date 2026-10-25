@@ -1,18 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vault_chain/app/design/app_design.dart';
-import 'package:vault_chain/core/utils/formatter.dart';
-import 'package:vault_chain/core/utils/util.dart';
-import 'package:vault_chain/features/coin_detail/application/coin_detail_controller.dart';
-import 'package:vault_chain/features/coin_detail/widgets/coin_detail_skeleton.dart';
-import 'package:vault_chain/features/portofolio/application/portofolio_controller.dart';
-import 'package:vault_chain/shared/models/coin_detail.dart';
-import 'package:vault_chain/shared/models/coin_detail_args.dart';
-import 'package:vault_chain/shared/models/portofolio_model.dart';
-import 'package:vault_chain/shared/widgets/error_handler.dart';
-import 'package:vault_chain/shared/widgets/null_text.dart';
-import 'package:vault_chain/shared/widgets/price_change_icon.dart';
+import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/formatter.dart';
+import 'package:foxbit/core/utils/util.dart';
+import 'package:foxbit/features/coin_detail/application/coin_detail_controller.dart';
+import 'package:foxbit/features/coin_detail/widgets/coin_detail_skeleton.dart';
+import 'package:foxbit/features/portofolio/application/portofolio_controller.dart';
+import 'package:foxbit/shared/models/coin_detail.dart';
+import 'package:foxbit/shared/models/coin_detail_args.dart';
+import 'package:foxbit/shared/models/portofolio_model.dart';
+import 'package:foxbit/shared/widgets/error_handler.dart';
+import 'package:foxbit/shared/widgets/null_text.dart';
+import 'package:foxbit/shared/widgets/price_change_icon.dart';
 
 class CoinDetailPage extends ConsumerStatefulWidget {
   final String id;
