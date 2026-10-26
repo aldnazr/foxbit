@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 class AppDesign {
   // ---- Dark (near-OLED + glass) ----
-  static const dBg = Color(0xFF0A0B0E);
+  static const dBg = Color(0xFF000000);
   static const dSurface = Color(0xFF14171D);
   static const dSurfaceAlt = Color(0xFF1C2029);
   static const dHairline = Color(0x14FFFFFF);
