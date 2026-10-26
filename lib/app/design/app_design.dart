@@ -31,6 +31,7 @@ class AppDesign {
 
   // ---- Radius ----
   static const r8 = 8.0;
+  static const r10 = 10.0;
   static const r16 = 16.0;
   static const r24 = 24.0;
   static const r28 = 28.0;
@@ -56,8 +57,7 @@ class AppDesign {
   static Color hairline(Brightness b) =>
       b == Brightness.dark ? dHairline : lHairline;
 
-  static Color bg(Brightness b) =>
-      b == Brightness.dark ? dBg : lBg;
+  static Color bg(Brightness b) => b == Brightness.dark ? dBg : lBg;
 
   static Color surface(Brightness b) =>
       b == Brightness.dark ? dSurface : lSurface;
@@ -112,7 +112,8 @@ class AppDesign {
 
     final base = isDark
         ? ThemeData.dark(useMaterial3: true)
-        : ThemeData.light(useMaterial3: true);    return base.copyWith(
+        : ThemeData.light(useMaterial3: true);
+    return base.copyWith(
       colorScheme: scheme,
       scaffoldBackgroundColor: bg(brightness),
       canvasColor: bg(brightness),
@@ -187,8 +188,10 @@ class AppDesign {
         ),
         hintStyle: TextStyle(color: textTertiary(brightness)),
         labelStyle: TextStyle(color: textSecondary(brightness)),
-        floatingLabelStyle:
-            TextStyle(color: primary(brightness), fontWeight: FontWeight.w600),
+        floatingLabelStyle: TextStyle(
+          color: primary(brightness),
+          fontWeight: FontWeight.w600,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(r16),
           borderSide: BorderSide(color: hairline(brightness)),
@@ -230,9 +233,7 @@ class AppDesign {
         style: ButtonStyle(
           fixedSize: const WidgetStatePropertyAll(Size.fromHeight(52)),
           foregroundColor: WidgetStatePropertyAll(textPrimary(brightness)),
-          side: WidgetStatePropertyAll(
-            BorderSide(color: hairline(brightness)),
-          ),
+          side: WidgetStatePropertyAll(BorderSide(color: hairline(brightness))),
           elevation: const WidgetStatePropertyAll(0),
           textStyle: const WidgetStatePropertyAll(
             TextStyle(fontFamily: 'SFPro', fontWeight: FontWeight.w600),
@@ -243,8 +244,7 @@ class AppDesign {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           fixedSize: const WidgetStatePropertyAll(Size.fromHeight(52)),
-          backgroundColor:
-              WidgetStatePropertyAll(surfaceAlt(brightness)),
+          backgroundColor: WidgetStatePropertyAll(surfaceAlt(brightness)),
           foregroundColor: WidgetStatePropertyAll(textPrimary(brightness)),
           elevation: const WidgetStatePropertyAll(0),
           textStyle: const WidgetStatePropertyAll(
@@ -278,9 +278,7 @@ class AppDesign {
       ),
       chipTheme: base.chipTheme.copyWith(
         backgroundColor: surfaceAlt(brightness),
-        shape: const StadiumBorder(
-          side: BorderSide(color: Colors.transparent),
-        ),
+        shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: surface(brightness),
@@ -322,9 +320,7 @@ class AppDesign {
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
           shape: const WidgetStatePropertyAll(StadiumBorder()),
-          side: WidgetStatePropertyAll(
-            BorderSide(color: hairline(brightness)),
-          ),
+          side: WidgetStatePropertyAll(BorderSide(color: hairline(brightness))),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.selected)
                 ? (isDark
@@ -369,9 +365,13 @@ class AppDesign {
         highlightElevation: 0,
         shape: const StadiumBorder(),
       ),
-      scrollbarTheme: const ScrollbarThemeData(thickness: WidgetStatePropertyAll(4)),
+      scrollbarTheme: const ScrollbarThemeData(
+        thickness: WidgetStatePropertyAll(4),
+      ),
       dividerColor: hairline(brightness),
-      disabledColor: isDark ? dTextTertiary.withValues(alpha: .5) : lTextTertiary.withValues(alpha: .5),
+      disabledColor: isDark
+          ? dTextTertiary.withValues(alpha: .5)
+          : lTextTertiary.withValues(alpha: .5),
     );
   }
 
@@ -383,7 +383,11 @@ class AppDesign {
 class AppEntry extends StatelessWidget {
   final Widget child;
   final Duration duration;
-  const AppEntry({super.key, required this.child, this.duration = AppDesign.base});
+  const AppEntry({
+    super.key,
+    required this.child,
+    this.duration = AppDesign.base,
+  });
 
   @override
   Widget build(BuildContext context) {

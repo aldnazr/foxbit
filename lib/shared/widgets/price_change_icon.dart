@@ -15,16 +15,12 @@ class PriceChangeIcon extends StatelessWidget {
         Icon(
           isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
           color: color,
-          size: 18,
+          size: 24,
         ),
         if (label != null)
           Text(
             label!,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w600, color: color),
           ),
       ],
     );

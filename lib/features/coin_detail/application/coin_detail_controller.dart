@@ -1,38 +1,11 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:foxbit/data/api/coin_gecko_api.dart';
 import 'package:foxbit/data/api/endpoint.dart';
+import 'package:foxbit/features/coin_detail/state/coin_detail_state.dart';
 import 'package:foxbit/shared/models/coin_detail.dart';
 import 'package:foxbit/shared/models/coin_ohlc.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'coin_detail_controller.g.dart';
-
-class CoinDetailState {
-  final CoinDetail? detail;
-  final List<CoinOhlc>? ohlc;
-  final String range;
-  final bool isRangeLoading;
-
-  const CoinDetailState({
-    this.detail,
-    this.ohlc,
-    this.range = '1D',
-    this.isRangeLoading = false,
-  });
-
-  CoinDetailState copyWith({
-    CoinDetail? detail,
-    List<CoinOhlc>? ohlc,
-    String? range,
-    bool? isRangeLoading,
-  }) {
-    return CoinDetailState(
-      detail: detail ?? this.detail,
-      ohlc: ohlc ?? this.ohlc,
-      range: range ?? this.range,
-      isRangeLoading: isRangeLoading ?? this.isRangeLoading,
-    );
-  }
-}
 
 const _rangeDays = {'1D': 1, '1W': 7, '1M': 30, '1Y': 365, 'All': 'max'};
 

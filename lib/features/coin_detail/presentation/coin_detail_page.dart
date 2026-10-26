@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foxbit/app/design/app_design.dart';
@@ -12,6 +13,7 @@ import 'package:foxbit/shared/models/coin_detail_args.dart';
 import 'package:foxbit/shared/models/portofolio_model.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 import 'package:foxbit/shared/widgets/null_text.dart';
+import 'package:foxbit/shared/widgets/outlined_text_field.dart';
 import 'package:foxbit/shared/widgets/price_change_icon.dart';
 
 class CoinDetailPage extends ConsumerStatefulWidget {
@@ -82,9 +84,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
     final displayRank = args?.marketCapRank;
 
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Row(
+      appBar: DefaultAppbar(
+        titleWidget: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (displayImage.isNotEmpty)
@@ -220,7 +221,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                               ],
                             ),
                           ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 10),
                         change24h == null
                             ? const NullText()
                             : Row(
@@ -233,7 +234,6 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                   Text(
                                     '(24H)',
                                     style: TextStyle(
-                                      fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: defaultTertiaryColor(context),
                                     ),
@@ -251,9 +251,9 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                         .read(coinDetailControllerProvider(id).notifier)
                         .setRange(r),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   SizedBox(
-                    height: 160,
+                    height: 230,
                     child: AnimatedOpacity(
                       duration: AppDesign.base,
                       opacity: state.isRangeLoading ? 0.4 : 1,
@@ -352,12 +352,15 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Card.outlined(
+                  const SizedBox(height: 16),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: .circular(AppDesign.r10),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 12.0,
-                        horizontal: 14.0,
+                        vertical: 10.0,
+                        horizontal: 8.0,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -373,7 +376,8 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                                 ),
                                 const SizedBox(
                                   width: double.infinity,
-                                  child: Divider(thickness: 1.5),
+                                  height: 16,
+                                  child: Divider(thickness: 0.8),
                                 ),
                                 e.value == null
                                     ? const NullText()
@@ -398,20 +402,14 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: TextField(
+                        child: OutlinedTextField(
                           controller: _textCoinController,
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(fontSize: 14, height: 1.8),
-                          decoration: InputDecoration(
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: CircleAvatar(
-                                radius: 1,
-                                foregroundImage: NetworkImage(
-                                  detail.image.small,
-                                ),
-                                foregroundColor: Colors.transparent,
-                              ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: CircleAvatar(
+                              radius: 1,
+                              foregroundImage: NetworkImage(detail.image.small),
+                              foregroundColor: Colors.transparent,
                             ),
                           ),
                           onChanged: (value) {
@@ -421,21 +419,17 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                       ),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: TextField(
+                        child: OutlinedTextField(
                           controller: _textCurrencyController,
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(fontSize: 14, height: 1.8),
-                          decoration: const InputDecoration(
-                            prefixIcon: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'IDR',
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
+                          prefixIcon: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'IDR',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ],
                           ),
                           onChanged: (value) {
                             _cryptoConverter(value, detail);

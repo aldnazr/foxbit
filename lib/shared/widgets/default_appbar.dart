@@ -2,11 +2,18 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:foxbit/core/utils/util.dart';
 
-class const DefaultAppbar({
-  super.key,
-  required final String title,
-  final List<Widget>? actions,
-}) extends StatelessWidget implements PreferredSizeWidget {
+class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
+  const DefaultAppbar({
+    super.key,
+    this.title,
+    this.titleWidget,
+    this.actions,
+  });
+
+  final String? title;
+  final Widget? titleWidget;
+  final List<Widget>? actions;
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
@@ -15,8 +22,8 @@ class const DefaultAppbar({
     final canPop = context.canPop();
 
     return AppBar(
-      title: Text(title),
-      titleTextStyle: .new(fontSize: 20, fontWeight: .bold),
+      title: title != null ? Text(title!) : titleWidget,
+      titleTextStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       titleSpacing: 22,
       actions: actions,
       automaticallyImplyLeading: false,
