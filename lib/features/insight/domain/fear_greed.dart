@@ -1,16 +1,22 @@
-class FearGreed {
-  final int value;
-  final String classification;
-  final DateTime? timestamp;
-  final List<int>
-  history; // last 30 values (newest first? we'll store as given)
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const FearGreed({
-    required this.value,
-    required this.classification,
-    this.timestamp,
-    this.history = const [],
-  });
+part 'fear_greed.freezed.dart';
+part 'fear_greed.g.dart';
+
+@freezed
+abstract class FearGreed with _$FearGreed {
+  const factory FearGreed({
+    @JsonKey(name: 'data', fromJson: _valueFromData, includeToJson: false)
+    required int value,
+    @JsonKey(name: 'data', fromJson: _classificationFromData, includeToJson: false)
+    required String classification,
+    @JsonKey(name: 'data', fromJson: _timestampFromData, includeToJson: false)
+    DateTime? timestamp,
+    @JsonKey(name: 'data', fromJson: _historyFromData, includeToJson: false)
+    @Default(<int>[]) List<int> history,
+  }) = _FearGreed;
+
+  const FearGreed._();
 
   String classificationId() {
     switch (classification) {
@@ -29,28 +35,40 @@ class FearGreed {
     }
   }
 
-  static FearGreed fromJson(Map<String, dynamic> json) {
-    final data = (json['data'] as List?) ?? const [];
-    final first = data.isNotEmpty && data.first is Map
-        ? Map<String, dynamic>.from(data.first as Map)
-        : <String, dynamic>{};
-    final valueStr = first['value']?.toString() ?? '0';
-    final value = int.tryParse(valueStr) ?? 0;
-    final classification = first['value_classification']?.toString() ?? '';
-    final tsStr = first['timestamp']?.toString();
-    final ts = tsStr != null ? int.tryParse(tsStr) : null;
-    final timestamp = ts != null
-        ? DateTime.fromMillisecondsSinceEpoch(ts * 1000)
-        : null;
-    final history = data
-        .whereType<Map>()
-        .map((e) => int.tryParse(e['value']?.toString() ?? '0') ?? 0)
-        .toList();
-    return FearGreed(
-      value: value,
-      classification: classification,
-      timestamp: timestamp,
-      history: history,
-    );
-  }
+  factory FearGreed.fromJson(Map<String, dynamic> json) =>
+      _$FearGreedFromJson(json);
+}
+
+int _valueFromData(dynamic data) {
+  final list = data is List ? data : const [];
+  final first = list.isNotEmpty && list.first is Map
+      ? Map<String, dynamic>.from(list.first as Map)
+      : <String, dynamic>{};
+  return int.tryParse(first['value']?.toString() ?? '0') ?? 0;
+}
+
+String _classificationFromData(dynamic data) {
+  final list = data is List ? data : const [];
+  final first = list.isNotEmpty && list.first is Map
+      ? Map<String, dynamic>.from(list.first as Map)
+      : <String, dynamic>{};
+  return first['value_classification']?.toString() ?? '';
+}
+
+DateTime? _timestampFromData(dynamic data) {
+  final list = data is List ? data : const [];
+  final first = list.isNotEmpty && list.first is Map
+      ? Map<String, dynamic>.from(list.first as Map)
+      : <String, dynamic>{};
+  final tsStr = first['timestamp']?.toString();
+  final ts = tsStr != null ? int.tryParse(tsStr) : null;
+  return ts != null ? DateTime.fromMillisecondsSinceEpoch(ts * 1000) : null;
+}
+
+List<int> _historyFromData(dynamic data) {
+  final list = data is List ? data : const [];
+  return list
+      .whereType<Map>()
+      .map((e) => int.tryParse(e['value']?.toString() ?? '0') ?? 0)
+      .toList();
 }

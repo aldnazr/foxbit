@@ -1,17 +1,15 @@
-class NewsItem {
-  final String title;
-  final String link;
-  final String source;
-  final DateTime? pubDate;
-  final String? summary;
-  final String? thumbnail;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const NewsItem({
-    required this.title,
-    required this.link,
-    required this.source,
-    this.pubDate,
-    this.summary,
-    this.thumbnail,
-  });
+part 'news_item.freezed.dart';
+
+@freezed
+abstract class NewsItem with _$NewsItem {
+  const factory NewsItem({
+    required String title,
+    required String link,
+    required String source,
+    DateTime? pubDate,
+    String? summary,
+    String? thumbnail,
+  }) = _NewsItem;
 }

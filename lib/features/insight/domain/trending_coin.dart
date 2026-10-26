@@ -1,43 +1,45 @@
-class TrendingCoin {
-  final String id;
-  final String name;
-  final String symbol;
-  final int? marketCapRank;
-  final String? thumbUrl;
-  final double? priceChange24h;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const TrendingCoin({
-    required this.id,
-    required this.name,
-    required this.symbol,
-    this.marketCapRank,
-    this.thumbUrl,
-    this.priceChange24h,
-  });
+part 'trending_coin.freezed.dart';
+part 'trending_coin.g.dart';
 
-  static TrendingCoin fromJson(Map<String, dynamic> json) {
-    // json is item
-    final data = json['data'] is Map
-        ? Map<String, dynamic>.from(json['data'] as Map)
-        : <String, dynamic>{};
-    final pcp = data['price_change_percentage_24h'];
-    double? change;
-    if (pcp is Map) {
-      final usd = pcp['usd'];
-      if (usd is num) change = usd.toDouble();
-      if (usd is String) change = double.tryParse(usd);
-    } else if (pcp is num) {
-      change = pcp.toDouble();
-    }
-    return TrendingCoin(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      symbol: json['symbol']?.toString() ?? '',
-      marketCapRank: (json['market_cap_rank'] is num)
-          ? (json['market_cap_rank'] as num).toInt()
-          : int.tryParse(json['market_cap_rank']?.toString() ?? ''),
-      thumbUrl: json['small']?.toString() ?? json['thumb']?.toString(),
-      priceChange24h: change,
-    );
+@freezed
+abstract class TrendingCoin with _$TrendingCoin {
+  const factory TrendingCoin({
+    @JsonKey(defaultValue: '') required String id,
+    @JsonKey(defaultValue: '') required String name,
+    @JsonKey(defaultValue: '') required String symbol,
+    @JsonKey(name: 'market_cap_rank', fromJson: _nullableIntFromJson, includeToJson: false)
+    int? marketCapRank,
+    @JsonKey(name: 'small', includeToJson: false) String? small,
+    @JsonKey(name: 'thumb', includeToJson: false) String? thumb,
+    @JsonKey(name: 'data', fromJson: _priceChangeFromData, includeToJson: false)
+    double? priceChange24h,
+  }) = _TrendingCoin;
+
+  const TrendingCoin._();
+
+  String? get thumbUrl => small ?? thumb;
+
+  factory TrendingCoin.fromJson(Map<String, dynamic> json) =>
+      _$TrendingCoinFromJson(json);
+}
+
+int? _nullableIntFromJson(dynamic v) {
+  if (v is num) return v.toInt();
+  return int.tryParse(v?.toString() ?? '');
+}
+
+double? _priceChangeFromData(dynamic data) {
+  if (data is! Map) return null;
+  final m = Map<String, dynamic>.from(data);
+  final pcp = m['price_change_percentage_24h'];
+  if (pcp is Map) {
+    final usd = pcp['usd'];
+    if (usd is num) return usd.toDouble();
+    if (usd is String) return double.tryParse(usd);
+  } else if (pcp is num) {
+    return pcp.toDouble();
   }
+  return null;
 }
