@@ -1,9 +1,6 @@
-enum PrefKey {
+enum const PrefKey(final String key) {
   username("username"),
   password("password"),
   isLogin("isLogin"),
-  themeMode("themeMode");
-
-  final String key;
-  const PrefKey(this.key);
+  themeMode("themeMode"),
 }

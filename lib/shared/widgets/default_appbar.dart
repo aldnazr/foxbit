@@ -3,12 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:foxbit/core/utils/util.dart';
 
 class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const DefaultAppbar({
-    super.key,
-    this.title,
-    this.titleWidget,
-    this.actions,
-  });
+  const DefaultAppbar({super.key, this.title, this.titleWidget, this.actions});
 
   final String? title;
   final Widget? titleWidget;
@@ -23,8 +18,6 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       title: title != null ? Text(title!) : titleWidget,
-      titleTextStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      titleSpacing: 22,
       actions: actions,
       automaticallyImplyLeading: false,
       leadingWidth: canPop ? 60 : null,
@@ -33,9 +26,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class _AppbarBackButton extends StatelessWidget {
-  const _AppbarBackButton();
-
+class const _AppbarBackButton() extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
