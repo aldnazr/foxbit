@@ -9,14 +9,12 @@ import 'package:foxbit/features/market/presentation/crypto_tab_bar.dart';
 import 'package:foxbit/features/market/presentation/top_coin_tab_bar.dart';
 import 'package:foxbit/shared/widgets/home_appbar.dart';
 
-class MarketTab extends ConsumerStatefulWidget {
-  const MarketTab({super.key});
-
+class const MarketPage({super.key}) extends ConsumerStatefulWidget {
   @override
-  ConsumerState<MarketTab> createState() => _MarketTabState();
+  ConsumerState<MarketPage> createState() => _MarketTabState();
 }
 
-class _MarketTabState extends ConsumerState<MarketTab> {
+class _MarketTabState extends ConsumerState<MarketPage> {
   static const _tabs = ['All Coins', 'Trending Coins'];
 
   int _index = 0;

@@ -7,9 +7,7 @@ import 'package:foxbit/features/portofolio/application/portofolio_controller.dar
 import 'package:foxbit/features/portofolio/widgets/empty_portofolio.dart';
 import 'package:foxbit/shared/models/coin_detail_args.dart';
 
-class PortofolioTab extends ConsumerWidget {
-  const PortofolioTab({super.key});
-
+class const PortofolioPage({super.key}) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portoAsync = ref.watch(portofolioControllerProvider);

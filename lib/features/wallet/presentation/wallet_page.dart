@@ -19,7 +19,7 @@ class WalletPage extends ConsumerWidget {
     final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return Scaffold(
-      appBar: DefaultAppbar(title: 'Dompet'),
+      appBar: DefaultAppbar(title: 'Wallet'),
       body: walletsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => ErrorHandler(

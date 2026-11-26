@@ -1,6 +1,3 @@
-import 'package:material_ui/material_ui.dart';
-import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:foxbit/app/design/app_design.dart';
 import 'package:foxbit/features/auth/application/auth_controller.dart';
 import 'package:foxbit/features/auth/presentation/login_page.dart';
@@ -8,49 +5,17 @@ import 'package:foxbit/features/auth/presentation/register_page.dart';
 import 'package:foxbit/features/coin_detail/presentation/coin_detail_page.dart';
 import 'package:foxbit/features/home/presentation/home_shell.dart';
 import 'package:foxbit/features/insight/presentation/insight_page.dart';
-import 'package:foxbit/features/market/presentation/market_tab.dart';
-import 'package:foxbit/features/portofolio/presentation/portofolio_tab.dart';
+import 'package:foxbit/features/market/presentation/market_page.dart';
+import 'package:foxbit/features/portofolio/presentation/portofolio_page.dart';
 import 'package:foxbit/features/settings/presentation/setting_page.dart';
 import 'package:foxbit/features/wallet/presentation/wallet_detail_page.dart';
 import 'package:foxbit/features/wallet/presentation/wallet_page.dart';
 import 'package:foxbit/shared/models/coin_detail_args.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
-
-CustomTransitionPage<void> _fadeSlidePage({
-  required LocalKey key,
-  required Widget child,
-}) {
-  return CustomTransitionPage<void>(
-    key: key,
-    child: child,
-    transitionDuration: AppDesign.base,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final curved = CurvedAnimation(parent: animation, curve: AppDesign.curve);
-      return FadeTransition(
-        opacity: curved,
-        child: SlideTransition(
-          position: Tween(
-            begin: const Offset(0, 0.04),
-            end: Offset.zero,
-          ).animate(curved),
-          child: child,
-        ),
-      );
-    },
-  );
-}
-
-class RouterNotifier extends ChangeNotifier {
-  final Ref _ref;
-
-  RouterNotifier(this._ref) {
-    _ref.listen<AsyncValue<AuthState>>(
-      authControllerProvider,
-      (_, _) => notifyListeners(),
-    );
-  }
-}
 
 @Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
@@ -116,7 +81,7 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: '/market',
-                builder: (context, state) => const MarketTab(),
+                builder: (context, state) => const MarketPage(),
               ),
             ],
           ),
@@ -124,7 +89,7 @@ GoRouter router(Ref ref) {
             routes: [
               GoRoute(
                 path: '/portofolio',
-                builder: (context, state) => const PortofolioTab(),
+                builder: (context, state) => const PortofolioPage(),
               ),
             ],
           ),
@@ -158,4 +123,39 @@ GoRouter router(Ref ref) {
       ),
     ],
   );
+}
+
+CustomTransitionPage<void> _fadeSlidePage({
+  required LocalKey key,
+  required Widget child,
+}) {
+  return CustomTransitionPage<void>(
+    key: key,
+    child: child,
+    transitionDuration: AppDesign.base,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(parent: animation, curve: AppDesign.curve);
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 0.04),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
+class RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  RouterNotifier(this._ref) {
+    _ref.listen<AsyncValue<AuthState>>(
+      authControllerProvider,
+      (_, _) => notifyListeners(),
+    );
+  }
 }

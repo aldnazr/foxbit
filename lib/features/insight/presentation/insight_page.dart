@@ -20,6 +20,7 @@ class InsightPage extends ConsumerWidget {
     final gm = ref.watch(globalMarketProvider);
     final tr = ref.watch(trendingCoinsProvider);
     final nw = ref.watch(cryptoNewsProvider);
+    final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     Future<void> refresh() async {
       ref.invalidate(fearGreedProvider);
@@ -108,7 +109,7 @@ class InsightPage extends ConsumerWidget {
                 ),
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+            SliverToBoxAdapter(child: SizedBox(height: bottomSpacer)),
           ],
         ),
       ),
