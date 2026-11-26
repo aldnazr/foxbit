@@ -11,6 +11,7 @@ class const HomeShell({
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(navigationShell: navigationShell),
+      extendBody: true,
     );
   }
 }

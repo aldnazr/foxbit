@@ -53,7 +53,7 @@ class _MarketTabState extends ConsumerState<MarketTab> {
       appBar: HomeAppbar(),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
-        child: NotificationListener<ScrollNotification>(
+        child: NotificationListener(
           onNotification: _onScroll,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
