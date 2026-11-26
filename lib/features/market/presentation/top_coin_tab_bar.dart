@@ -14,42 +14,53 @@ class TopCoinTabBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final topCoinsAsync = ref.watch(topCoinsControllerProvider);
+    final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return topCoinsAsync.when(
       loading: () => Skeletonizer.sliver(
         child: SliverPadding(
           padding: const EdgeInsets.only(bottom: 16),
           sliver: SliverList.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) => Column(
-              children: [
-                ListTile(
-                  key: ValueKey(index),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20),
-                  leading: const Bone.circle(size: 44),
-                  title: const Bone.text(words: 2),
-                  subtitle: const Bone.text(words: 1),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Bone.text(words: 1),
-                      SizedBox(height: 4),
-                      Bone(
-                        width: 50,
-                        height: 12,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(4),
+            itemCount: 11,
+            itemBuilder: (context, index) => index == 10
+                ? SizedBox(height: bottomSpacer)
+                : Column(
+                    children: [
+                      ListTile(
+                        key: ValueKey(index),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            SizedBox(width: 24, child: Bone.text(words: 1)),
+                            SizedBox(width: 8),
+                            Bone.circle(size: 44),
+                          ],
+                        ),
+                        title: const Bone.text(words: 2),
+                        subtitle: const Bone.text(words: 1),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: const [
+                            Bone.text(words: 1),
+                            SizedBox(height: 4),
+                            Bone(
+                              width: 50,
+                              height: 12,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(4),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      if (index < 9)
+                        const Divider(height: 0, thickness: 1, indent: 104),
                     ],
                   ),
-                ),
-                if (index < 9)
-                  const Divider(height: 0, thickness: 1, indent: 72),
-              ],
-            ),
           ),
         ),
       ),
@@ -73,8 +84,12 @@ class TopCoinTabBar extends ConsumerWidget {
         return SliverPadding(
           padding: const EdgeInsets.only(bottom: 16),
           sliver: SliverList.builder(
-            itemCount: topCoins.length,
+            itemCount: topCoins.length + 1,
             itemBuilder: (context, index) {
+              if (index == topCoins.length) {
+                return SizedBox(height: bottomSpacer);
+              }
+
               final coin = topCoins[index].item;
               final priceChange =
                   coin.data.priceChangePercentage24h['usd'] ?? 0.0;
@@ -96,10 +111,28 @@ class TopCoinTabBar extends ConsumerWidget {
                         ),
                       );
                     },
-                    leading: CircleAvatar(
-                      radius: 22,
-                      foregroundImage: NetworkImage(coin.small),
-                      backgroundColor: Colors.transparent,
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          child: Text(
+                            '${index + 1}',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        CircleAvatar(
+                          radius: 22,
+                          foregroundImage: NetworkImage(coin.small),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ],
                     ),
                     title: Text(
                       coin.name,
@@ -135,7 +168,7 @@ class TopCoinTabBar extends ConsumerWidget {
                     ),
                   ),
                   if (index < topCoins.length - 1)
-                    const Divider(height: 0, thickness: 1, indent: 72),
+                    const Divider(height: 0, thickness: 1, indent: 104),
                 ],
               );
             },

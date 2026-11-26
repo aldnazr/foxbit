@@ -13,6 +13,7 @@ class PortofolioTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portoAsync = ref.watch(portofolioControllerProvider);
+    final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return Scaffold(
       appBar: DefaultAppbar(title: 'Portofolio'),
@@ -33,8 +34,12 @@ class PortofolioTab extends ConsumerWidget {
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.only(bottom: 16),
-                    itemCount: portofolioList.length,
+                    itemCount: portofolioList.length + 1,
                     itemBuilder: (context, index) {
+                      if (index == portofolioList.length) {
+                        return SizedBox(height: bottomSpacer);
+                      }
+
                       final data = portofolioList[index];
                       final isFav = ref.watch(isFavoriteProvider(data.id));
 

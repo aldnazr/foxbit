@@ -17,63 +17,64 @@ class CryptoTabBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final marketAsync = ref.watch(marketControllerProvider);
+    final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return marketAsync.when(
       loading: () => Skeletonizer.sliver(
         child: SliverPadding(
           padding: const EdgeInsets.only(bottom: 16),
           sliver: SliverList.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) => Column(
-              children: [
-                ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20),
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      SizedBox(
-                        width: 18,
-                        child: Bone.text(words: 1),
-                      ),
-                      SizedBox(width: 10),
-                      Bone.circle(size: 40),
-                    ],
-                  ),
-                  title: const Bone.text(words: 2),
-                  subtitle: const Bone.text(words: 1),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+            itemCount: 11,
+            itemBuilder: (context, index) => index == 10
+                ? SizedBox(height: bottomSpacer)
+                : Column(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Bone.text(words: 1),
-                          SizedBox(height: 4),
-                          Bone(
-                            width: 50,
-                            height: 12,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4),
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            SizedBox(width: 18, child: Bone.text(words: 1)),
+                            SizedBox(width: 10),
+                            Bone.circle(size: 40),
+                          ],
+                        ),
+                        title: const Bone.text(words: 2),
+                        subtitle: const Bone.text(words: 1),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Bone.text(words: 1),
+                                SizedBox(height: 4),
+                                Bone(
+                                  width: 50,
+                                  height: 12,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 14),
-                      const Bone(
-                        width: 56,
-                        height: 28,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
+                            const SizedBox(width: 14),
+                            const Bone(
+                              width: 56,
+                              height: 28,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      const Divider(height: 0, thickness: 1, indent: 72),
                     ],
                   ),
-                ),
-                const Divider(height: 0, thickness: 1, indent: 72),
-              ],
-            ),
           ),
         ),
       ),
@@ -81,7 +82,8 @@ class CryptoTabBar extends ConsumerWidget {
         hasScrollBody: false,
         child: ErrorHandler(
           errorText: "Error: $err",
-          onPressed: () => ref.read(marketControllerProvider.notifier).refresh(),
+          onPressed: () =>
+              ref.read(marketControllerProvider.notifier).refresh(),
         ),
       ),
       data: (state) {
@@ -96,8 +98,12 @@ class CryptoTabBar extends ConsumerWidget {
         return SliverPadding(
           padding: const EdgeInsets.only(bottom: 16),
           sliver: SliverList.builder(
-            itemCount: markets.length + (state.isLoadingMore ? 1 : 0),
+            itemCount: markets.length + (state.isLoadingMore ? 1 : 0) + 1,
             itemBuilder: (context, index) {
+              if (index == markets.length + (state.isLoadingMore ? 1 : 0)) {
+                return SizedBox(height: bottomSpacer);
+              }
+
               if (index == markets.length) {
                 return const Center(
                   child: Padding(

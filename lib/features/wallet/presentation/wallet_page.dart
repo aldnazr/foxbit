@@ -16,6 +16,7 @@ class WalletPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final walletsAsync = ref.watch(walletsControllerProvider);
+    final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return Scaffold(
       appBar: DefaultAppbar(title: 'Dompet'),
@@ -153,6 +154,7 @@ class WalletPage extends ConsumerWidget {
                     },
                   ),
                 ),
+                SliverToBoxAdapter(child: SizedBox(height: bottomSpacer)),
               ],
             ),
           );
