@@ -10,16 +10,14 @@ import 'package:foxbit/features/wallet/presentation/widgets/wallet_card.dart';
 import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 
-class WalletPage extends ConsumerWidget {
-  const WalletPage({super.key});
-
+class const WalletPage({super.key}) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final walletsAsync = ref.watch(walletsControllerProvider);
     final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return Scaffold(
-      appBar: DefaultAppbar(title: 'Wallet'),
+      appBar: const DefaultAppbar(title: 'Wallet'),
       body: walletsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => ErrorHandler(
