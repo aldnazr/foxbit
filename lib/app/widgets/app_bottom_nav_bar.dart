@@ -13,11 +13,10 @@ class _NavItem {
   const _NavItem({required this.icon, required this.label});
 }
 
-class AppBottomNavBar extends StatelessWidget {
-  final StatefulNavigationShell navigationShell;
-
-  const AppBottomNavBar({super.key, required this.navigationShell});
-
+class const AppBottomNavBar({
+  super.key,
+  required final StatefulNavigationShell navigationShell,
+}) extends StatelessWidget {
   static const _items = <_NavItem>[
     _NavItem(icon: 'assets/icons/finance.svg', label: 'Market'),
     _NavItem(icon: 'assets/icons/star.svg', label: 'Portfolio'),

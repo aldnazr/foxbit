@@ -21,6 +21,7 @@ class const DefaultAppbar({
       automaticallyImplyLeading: false,
       leadingWidth: canPop ? 60 : null,
       leading: canPop ? const _AppbarBackButton() : null,
+      titleSpacing: canPop ? 12 : 20,
     );
   }
 }
@@ -29,7 +30,7 @@ class const _AppbarBackButton() extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20),
+      padding: const .only(left: 20),
       child: Center(
         child: Material(
           color: defaultContainer(context),

@@ -8,10 +8,23 @@ class const HomeShell({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: AppBottomNavBar(navigationShell: navigationShell),
-      extendBody: true,
+    final onHome = navigationShell.currentIndex == 0;
+
+    return PopScope(
+      canPop: onHome,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) {
+          return;
+        }
+        navigationShell.goBranch(0, initialLocation: true);
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: AppBottomNavBar(
+          navigationShell: navigationShell,
+        ),
+        extendBody: true,
+      ),
     );
   }
 }
