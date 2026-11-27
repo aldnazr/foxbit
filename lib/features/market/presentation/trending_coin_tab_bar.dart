@@ -8,9 +8,7 @@ import 'package:foxbit/shared/models/coin_detail_args.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 import 'package:foxbit/shared/widgets/price_change_icon.dart';
 
-class TopCoinTabBar extends ConsumerWidget {
-  const TopCoinTabBar({super.key});
-
+class const TrendingCoinTabBar({super.key}) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final topCoinsAsync = ref.watch(topCoinsControllerProvider);
@@ -57,8 +55,6 @@ class TopCoinTabBar extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      if (index < 9)
-                        const Divider(height: 0, thickness: 1, indent: 104),
                     ],
                   ),
           ),
@@ -167,8 +163,6 @@ class TopCoinTabBar extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  if (index < topCoins.length - 1)
-                    const Divider(height: 0, thickness: 1, indent: 104),
                 ],
               );
             },

@@ -49,3 +49,5 @@ env.json
 
 # kilo
 .kilo
+# Widget Preview related
+.widget_preview/

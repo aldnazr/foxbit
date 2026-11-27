@@ -72,7 +72,6 @@ class CryptoTabBar extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const Divider(height: 0, thickness: 1, indent: 72),
                     ],
                   ),
           ),
@@ -137,18 +136,18 @@ class CryptoTabBar extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                          width: 18,
+                          width: 24,
                           child: Text(
                             '${coin.marketCapRank ?? '-'}',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: defaultTertiaryColor(context),
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 8),
                         CircleAvatar(
                           radius: 20,
                           foregroundImage: coin.image != null
@@ -220,7 +219,6 @@ class CryptoTabBar extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  const Divider(height: 0, thickness: 1, indent: 72),
                 ],
               );
             },

@@ -6,7 +6,7 @@ import 'package:foxbit/app/design/app_design.dart';
 import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/market/presentation/portfolio_hero_card.dart';
 import 'package:foxbit/features/market/presentation/crypto_tab_bar.dart';
-import 'package:foxbit/features/market/presentation/top_coin_tab_bar.dart';
+import 'package:foxbit/features/market/presentation/trending_coin_tab_bar.dart';
 import 'package:foxbit/shared/widgets/home_appbar.dart';
 
 class const MarketPage({super.key}) extends ConsumerStatefulWidget {
@@ -66,7 +66,10 @@ class _MarketTabState extends ConsumerState<MarketPage> {
                   isLoading: isLoadingPills,
                 ),
               ),
-              if (_index == 0) const CryptoTabBar() else const TopCoinTabBar(),
+              if (_index == 0)
+                const CryptoTabBar()
+              else
+                const TrendingCoinTabBar(),
             ],
           ),
         ),
