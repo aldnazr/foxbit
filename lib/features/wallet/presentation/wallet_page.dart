@@ -158,18 +158,21 @@ class const WalletPage({super.key}) extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          useSafeArea: true,
-          showDragHandle: false,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: bottomSpacer),
+        child: FloatingActionButton(
+          onPressed: () => showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            useSafeArea: true,
+            showDragHandle: false,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+            ),
+            builder: (_) => const AddWalletSheet(),
           ),
-          builder: (_) => const AddWalletSheet(),
+          child: const Icon(Icons.add, size: 26),
         ),
-        child: const Icon(Icons.add, size: 26),
       ),
     );
   }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CoinDetailState {
 
- CoinDetail? get detail; List<CoinOhlc>? get ohlc; String get range; bool get isRangeLoading;
+ CoinDetail? get detail; List<ChartPoint>? get chartPoints; String get range; bool get isRangeLoading;
 /// Create a copy of CoinDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $CoinDetailStateCopyWith<CoinDetailState> get copyWith => _$CoinDetailStateCopyW
 @override
 bool operator ==(Object other) {
   final _this = this as CoinDetailState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CoinDetailState&&(identical(other.detail, _this.detail) || other.detail == _this.detail)&&const DeepCollectionEquality().equals(other.ohlc, _this.ohlc)&&(identical(other.range, _this.range) || other.range == _this.range)&&(identical(other.isRangeLoading, _this.isRangeLoading) || other.isRangeLoading == _this.isRangeLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CoinDetailState&&(identical(other.detail, _this.detail) || other.detail == _this.detail)&&const DeepCollectionEquality().equals(other.chartPoints, _this.chartPoints)&&(identical(other.range, _this.range) || other.range == _this.range)&&(identical(other.isRangeLoading, _this.isRangeLoading) || other.isRangeLoading == _this.isRangeLoading));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CoinDetailState;
-  return Object.hash(runtimeType,_this.detail,const DeepCollectionEquality().hash(_this.ohlc),_this.range,_this.isRangeLoading);
+  return Object.hash(runtimeType,_this.detail,const DeepCollectionEquality().hash(_this.chartPoints),_this.range,_this.isRangeLoading);
 }
 
 @override
 String toString() {
   final _this = this as CoinDetailState;
-  return 'CoinDetailState(detail: ${_this.detail}, ohlc: ${_this.ohlc}, range: ${_this.range}, isRangeLoading: ${_this.isRangeLoading})';
+  return 'CoinDetailState(detail: ${_this.detail}, chartPoints: ${_this.chartPoints}, range: ${_this.range}, isRangeLoading: ${_this.isRangeLoading})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $CoinDetailStateCopyWith<$Res>  {
   factory $CoinDetailStateCopyWith(CoinDetailState value, $Res Function(CoinDetailState) _then) = _$CoinDetailStateCopyWithImpl;
 @useResult
 $Res call({
- CoinDetail? detail, List<CoinOhlc>? ohlc, String range, bool isRangeLoading
+ CoinDetail? detail, List<ChartPoint>? chartPoints, String range, bool isRangeLoading
 });
 
 
@@ -68,11 +68,11 @@ class _$CoinDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of CoinDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? detail = freezed,Object? ohlc = freezed,Object? range = null,Object? isRangeLoading = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? detail = freezed,Object? chartPoints = freezed,Object? range = null,Object? isRangeLoading = null,}) {
   return _then(CoinDetailState(
 detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
-as CoinDetail?,ohlc: freezed == ohlc ? _self.ohlc : ohlc // ignore: cast_nullable_to_non_nullable
-as List<CoinOhlc>?,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
+as CoinDetail?,chartPoints: freezed == chartPoints ? _self.chartPoints : chartPoints // ignore: cast_nullable_to_non_nullable
+as List<ChartPoint>?,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
 as String,isRangeLoading: null == isRangeLoading ? _self.isRangeLoading : isRangeLoading // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -171,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoinDetail? detail,  List<CoinOhlc>? ohlc,  String range,  bool isRangeLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoinDetail? detail,  List<ChartPoint>? chartPoints,  String range,  bool isRangeLoading)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CoinDetailState() when $default != null:
-return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _:
+return $default(_that.detail,_that.chartPoints,_that.range,_that.isRangeLoading);case _:
   return orElse();
 
 }
@@ -192,10 +192,10 @@ return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoinDetail? detail,  List<CoinOhlc>? ohlc,  String range,  bool isRangeLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoinDetail? detail,  List<ChartPoint>? chartPoints,  String range,  bool isRangeLoading)  $default,) {final _that = this;
 switch (_that) {
 case _CoinDetailState():
-return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _:
+return $default(_that.detail,_that.chartPoints,_that.range,_that.isRangeLoading);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -212,10 +212,10 @@ return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoinDetail? detail,  List<CoinOhlc>? ohlc,  String range,  bool isRangeLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoinDetail? detail,  List<ChartPoint>? chartPoints,  String range,  bool isRangeLoading)?  $default,) {final _that = this;
 switch (_that) {
 case _CoinDetailState() when $default != null:
-return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _:
+return $default(_that.detail,_that.chartPoints,_that.range,_that.isRangeLoading);case _:
   return null;
 
 }
@@ -227,15 +227,15 @@ return $default(_that.detail,_that.ohlc,_that.range,_that.isRangeLoading);case _
 
 
 class _CoinDetailState implements CoinDetailState {
-  const _CoinDetailState({this.detail,  List<CoinOhlc>? ohlc, this.range = '1D', this.isRangeLoading = false}): _ohlc = ohlc;
+  const _CoinDetailState({this.detail,  List<ChartPoint>? chartPoints, this.range = '1D', this.isRangeLoading = false}): _chartPoints = chartPoints;
   
 
 @override final  CoinDetail? detail;
- final  List<CoinOhlc>? _ohlc;
-@override List<CoinOhlc>? get ohlc {
-  final value = _ohlc;
+ final  List<ChartPoint>? _chartPoints;
+@override List<ChartPoint>? get chartPoints {
+  final value = _chartPoints;
   if (value == null) return null;
-  if (_ohlc is EqualUnmodifiableListView) return _ohlc;
+  if (_chartPoints is EqualUnmodifiableListView) return _chartPoints;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -253,18 +253,18 @@ _$CoinDetailStateCopyWith<_CoinDetailState> get copyWith => __$CoinDetailStateCo
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CoinDetailState&&(identical(other.detail, detail) || other.detail == detail)&&const DeepCollectionEquality().equals(other.ohlc, _ohlc)&&(identical(other.range, range) || other.range == range)&&(identical(other.isRangeLoading, isRangeLoading) || other.isRangeLoading == isRangeLoading));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CoinDetailState&&(identical(other.detail, detail) || other.detail == detail)&&const DeepCollectionEquality().equals(other.chartPoints, _chartPoints)&&(identical(other.range, range) || other.range == range)&&(identical(other.isRangeLoading, isRangeLoading) || other.isRangeLoading == isRangeLoading));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,detail,const DeepCollectionEquality().hash(_ohlc),range,isRangeLoading);
+    return Object.hash(runtimeType,detail,const DeepCollectionEquality().hash(_chartPoints),range,isRangeLoading);
 }
 
 @override
 String toString() {
-    return 'CoinDetailState(detail: $detail, ohlc: $ohlc, range: $range, isRangeLoading: $isRangeLoading)';
+    return 'CoinDetailState(detail: $detail, chartPoints: $chartPoints, range: $range, isRangeLoading: $isRangeLoading)';
 }
 
 
@@ -275,7 +275,7 @@ abstract mixin class _$CoinDetailStateCopyWith<$Res> implements $CoinDetailState
   factory _$CoinDetailStateCopyWith(_CoinDetailState value, $Res Function(_CoinDetailState) _then) = __$CoinDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- CoinDetail? detail, List<CoinOhlc>? ohlc, String range, bool isRangeLoading
+ CoinDetail? detail, List<ChartPoint>? chartPoints, String range, bool isRangeLoading
 });
 
 
@@ -292,11 +292,11 @@ class __$CoinDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of CoinDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? detail = freezed,Object? ohlc = freezed,Object? range = null,Object? isRangeLoading = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? detail = freezed,Object? chartPoints = freezed,Object? range = null,Object? isRangeLoading = null,}) {
   return _then(_CoinDetailState(
 detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
-as CoinDetail?,ohlc: freezed == ohlc ? _self._ohlc : ohlc // ignore: cast_nullable_to_non_nullable
-as List<CoinOhlc>?,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
+as CoinDetail?,chartPoints: freezed == chartPoints ? _self._chartPoints : chartPoints // ignore: cast_nullable_to_non_nullable
+as List<ChartPoint>?,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
 as String,isRangeLoading: null == isRangeLoading ? _self.isRangeLoading : isRangeLoading // ignore: cast_nullable_to_non_nullable
 as bool,
   ));

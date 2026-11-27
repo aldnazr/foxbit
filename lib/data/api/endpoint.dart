@@ -16,14 +16,10 @@ class Endpoint {
 
   static String marketChart({
     required String coinId,
-    required String vsCurrency,
-    required int days,
+    required Object days,
+    String vsCurrency = 'idr',
   }) {
     return '/coins/$coinId/market_chart?vs_currency=$vsCurrency&days=$days';
-  }
-
-  static String ohlc(String coinId, {String vsCurrency = 'idr', dynamic days = 1}) {
-    return '/coins/$coinId/ohlc?vs_currency=$vsCurrency&days=$days';
   }
 
   static String trending() {

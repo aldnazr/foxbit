@@ -1,13 +1,19 @@
 import 'package:foxbit/data/api/coin_gecko_api.dart';
 import 'package:foxbit/data/api/endpoint.dart';
 import 'package:foxbit/features/coin_detail/state/coin_detail_state.dart';
+import 'package:foxbit/shared/models/chart_point.dart';
 import 'package:foxbit/shared/models/coin_detail.dart';
-import 'package:foxbit/shared/models/coin_ohlc.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'coin_detail_controller.g.dart';
 
-const _rangeDays = {'1D': 1, '1W': 7, '1M': 30, '1Y': 365, 'All': 'max'};
+const _rangeDays = <String, Object>{
+  '1D': 1,
+  '1W': 7,
+  '1M': 30,
+  '1Y': 365,
+  'All': 'max',
+};
 
 @riverpod
 class CoinDetailController extends _$CoinDetailController {
@@ -16,13 +22,15 @@ class CoinDetailController extends _$CoinDetailController {
   @override
   Future<CoinDetailState> build(String id) async {
     final detailFuture = _api.getDetails(Endpoint.details(id));
-    final ohlcFuture = _api.getOhlc(Endpoint.ohlc(id, days: _rangeDays['1D']));
+    final chartFuture = _api.getMarketChart(
+      Endpoint.marketChart(coinId: id, days: _rangeDays['1D']!),
+    );
 
-    final results = await Future.wait([detailFuture, ohlcFuture]);
+    final results = await Future.wait([detailFuture, chartFuture]);
 
     return CoinDetailState(
       detail: results[0] as CoinDetail,
-      ohlc: results[1] as List<CoinOhlc>,
+      chartPoints: results[1] as List<ChartPoint>,
     );
   }
 
@@ -35,11 +43,11 @@ class CoinDetailController extends _$CoinDetailController {
     state = AsyncData(current.copyWith(range: range, isRangeLoading: true));
 
     try {
-      final ohlc = await _api.getOhlc(
-        Endpoint.ohlc(id, days: _rangeDays[range]),
+      final chartPoints = await _api.getMarketChart(
+        Endpoint.marketChart(coinId: id, days: _rangeDays[range]!),
       );
       state = AsyncData(
-        state.value!.copyWith(ohlc: ohlc, isRangeLoading: false),
+        state.value!.copyWith(chartPoints: chartPoints, isRangeLoading: false),
       );
     } catch (_) {
       state = AsyncData(state.value!.copyWith(isRangeLoading: false));
@@ -47,18 +55,20 @@ class CoinDetailController extends _$CoinDetailController {
   }
 
   Future<void> refresh() async {
+    final range = state.value?.range ?? '1D';
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final detailFuture = _api.getDetails(Endpoint.details(id));
-      final ohlcFuture = _api.getOhlc(
-        Endpoint.ohlc(id, days: _rangeDays['1D']),
+      final chartFuture = _api.getMarketChart(
+        Endpoint.marketChart(coinId: id, days: _rangeDays[range]!),
       );
 
-      final results = await Future.wait([detailFuture, ohlcFuture]);
+      final results = await Future.wait([detailFuture, chartFuture]);
 
       return CoinDetailState(
         detail: results[0] as CoinDetail,
-        ohlc: results[1] as List<CoinOhlc>,
+        chartPoints: results[1] as List<ChartPoint>,
+        range: range,
       );
     });
   }
