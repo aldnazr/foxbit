@@ -34,6 +34,7 @@ class SettingPage extends ConsumerWidget {
           children: [
             const SizedBox(height: 12),
             Card(
+              clipBehavior: .antiAlias,
               child: Column(
                 children: [
                   ListTile(
@@ -52,7 +53,7 @@ class SettingPage extends ConsumerWidget {
                       color: defaultTertiaryColor(context),
                     ),
                   ),
-                  const Divider(indent: 72),
+                  const Divider(height: 1, thickness: 0.7),
                   ListTile(
                     minTileHeight: 70.0,
                     leading: _iconBadge(context, Icons.logout),
@@ -82,7 +83,7 @@ class SettingPage extends ConsumerWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              RadioGroup<ThemeMode>(
+              RadioGroup(
                 groupValue: currentMode,
                 onChanged: (mode) {
                   if (mode != null) {
@@ -95,15 +96,9 @@ class SettingPage extends ConsumerWidget {
                 child: const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    RadioListTile<ThemeMode>(
-                      title: Text('Light'),
-                      value: ThemeMode.light,
-                    ),
-                    RadioListTile<ThemeMode>(
-                      title: Text('Dark'),
-                      value: ThemeMode.dark,
-                    ),
-                    RadioListTile<ThemeMode>(
+                    RadioListTile(title: Text('Light'), value: ThemeMode.light),
+                    RadioListTile(title: Text('Dark'), value: ThemeMode.dark),
+                    RadioListTile(
                       title: Text('System'),
                       value: ThemeMode.system,
                     ),
