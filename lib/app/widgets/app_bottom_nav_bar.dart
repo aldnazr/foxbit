@@ -81,14 +81,6 @@ class const AppBottomNavBar({
                               alpha: isDark ? 0.16 : 0.10,
                             ),
                             borderRadius: BorderRadius.circular(AppDesign.full),
-                            boxShadow: isDark
-                                ? [
-                                    BoxShadow(
-                                      color: accent.withValues(alpha: 0.20),
-                                      blurRadius: 18,
-                                    ),
-                                  ]
-                                : null,
                           ),
                         ),
                       ),
