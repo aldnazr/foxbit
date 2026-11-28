@@ -7,6 +7,8 @@ import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/market/presentation/portfolio_hero_card.dart';
 import 'package:foxbit/features/market/presentation/crypto_tab_bar.dart';
 import 'package:foxbit/features/market/presentation/trending_coin_tab_bar.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
+import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
 import 'package:foxbit/shared/widgets/home_appbar.dart';
 
 class const MarketPage({super.key}) extends ConsumerStatefulWidget {
@@ -20,9 +22,11 @@ class _MarketTabState extends ConsumerState<MarketPage> {
   int _index = 0;
 
   Future<void> _onRefresh() async {
+    final currency = ref.read(currencyControllerProvider);
     if (_index == 0) {
-      await ref.read(marketControllerProvider.notifier).refresh();
+      await ref.read(marketControllerProvider(currency).notifier).refresh();
     } else {
+      ref.invalidate(fiatPricesProvider);
       await ref.read(topCoinsControllerProvider.notifier).refresh();
     }
   }
@@ -31,18 +35,20 @@ class _MarketTabState extends ConsumerState<MarketPage> {
   bool _onScroll(ScrollNotification n) {
     if (_index != 0 || n.depth != 0) return false;
 
-    final state = ref.read(marketControllerProvider).value;
+    final currency = ref.read(currencyControllerProvider);
+    final state = ref.read(marketControllerProvider(currency)).value;
     if (state == null || state.isLoadingMore) return false;
 
     if (n.metrics.pixels >= n.metrics.maxScrollExtent * 0.9) {
-      ref.read(marketControllerProvider.notifier).fetchNextPage();
+      ref.read(marketControllerProvider(currency).notifier).fetchNextPage();
     }
     return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final marketAsync = ref.watch(marketControllerProvider);
+    final currency = ref.watch(currencyControllerProvider);
+    final marketAsync = ref.watch(marketControllerProvider(currency));
     final topCoinsAsync = ref.watch(topCoinsControllerProvider);
 
     final isLoadingPills = marketAsync.isLoading || topCoinsAsync.isLoading;

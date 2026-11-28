@@ -6,7 +6,7 @@ Foxbit is a Flutter-based cryptocurrency market tracking, portfolio management, 
 
 ## Features
 
-- **Market Overview**: Live cryptocurrency prices (IDR), market trends, top coins, gainers, and detailed market stats.
+- **Market Overview**: Live cryptocurrency prices in IDR or USD, switchable in Settings, market trends, top coins, gainers, and detailed market stats.
 - **Interactive Price Charts**: Detailed coin view with historical charts powered by `fl_chart`.
 - **Portfolio Tracking**: Track custom holdings and assets stored locally via Hive CE.
 - **Market Insights**: Market news, trends, and overview data.

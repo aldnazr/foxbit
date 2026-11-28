@@ -2,8 +2,10 @@ import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/auth/application/auth_controller.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/features/settings/application/theme_controller.dart';
 
 class SettingPage extends ConsumerWidget {
@@ -25,6 +27,7 @@ class SettingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final brightness = Theme.of(context).brightness;
+    final currency = ref.watch(currencyControllerProvider);
 
     return Scaffold(
       appBar: DefaultAppbar(title: 'Pengaturan'),
@@ -54,6 +57,8 @@ class SettingPage extends ConsumerWidget {
                     ),
                   ),
                   const Divider(height: 1, thickness: 0.7),
+                  _currencyTile(context, ref, currency),
+                  const Divider(height: 1, thickness: 0.7),
                   ListTile(
                     minTileHeight: 70.0,
                     leading: _iconBadge(context, Icons.logout),
@@ -69,6 +74,66 @@ class SettingPage extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _currencyTile(
+    BuildContext context,
+    WidgetRef ref,
+    DisplayCurrency currency,
+  ) {
+    const title = Text('Mata uang');
+    const subtitle = Text('Berlaku untuk semua nominal crypto.');
+    final control = SegmentedButton<DisplayCurrency>(
+      segments: const [
+        ButtonSegment(value: DisplayCurrency.idr, label: Text('IDR')),
+        ButtonSegment(value: DisplayCurrency.usd, label: Text('USD')),
+      ],
+      selected: {currency},
+      showSelectedIcon: false,
+      onSelectionChanged: (selection) {
+        if (selection.isNotEmpty) {
+          ref
+              .read(currencyControllerProvider.notifier)
+              .setCurrency(selection.first);
+        }
+      },
+    );
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 360) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _iconBadge(context, Icons.payments_outlined),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [title, SizedBox(height: 2), subtitle],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Align(alignment: Alignment.centerRight, child: control),
+              ],
+            ),
+          );
+        }
+        return ListTile(
+          minTileHeight: 70,
+          leading: _iconBadge(context, Icons.payments_outlined),
+          title: title,
+          subtitle: subtitle,
+          trailing: control,
+        );
+      },
     );
   }
 

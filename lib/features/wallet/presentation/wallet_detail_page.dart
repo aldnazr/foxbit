@@ -3,8 +3,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
+import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/core/utils/util.dart';
 
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
 import 'package:foxbit/features/wallet/domain/wallet_models.dart';
 import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
@@ -16,6 +19,7 @@ class WalletDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyControllerProvider);
     final walletsAsync = ref.watch(walletsControllerProvider);
     final wallet = walletsAsync.value?.firstWhere(
       (w) => w.id == walletId,
@@ -40,15 +44,12 @@ class WalletDetailPage extends ConsumerWidget {
     final fiatAsync = ref.watch(fiatPricesProvider);
 
     double price = 0;
-    double priceIdr = 0;
     if (fiatAsync.hasValue) {
       final f = fiatAsync.value!;
       if (wallet.chain == Chain.btc) {
-        price = f.btcUsd;
-        priceIdr = f.btcIdr;
+        price = currency == DisplayCurrency.idr ? f.btcIdr : f.btcUsd;
       } else {
-        price = f.ethUsd;
-        priceIdr = f.ethIdr;
+        price = currency == DisplayCurrency.idr ? f.ethIdr : f.ethUsd;
       }
     }
 
@@ -93,8 +94,7 @@ class WalletDetailPage extends ConsumerWidget {
                         style: TextStyle(color: negativeColor(context)),
                       ),
                       data: (b) {
-                        final usd = b.coinAmount * price;
-                        final idr = b.coinAmount * priceIdr;
+                        final fiatValue = b.coinAmount * price;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -113,11 +113,7 @@ class WalletDetailPage extends ConsumerWidget {
                             ),
                             if (price > 0) ...[
                               Text(
-                                '≈ \$${usd.toStringAsFixed(2)}',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              Text(
-                                '≈ Rp ${idr.toStringAsFixed(0)}',
+                                '≈ ${Formatter.formatCurrency(fiatValue, currency: currency)}',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],

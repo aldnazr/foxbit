@@ -2,8 +2,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
+import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/core/utils/util.dart';
 
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
 import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
 
@@ -18,12 +21,13 @@ class WalletCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyControllerProvider);
     final balanceAsync = ref.watch(walletBalanceProvider(wallet.id));
     final fiatAsync = ref.watch(fiatPricesProvider);
     final fiat = fiatAsync.asData?.value;
     final price = wallet.chain == Chain.btc
-        ? (fiat?.btcUsd ?? 0)
-        : (fiat?.ethUsd ?? 0);
+        ? (currency == DisplayCurrency.idr ? fiat?.btcIdr : fiat?.btcUsd)
+        : (currency == DisplayCurrency.idr ? fiat?.ethIdr : fiat?.ethUsd);
 
     return Card(
       child: ListTile(
@@ -58,7 +62,7 @@ class WalletCard extends ConsumerWidget {
             style: TextStyle(fontSize: 11, color: negativeColor(context)),
           ),
           data: (b) {
-            final fiatUsd = b.coinAmount * price;
+            final fiatValue = b.coinAmount * (price ?? 0);
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -72,9 +76,9 @@ class WalletCard extends ConsumerWidget {
                     color: defaultTitleColor(context),
                   ),
                 ),
-                if (price > 0)
+                if ((price ?? 0) > 0)
                   Text(
-                    '\$${fiatUsd.toStringAsFixed(2)}',
+                    Formatter.formatCurrency(fiatValue, currency: currency),
                     style: TextStyle(
                       fontSize: 11,
                       color: defaultSecondaryColor(context),

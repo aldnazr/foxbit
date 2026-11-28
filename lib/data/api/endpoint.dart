@@ -1,6 +1,6 @@
 class Endpoint {
   static String markets({
-    String vsCurrency = 'idr',
+    required String vsCurrency,
     int page = 1,
     int perPage = 20,
   }) {
@@ -17,7 +17,7 @@ class Endpoint {
   static String marketChart({
     required String coinId,
     required Object days,
-    String vsCurrency = 'idr',
+    required String vsCurrency,
   }) {
     return '/coins/$coinId/market_chart?vs_currency=$vsCurrency&days=$days';
   }

@@ -10,33 +10,78 @@ part of 'market_controller.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(MarketController)
-final marketControllerProvider = MarketControllerProvider._();
+final marketControllerProvider = MarketControllerFamily._();
 
 final class MarketControllerProvider
     extends $AsyncNotifierProvider<MarketController, MarketState> {
-  MarketControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'marketControllerProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  MarketControllerProvider._({
+    required MarketControllerFamily super.from,
+    required DisplayCurrency super.argument,
+  }) : super(
+         retry: null,
+         name: r'marketControllerProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$marketControllerHash();
 
+  @override
+  String toString() {
+    return r'marketControllerProvider'
+        ''
+        '($argument)';
+  }
+
   @$internal
   @override
   MarketController create() => MarketController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is MarketControllerProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
-String _$marketControllerHash() => r'ce0b8583f88425731fc5059c44ee24ae14694805';
+String _$marketControllerHash() => r'6780983aa7982296c2f3f9c9c9ba6f20db783c04';
+
+final class MarketControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          MarketController,
+          AsyncValue<MarketState>,
+          MarketState,
+          FutureOr<MarketState>,
+          DisplayCurrency
+        > {
+  MarketControllerFamily._()
+    : super(
+        retry: null,
+        name: r'marketControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  MarketControllerProvider call(DisplayCurrency currency) =>
+      MarketControllerProvider._(argument: currency, from: this);
+
+  @override
+  String toString() => r'marketControllerProvider';
+}
 
 abstract class _$MarketController extends $AsyncNotifier<MarketState> {
-  FutureOr<MarketState> build();
+  late final _$args = ref.$arg as DisplayCurrency;
+  DisplayCurrency get currency => _$args;
+
+  FutureOr<MarketState> build(DisplayCurrency currency);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
@@ -49,7 +94,7 @@ abstract class _$MarketController extends $AsyncNotifier<MarketState> {
               Object?,
               Object?
             >;
-    return element.handleCreate(ref, build);
+    return element.handleCreate(ref, () => build(_$args));
   }
 }
 

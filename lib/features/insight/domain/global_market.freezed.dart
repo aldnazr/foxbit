@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GlobalMarket {
 
-@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double get totalMarketCapUsd;@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double get totalVolumeUsd;@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double get btcDominance;@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double get ethDominance;@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double get marketCapChange24h;
+@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double get totalMarketCapUsd;@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double get totalVolumeUsd;@JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false) double get totalMarketCapIdr;@JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false) double get totalVolumeIdr;@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double get btcDominance;@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double get ethDominance;@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double get marketCapChange24h;
 /// Create a copy of GlobalMarket
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $GlobalMarketCopyWith<GlobalMarket> get copyWith => _$GlobalMarketCopyWithImpl<G
 @override
 bool operator ==(Object other) {
   final _this = this as GlobalMarket;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GlobalMarket&&(identical(other.totalMarketCapUsd, _this.totalMarketCapUsd) || other.totalMarketCapUsd == _this.totalMarketCapUsd)&&(identical(other.totalVolumeUsd, _this.totalVolumeUsd) || other.totalVolumeUsd == _this.totalVolumeUsd)&&(identical(other.btcDominance, _this.btcDominance) || other.btcDominance == _this.btcDominance)&&(identical(other.ethDominance, _this.ethDominance) || other.ethDominance == _this.ethDominance)&&(identical(other.marketCapChange24h, _this.marketCapChange24h) || other.marketCapChange24h == _this.marketCapChange24h));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GlobalMarket&&(identical(other.totalMarketCapUsd, _this.totalMarketCapUsd) || other.totalMarketCapUsd == _this.totalMarketCapUsd)&&(identical(other.totalVolumeUsd, _this.totalVolumeUsd) || other.totalVolumeUsd == _this.totalVolumeUsd)&&(identical(other.totalMarketCapIdr, _this.totalMarketCapIdr) || other.totalMarketCapIdr == _this.totalMarketCapIdr)&&(identical(other.totalVolumeIdr, _this.totalVolumeIdr) || other.totalVolumeIdr == _this.totalVolumeIdr)&&(identical(other.btcDominance, _this.btcDominance) || other.btcDominance == _this.btcDominance)&&(identical(other.ethDominance, _this.ethDominance) || other.ethDominance == _this.ethDominance)&&(identical(other.marketCapChange24h, _this.marketCapChange24h) || other.marketCapChange24h == _this.marketCapChange24h));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as GlobalMarket;
-  return Object.hash(runtimeType,_this.totalMarketCapUsd,_this.totalVolumeUsd,_this.btcDominance,_this.ethDominance,_this.marketCapChange24h);
+  return Object.hash(runtimeType,_this.totalMarketCapUsd,_this.totalVolumeUsd,_this.totalMarketCapIdr,_this.totalVolumeIdr,_this.btcDominance,_this.ethDominance,_this.marketCapChange24h);
 }
 
 @override
 String toString() {
   final _this = this as GlobalMarket;
-  return 'GlobalMarket(totalMarketCapUsd: ${_this.totalMarketCapUsd}, totalVolumeUsd: ${_this.totalVolumeUsd}, btcDominance: ${_this.btcDominance}, ethDominance: ${_this.ethDominance}, marketCapChange24h: ${_this.marketCapChange24h})';
+  return 'GlobalMarket(totalMarketCapUsd: ${_this.totalMarketCapUsd}, totalVolumeUsd: ${_this.totalVolumeUsd}, totalMarketCapIdr: ${_this.totalMarketCapIdr}, totalVolumeIdr: ${_this.totalVolumeIdr}, btcDominance: ${_this.btcDominance}, ethDominance: ${_this.ethDominance}, marketCapChange24h: ${_this.marketCapChange24h})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $GlobalMarketCopyWith<$Res>  {
   factory $GlobalMarketCopyWith(GlobalMarket value, $Res Function(GlobalMarket) _then) = _$GlobalMarketCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double totalMarketCapUsd,@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double totalVolumeUsd,@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double btcDominance,@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double ethDominance,@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double marketCapChange24h
+@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double totalMarketCapUsd,@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double totalVolumeUsd,@JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false) double totalMarketCapIdr,@JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false) double totalVolumeIdr,@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double btcDominance,@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double ethDominance,@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double marketCapChange24h
 });
 
 
@@ -71,10 +71,12 @@ class _$GlobalMarketCopyWithImpl<$Res>
 
 /// Create a copy of GlobalMarket
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? totalMarketCapUsd = null,Object? totalVolumeUsd = null,Object? btcDominance = null,Object? ethDominance = null,Object? marketCapChange24h = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? totalMarketCapUsd = null,Object? totalVolumeUsd = null,Object? totalMarketCapIdr = null,Object? totalVolumeIdr = null,Object? btcDominance = null,Object? ethDominance = null,Object? marketCapChange24h = null,}) {
   return _then(GlobalMarket(
 totalMarketCapUsd: null == totalMarketCapUsd ? _self.totalMarketCapUsd : totalMarketCapUsd // ignore: cast_nullable_to_non_nullable
 as double,totalVolumeUsd: null == totalVolumeUsd ? _self.totalVolumeUsd : totalVolumeUsd // ignore: cast_nullable_to_non_nullable
+as double,totalMarketCapIdr: null == totalMarketCapIdr ? _self.totalMarketCapIdr : totalMarketCapIdr // ignore: cast_nullable_to_non_nullable
+as double,totalVolumeIdr: null == totalVolumeIdr ? _self.totalVolumeIdr : totalVolumeIdr // ignore: cast_nullable_to_non_nullable
 as double,btcDominance: null == btcDominance ? _self.btcDominance : btcDominance // ignore: cast_nullable_to_non_nullable
 as double,ethDominance: null == ethDominance ? _self.ethDominance : ethDominance // ignore: cast_nullable_to_non_nullable
 as double,marketCapChange24h: null == marketCapChange24h ? _self.marketCapChange24h : marketCapChange24h // ignore: cast_nullable_to_non_nullable
@@ -163,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false)  double totalMarketCapIdr, @JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false)  double totalVolumeIdr, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GlobalMarket() when $default != null:
-return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
+return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.totalMarketCapIdr,_that.totalVolumeIdr,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
   return orElse();
 
 }
@@ -184,10 +186,10 @@ return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false)  double totalMarketCapIdr, @JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false)  double totalVolumeIdr, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)  $default,) {final _that = this;
 switch (_that) {
 case _GlobalMarket():
-return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
+return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.totalMarketCapIdr,_that.totalVolumeIdr,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +206,10 @@ return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)  double totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)  double totalVolumeUsd, @JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false)  double totalMarketCapIdr, @JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false)  double totalVolumeIdr, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)  double btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)  double ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)  double marketCapChange24h)?  $default,) {final _that = this;
 switch (_that) {
 case _GlobalMarket() when $default != null:
-return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
+return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.totalMarketCapIdr,_that.totalVolumeIdr,_that.btcDominance,_that.ethDominance,_that.marketCapChange24h);case _:
   return null;
 
 }
@@ -219,11 +221,13 @@ return $default(_that.totalMarketCapUsd,_that.totalVolumeUsd,_that.btcDominance,
 @JsonSerializable()
 
 class _GlobalMarket implements GlobalMarket {
-  const _GlobalMarket({@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) required this.totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) required this.totalVolumeUsd, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) required this.btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) required this.ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) required this.marketCapChange24h});
+  const _GlobalMarket({@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) required this.totalMarketCapUsd, @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) required this.totalVolumeUsd, @JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false) required this.totalMarketCapIdr, @JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false) required this.totalVolumeIdr, @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) required this.btcDominance, @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) required this.ethDominance, @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) required this.marketCapChange24h});
   factory _GlobalMarket.fromJson(Map<String, dynamic> json) => _$GlobalMarketFromJson(json);
 
 @override@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) final  double totalMarketCapUsd;
 @override@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) final  double totalVolumeUsd;
+@override@JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false) final  double totalMarketCapIdr;
+@override@JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false) final  double totalVolumeIdr;
 @override@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) final  double btcDominance;
 @override@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) final  double ethDominance;
 @override@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) final  double marketCapChange24h;
@@ -241,18 +245,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GlobalMarket&&(identical(other.totalMarketCapUsd, totalMarketCapUsd) || other.totalMarketCapUsd == totalMarketCapUsd)&&(identical(other.totalVolumeUsd, totalVolumeUsd) || other.totalVolumeUsd == totalVolumeUsd)&&(identical(other.btcDominance, btcDominance) || other.btcDominance == btcDominance)&&(identical(other.ethDominance, ethDominance) || other.ethDominance == ethDominance)&&(identical(other.marketCapChange24h, marketCapChange24h) || other.marketCapChange24h == marketCapChange24h));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GlobalMarket&&(identical(other.totalMarketCapUsd, totalMarketCapUsd) || other.totalMarketCapUsd == totalMarketCapUsd)&&(identical(other.totalVolumeUsd, totalVolumeUsd) || other.totalVolumeUsd == totalVolumeUsd)&&(identical(other.totalMarketCapIdr, totalMarketCapIdr) || other.totalMarketCapIdr == totalMarketCapIdr)&&(identical(other.totalVolumeIdr, totalVolumeIdr) || other.totalVolumeIdr == totalVolumeIdr)&&(identical(other.btcDominance, btcDominance) || other.btcDominance == btcDominance)&&(identical(other.ethDominance, ethDominance) || other.ethDominance == ethDominance)&&(identical(other.marketCapChange24h, marketCapChange24h) || other.marketCapChange24h == marketCapChange24h));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,totalMarketCapUsd,totalVolumeUsd,btcDominance,ethDominance,marketCapChange24h);
+    return Object.hash(runtimeType,totalMarketCapUsd,totalVolumeUsd,totalMarketCapIdr,totalVolumeIdr,btcDominance,ethDominance,marketCapChange24h);
 }
 
 @override
 String toString() {
-    return 'GlobalMarket(totalMarketCapUsd: $totalMarketCapUsd, totalVolumeUsd: $totalVolumeUsd, btcDominance: $btcDominance, ethDominance: $ethDominance, marketCapChange24h: $marketCapChange24h)';
+    return 'GlobalMarket(totalMarketCapUsd: $totalMarketCapUsd, totalVolumeUsd: $totalVolumeUsd, totalMarketCapIdr: $totalMarketCapIdr, totalVolumeIdr: $totalVolumeIdr, btcDominance: $btcDominance, ethDominance: $ethDominance, marketCapChange24h: $marketCapChange24h)';
 }
 
 
@@ -263,7 +267,7 @@ abstract mixin class _$GlobalMarketCopyWith<$Res> implements $GlobalMarketCopyWi
   factory _$GlobalMarketCopyWith(_GlobalMarket value, $Res Function(_GlobalMarket) _then) = __$GlobalMarketCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double totalMarketCapUsd,@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double totalVolumeUsd,@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double btcDominance,@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double ethDominance,@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double marketCapChange24h
+@JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false) double totalMarketCapUsd,@JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false) double totalVolumeUsd,@JsonKey(name: 'data', fromJson: _totalMarketCapIdrFromData, includeToJson: false) double totalMarketCapIdr,@JsonKey(name: 'data', fromJson: _totalVolumeIdrFromData, includeToJson: false) double totalVolumeIdr,@JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false) double btcDominance,@JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false) double ethDominance,@JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false) double marketCapChange24h
 });
 
 
@@ -280,10 +284,12 @@ class __$GlobalMarketCopyWithImpl<$Res>
 
 /// Create a copy of GlobalMarket
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? totalMarketCapUsd = null,Object? totalVolumeUsd = null,Object? btcDominance = null,Object? ethDominance = null,Object? marketCapChange24h = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? totalMarketCapUsd = null,Object? totalVolumeUsd = null,Object? totalMarketCapIdr = null,Object? totalVolumeIdr = null,Object? btcDominance = null,Object? ethDominance = null,Object? marketCapChange24h = null,}) {
   return _then(_GlobalMarket(
 totalMarketCapUsd: null == totalMarketCapUsd ? _self.totalMarketCapUsd : totalMarketCapUsd // ignore: cast_nullable_to_non_nullable
 as double,totalVolumeUsd: null == totalVolumeUsd ? _self.totalVolumeUsd : totalVolumeUsd // ignore: cast_nullable_to_non_nullable
+as double,totalMarketCapIdr: null == totalMarketCapIdr ? _self.totalMarketCapIdr : totalMarketCapIdr // ignore: cast_nullable_to_non_nullable
+as double,totalVolumeIdr: null == totalVolumeIdr ? _self.totalVolumeIdr : totalVolumeIdr // ignore: cast_nullable_to_non_nullable
 as double,btcDominance: null == btcDominance ? _self.btcDominance : btcDominance // ignore: cast_nullable_to_non_nullable
 as double,ethDominance: null == ethDominance ? _self.ethDominance : ethDominance // ignore: cast_nullable_to_non_nullable
 as double,marketCapChange24h: null == marketCapChange24h ? _self.marketCapChange24h : marketCapChange24h // ignore: cast_nullable_to_non_nullable

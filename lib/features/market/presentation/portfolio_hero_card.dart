@@ -6,6 +6,7 @@ import 'package:foxbit/app/design/app_design.dart';
 import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/portofolio/application/portofolio_controller.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/shared/widgets/null_text.dart';
 import 'package:foxbit/shared/widgets/price_change_icon.dart';
 
@@ -14,7 +15,8 @@ class PortfolioHeroCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final summaryAsync = ref.watch(portfolioSummaryProvider);
+    final currency = ref.watch(currencyControllerProvider);
+    final summaryAsync = ref.watch(portfolioSummaryProvider(currency));
     final summary = summaryAsync.value;
 
     final hairline = Theme.of(context).colorScheme.outline;
@@ -63,7 +65,7 @@ class PortfolioHeroCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    Formatter.formatCurrency(value),
+                    Formatter.formatCurrency(value, currency: currency),
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
@@ -72,13 +74,13 @@ class PortfolioHeroCard extends ConsumerWidget {
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  change == null
-                      ? const NullText()
-                      : PriceChangeIcon(
-                          change > 0,
-                          label: Formatter.formatPercent(change),
-                        ),
+                  if (change != null) ...[
+                    const SizedBox(height: 10),
+                    PriceChangeIcon(
+                      change > 0,
+                      label: Formatter.formatPercent(change),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -88,10 +90,7 @@ class PortfolioHeroCard extends ConsumerWidget {
                 child: _AggregatedSparkline(series: series, accent: accent),
               )
             else if (summaryAsync.isLoading)
-              const Expanded(
-                flex: 4,
-                child: Bone(height: 72),
-              ),
+              const Expanded(flex: 4, child: Bone(height: 72)),
           ],
         ),
       ),

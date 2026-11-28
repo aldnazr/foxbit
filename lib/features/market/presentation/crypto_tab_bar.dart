@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/features/market/application/market_controller.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/shared/models/coin_detail_args.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 import 'package:foxbit/shared/widgets/null_text.dart';
@@ -16,7 +17,8 @@ class CryptoTabBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final marketAsync = ref.watch(marketControllerProvider);
+    final currency = ref.watch(currencyControllerProvider);
+    final marketAsync = ref.watch(marketControllerProvider(currency));
     final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
     return marketAsync.when(
@@ -82,7 +84,7 @@ class CryptoTabBar extends ConsumerWidget {
         child: ErrorHandler(
           errorText: "Error: $err",
           onPressed: () =>
-              ref.read(marketControllerProvider.notifier).refresh(),
+              ref.read(marketControllerProvider(currency).notifier).refresh(),
         ),
       ),
       data: (state) {
@@ -186,6 +188,7 @@ class CryptoTabBar extends ConsumerWidget {
                                 : Text(
                                     Formatter.formatCurrency(
                                       coin.currentPrice!,
+                                      currency: currency,
                                     ),
                                     style: TextStyle(
                                       fontSize: 14.0,

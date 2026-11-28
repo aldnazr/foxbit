@@ -3,4 +3,5 @@ enum const PrefKey(final String key) {
   password("password"),
   isLogin("isLogin"),
   themeMode("themeMode"),
+  displayCurrency("display_currency"),
 }

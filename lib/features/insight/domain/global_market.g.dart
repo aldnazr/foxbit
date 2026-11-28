@@ -10,6 +10,8 @@ _GlobalMarket _$GlobalMarketFromJson(Map<String, dynamic> json) =>
     _GlobalMarket(
       totalMarketCapUsd: _totalMarketCapUsdFromData(json['data']),
       totalVolumeUsd: _totalVolumeUsdFromData(json['data']),
+      totalMarketCapIdr: _totalMarketCapIdrFromData(json['data']),
+      totalVolumeIdr: _totalVolumeIdrFromData(json['data']),
       btcDominance: _btcDominanceFromData(json['data']),
       ethDominance: _ethDominanceFromData(json['data']),
       marketCapChange24h: _marketCapChange24hFromData(json['data']),

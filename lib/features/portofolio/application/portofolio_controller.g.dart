@@ -62,7 +62,7 @@ abstract class _$PortofolioController
 }
 
 @ProviderFor(portfolioSummary)
-final portfolioSummaryProvider = PortfolioSummaryProvider._();
+final portfolioSummaryProvider = PortfolioSummaryFamily._();
 
 final class PortfolioSummaryProvider
     extends
@@ -72,19 +72,26 @@ final class PortfolioSummaryProvider
           FutureOr<PortfolioSummary>
         >
     with $FutureModifier<PortfolioSummary>, $FutureProvider<PortfolioSummary> {
-  PortfolioSummaryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'portfolioSummaryProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  PortfolioSummaryProvider._({
+    required PortfolioSummaryFamily super.from,
+    required DisplayCurrency super.argument,
+  }) : super(
+         retry: null,
+         name: r'portfolioSummaryProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$portfolioSummaryHash();
+
+  @override
+  String toString() {
+    return r'portfolioSummaryProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -94,11 +101,41 @@ final class PortfolioSummaryProvider
 
   @override
   FutureOr<PortfolioSummary> create(Ref ref) {
-    return portfolioSummary(ref);
+    final argument = this.argument as DisplayCurrency;
+    return portfolioSummary(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PortfolioSummaryProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-String _$portfolioSummaryHash() => r'5456755ac33187b682826929e682cd1ce7f4f113';
+String _$portfolioSummaryHash() => r'591fe6b99cec78dfbc4853396f2ad5144680662c';
+
+final class PortfolioSummaryFamily extends $Family
+    with
+        $FunctionalFamilyOverride<FutureOr<PortfolioSummary>, DisplayCurrency> {
+  PortfolioSummaryFamily._()
+    : super(
+        retry: null,
+        name: r'portfolioSummaryProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  PortfolioSummaryProvider call(DisplayCurrency currency) =>
+      PortfolioSummaryProvider._(argument: currency, from: this);
+
+  @override
+  String toString() => r'portfolioSummaryProvider';
+}
 
 @ProviderFor(isFavorite)
 final isFavoriteProvider = IsFavoriteFamily._();

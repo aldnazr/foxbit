@@ -1,9 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:foxbit/core/utils/util.dart';
 
-class NullText extends StatelessWidget {
-  const NullText({super.key});
-
+class const NullText({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

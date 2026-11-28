@@ -6,15 +6,47 @@ part 'global_market.g.dart';
 @freezed
 abstract class GlobalMarket with _$GlobalMarket {
   const factory GlobalMarket({
-    @JsonKey(name: 'data', fromJson: _totalMarketCapUsdFromData, includeToJson: false)
+    @JsonKey(
+      name: 'data',
+      fromJson: _totalMarketCapUsdFromData,
+      includeToJson: false,
+    )
     required double totalMarketCapUsd,
-    @JsonKey(name: 'data', fromJson: _totalVolumeUsdFromData, includeToJson: false)
+    @JsonKey(
+      name: 'data',
+      fromJson: _totalVolumeUsdFromData,
+      includeToJson: false,
+    )
     required double totalVolumeUsd,
-    @JsonKey(name: 'data', fromJson: _btcDominanceFromData, includeToJson: false)
+    @JsonKey(
+      name: 'data',
+      fromJson: _totalMarketCapIdrFromData,
+      includeToJson: false,
+    )
+    required double totalMarketCapIdr,
+    @JsonKey(
+      name: 'data',
+      fromJson: _totalVolumeIdrFromData,
+      includeToJson: false,
+    )
+    required double totalVolumeIdr,
+    @JsonKey(
+      name: 'data',
+      fromJson: _btcDominanceFromData,
+      includeToJson: false,
+    )
     required double btcDominance,
-    @JsonKey(name: 'data', fromJson: _ethDominanceFromData, includeToJson: false)
+    @JsonKey(
+      name: 'data',
+      fromJson: _ethDominanceFromData,
+      includeToJson: false,
+    )
     required double ethDominance,
-    @JsonKey(name: 'data', fromJson: _marketCapChange24hFromData, includeToJson: false)
+    @JsonKey(
+      name: 'data',
+      fromJson: _marketCapChange24hFromData,
+      includeToJson: false,
+    )
     required double marketCapChange24h,
   }) = _GlobalMarket;
 
@@ -43,6 +75,16 @@ double _totalMarketCapUsdFromData(dynamic data) {
 double _totalVolumeUsdFromData(dynamic data) {
   final m = data is Map ? Map<String, dynamic>.from(data) : <String, dynamic>{};
   return _readMap(m['total_volume'], 'usd');
+}
+
+double _totalMarketCapIdrFromData(dynamic data) {
+  final m = data is Map ? Map<String, dynamic>.from(data) : <String, dynamic>{};
+  return _readMap(m['total_market_cap'], 'idr');
+}
+
+double _totalVolumeIdrFromData(dynamic data) {
+  final m = data is Map ? Map<String, dynamic>.from(data) : <String, dynamic>{};
+  return _readMap(m['total_volume'], 'idr');
 }
 
 double _btcDominanceFromData(dynamic data) {

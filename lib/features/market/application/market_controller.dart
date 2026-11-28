@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/data/api/coin_gecko_api.dart';
 import 'package:foxbit/data/api/endpoint.dart';
 import 'package:foxbit/shared/models/market_model.dart';
@@ -29,9 +30,9 @@ class MarketController extends _$MarketController {
   final _api = CoinGeckoApi();
 
   @override
-  Future<MarketState> build() async {
+  Future<MarketState> build(DisplayCurrency currency) async {
     final markets = await _api.getMarkets(
-      Endpoint.markets(page: 1, perPage: 20),
+      Endpoint.markets(vsCurrency: currency.name, page: 1, perPage: 20),
     );
     return MarketState(markets: markets, currentPage: 1, isLoadingMore: false);
   }
@@ -45,7 +46,11 @@ class MarketController extends _$MarketController {
     try {
       final nextPage = currentState.currentPage + 1;
       final newMarkets = await _api.getMarkets(
-        Endpoint.markets(page: nextPage, perPage: 20),
+        Endpoint.markets(
+          vsCurrency: currency.name,
+          page: nextPage,
+          perPage: 20,
+        ),
       );
 
       state = AsyncData(
@@ -65,7 +70,7 @@ class MarketController extends _$MarketController {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final markets = await _api.getMarkets(
-        Endpoint.markets(page: 1, perPage: 20),
+        Endpoint.markets(vsCurrency: currency.name, page: 1, perPage: 20),
       );
       return MarketState(
         markets: markets,

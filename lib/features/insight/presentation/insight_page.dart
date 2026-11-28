@@ -8,6 +8,7 @@ import 'package:foxbit/features/insight/presentation/providers/insight_providers
 import 'package:foxbit/features/insight/presentation/widgets/fear_greed_card.dart';
 import 'package:foxbit/features/insight/presentation/widgets/global_summary_card.dart';
 import 'package:foxbit/features/insight/presentation/widgets/news_list.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 
 class InsightPage extends ConsumerWidget {
@@ -15,6 +16,7 @@ class InsightPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyControllerProvider);
     final fg = ref.watch(fearGreedProvider);
     final gm = ref.watch(globalMarketProvider);
     final nw = ref.watch(cryptoNewsProvider);
@@ -58,7 +60,7 @@ class InsightPage extends ConsumerWidget {
                     errorText: e.toString(),
                     onPressed: () => ref.invalidate(globalMarketProvider),
                   ),
-                  data: (d) => GlobalSummaryCard(data: d),
+                  data: (d) => GlobalSummaryCard(data: d, currency: currency),
                 ),
               ),
             ),

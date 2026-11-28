@@ -16,7 +16,7 @@ final class CoinDetailControllerProvider
     extends $AsyncNotifierProvider<CoinDetailController, CoinDetailState> {
   CoinDetailControllerProvider._({
     required CoinDetailControllerFamily super.from,
-    required String super.argument,
+    required (String, DisplayCurrency) super.argument,
   }) : super(
          retry: null,
          name: r'coinDetailControllerProvider',
@@ -32,7 +32,7 @@ final class CoinDetailControllerProvider
   String toString() {
     return r'coinDetailControllerProvider'
         ''
-        '($argument)';
+        '$argument';
   }
 
   @$internal
@@ -51,7 +51,7 @@ final class CoinDetailControllerProvider
 }
 
 String _$coinDetailControllerHash() =>
-    r'b68be65fa47fc6b243359dcc4d7a1aed4abbba15';
+    r'234c2526dd4d697a0b0506b8f072d26ff65ecc36';
 
 final class CoinDetailControllerFamily extends $Family
     with
@@ -60,7 +60,7 @@ final class CoinDetailControllerFamily extends $Family
           AsyncValue<CoinDetailState>,
           CoinDetailState,
           FutureOr<CoinDetailState>,
-          String
+          (String, DisplayCurrency)
         > {
   CoinDetailControllerFamily._()
     : super(
@@ -71,18 +71,19 @@ final class CoinDetailControllerFamily extends $Family
         isAutoDispose: true,
       );
 
-  CoinDetailControllerProvider call(String id) =>
-      CoinDetailControllerProvider._(argument: id, from: this);
+  CoinDetailControllerProvider call(String id, DisplayCurrency currency) =>
+      CoinDetailControllerProvider._(argument: (id, currency), from: this);
 
   @override
   String toString() => r'coinDetailControllerProvider';
 }
 
 abstract class _$CoinDetailController extends $AsyncNotifier<CoinDetailState> {
-  late final _$args = ref.$arg as String;
-  String get id => _$args;
+  late final _$args = ref.$arg as (String, DisplayCurrency);
+  String get id => _$args.$1;
+  DisplayCurrency get currency => _$args.$2;
 
-  FutureOr<CoinDetailState> build(String id);
+  FutureOr<CoinDetailState> build(String id, DisplayCurrency currency);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
@@ -95,6 +96,6 @@ abstract class _$CoinDetailController extends $AsyncNotifier<CoinDetailState> {
               Object?,
               Object?
             >;
-    return element.handleCreate(ref, () => build(_$args));
+    return element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
   }
 }

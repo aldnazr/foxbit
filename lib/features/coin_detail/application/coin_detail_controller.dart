@@ -1,3 +1,4 @@
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/data/api/coin_gecko_api.dart';
 import 'package:foxbit/data/api/endpoint.dart';
 import 'package:foxbit/features/coin_detail/state/coin_detail_state.dart';
@@ -20,10 +21,14 @@ class CoinDetailController extends _$CoinDetailController {
   final _api = CoinGeckoApi();
 
   @override
-  Future<CoinDetailState> build(String id) async {
+  Future<CoinDetailState> build(String id, DisplayCurrency currency) async {
     final detailFuture = _api.getDetails(Endpoint.details(id));
     final chartFuture = _api.getMarketChart(
-      Endpoint.marketChart(coinId: id, days: _rangeDays['1D']!),
+      Endpoint.marketChart(
+        coinId: id,
+        days: _rangeDays['1D']!,
+        vsCurrency: currency.name,
+      ),
     );
 
     final results = await Future.wait([detailFuture, chartFuture]);
@@ -44,7 +49,11 @@ class CoinDetailController extends _$CoinDetailController {
 
     try {
       final chartPoints = await _api.getMarketChart(
-        Endpoint.marketChart(coinId: id, days: _rangeDays[range]!),
+        Endpoint.marketChart(
+          coinId: id,
+          days: _rangeDays[range]!,
+          vsCurrency: currency.name,
+        ),
       );
       state = AsyncData(
         state.value!.copyWith(chartPoints: chartPoints, isRangeLoading: false),
@@ -60,7 +69,11 @@ class CoinDetailController extends _$CoinDetailController {
     state = await AsyncValue.guard(() async {
       final detailFuture = _api.getDetails(Endpoint.details(id));
       final chartFuture = _api.getMarketChart(
-        Endpoint.marketChart(coinId: id, days: _rangeDays[range]!),
+        Endpoint.marketChart(
+          coinId: id,
+          days: _rangeDays[range]!,
+          vsCurrency: currency.name,
+        ),
       );
 
       final results = await Future.wait([detailFuture, chartFuture]);

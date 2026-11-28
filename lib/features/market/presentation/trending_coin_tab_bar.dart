@@ -2,8 +2,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/features/market/application/market_controller.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
+import 'package:foxbit/features/wallet/presentation/providers/wallet_providers.dart';
 import 'package:foxbit/shared/models/coin_detail_args.dart';
 import 'package:foxbit/shared/widgets/error_handler.dart';
 import 'package:foxbit/shared/widgets/price_change_icon.dart';
@@ -11,6 +14,8 @@ import 'package:foxbit/shared/widgets/price_change_icon.dart';
 class const TrendingCoinTabBar({super.key}) extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyControllerProvider);
+    final fiat = ref.watch(fiatPricesProvider).asData?.value;
     final topCoinsAsync = ref.watch(topCoinsControllerProvider);
     final bottomSpacer = MediaQuery.viewPaddingOf(context).bottom + 88;
 
@@ -89,6 +94,12 @@ class const TrendingCoinTabBar({super.key}) extends ConsumerWidget {
               final coin = topCoins[index].item;
               final priceChange =
                   coin.data.priceChangePercentage24h['usd'] ?? 0.0;
+              final btcFiat = currency == DisplayCurrency.idr
+                  ? fiat?.btcIdr
+                  : fiat?.btcUsd;
+              final price = (btcFiat != null && btcFiat > 0)
+                  ? coin.data.price * btcFiat
+                  : null;
 
               return Column(
                 children: [
@@ -146,13 +157,27 @@ class const TrendingCoinTabBar({super.key}) extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          Formatter.formatCurrency(coin.data.price),
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        price == null
+                            ? Semantics(
+                                label: 'Harga belum tersedia',
+                                child: const Text(
+                                  '--',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                Formatter.formatCurrency(
+                                  price,
+                                  currency: currency,
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: PriceChangeIcon(

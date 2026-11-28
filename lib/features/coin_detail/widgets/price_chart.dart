@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/coin_detail/widgets/chart_formatters.dart';
@@ -22,11 +23,13 @@ class PriceChart extends StatefulWidget {
   const PriceChart({
     super.key,
     required this.points,
+    required this.currency,
     required this.lineColor,
     this.onScrub,
   });
 
   final List<ChartPoint> points;
+  final DisplayCurrency currency;
   final Color lineColor;
   final ValueChanged<ChartPoint?>? onScrub;
 
@@ -80,8 +83,10 @@ class _PriceChartState extends State<PriceChart> {
 
     return Semantics(
       label:
-          'Grafik harga, terendah ${Formatter.formatCurrency(_stats.min)}, '
-          'tertinggi ${Formatter.formatCurrency(_stats.max)}. '
+          'Grafik harga, terendah '
+          '${Formatter.formatCurrency(_stats.min, currency: widget.currency)}, '
+          'tertinggi '
+          '${Formatter.formatCurrency(_stats.max, currency: widget.currency)}. '
           'Tahan lalu geser untuk melihat harga per waktu.',
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -123,6 +128,7 @@ class _PriceChartState extends State<PriceChart> {
                       points: widget.points,
                       stats: _stats,
                       palette: palette,
+                      currency: widget.currency,
                       lineColor: widget.lineColor,
                     ),
                   ),
@@ -252,12 +258,14 @@ class _ChartPainter extends CustomPainter {
     required this.points,
     required this.stats,
     required this.palette,
+    required this.currency,
     required this.lineColor,
   });
 
   final List<ChartPoint> points;
   final _ChartStats stats;
   final _Palette palette;
+  final DisplayCurrency currency;
   final Color lineColor;
 
   @override
@@ -329,7 +337,7 @@ class _ChartPainter extends CustomPainter {
 
     final ticks = stats.priceTicks;
     for (final value in ticks.values) {
-      final text = formatAxisPrice(value, ticks.step);
+      final text = formatAxisPrice(value, ticks.step, currency);
       final fill = _layout(text, fillStyle);
       final halo = _layout(text, haloStyle);
       final dy = _clamp(
@@ -365,6 +373,7 @@ class _ChartPainter extends CustomPainter {
       !identical(oldDelegate.points, points) ||
       !identical(oldDelegate.stats, stats) ||
       oldDelegate.palette != palette ||
+      oldDelegate.currency != currency ||
       oldDelegate.lineColor != lineColor;
 }
 

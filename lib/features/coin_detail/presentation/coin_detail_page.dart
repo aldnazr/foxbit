@@ -2,6 +2,7 @@ import 'package:foxbit/shared/widgets/default_appbar.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foxbit/app/design/app_design.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/core/utils/formatter.dart';
 import 'package:foxbit/core/utils/util.dart';
 import 'package:foxbit/features/coin_detail/application/coin_detail_controller.dart';
@@ -9,6 +10,7 @@ import 'package:foxbit/features/coin_detail/widgets/chart_formatters.dart';
 import 'package:foxbit/features/coin_detail/widgets/coin_detail_skeleton.dart';
 import 'package:foxbit/features/coin_detail/widgets/price_chart.dart';
 import 'package:foxbit/features/portofolio/application/portofolio_controller.dart';
+import 'package:foxbit/features/settings/application/currency_controller.dart';
 import 'package:foxbit/shared/models/chart_point.dart';
 import 'package:foxbit/shared/models/coin_detail.dart';
 import 'package:foxbit/shared/models/coin_detail_args.dart';
@@ -32,7 +34,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
   final _textCoinController = TextEditingController();
   final _textCurrencyController = TextEditingController();
   final _scrub = ValueNotifier<ChartPoint?>(null);
-  bool _isInitializedConverter = false;
+  DisplayCurrency? _converterCurrency;
 
   static const _ranges = ['1D', '1W', '1M', '1Y', 'All'];
 
@@ -44,34 +46,38 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
     super.dispose();
   }
 
-  void _initConverters(CoinDetail detail) {
-    if (_isInitializedConverter) return;
-    _isInitializedConverter = true;
-    _textCoinController.text = "1.0";
-    final marketPriceRaw = detail.marketData.currentPrice['idr'];
-    final marketPrice = (marketPriceRaw is num)
+  double _marketPrice(CoinDetail detail, DisplayCurrency currency) {
+    final marketPriceRaw = detail.marketData.currentPrice[currency.name];
+    return (marketPriceRaw is num)
         ? marketPriceRaw.toDouble()
         : double.tryParse(marketPriceRaw.toString()) ?? 0.0;
-    _textCurrencyController.text = marketPrice.toString();
   }
 
-  void _cryptoConverter(String value, CoinDetail detail) {
+  void _initConverters(CoinDetail detail, DisplayCurrency currency) {
+    if (_converterCurrency == currency) return;
+    _converterCurrency = currency;
+    _textCoinController.text = "1.0";
+    _textCurrencyController.text = _marketPrice(detail, currency).toString();
+  }
+
+  void _cryptoConverter(
+    String value,
+    CoinDetail detail,
+    DisplayCurrency currency,
+  ) {
     final price = double.tryParse(value) ?? 0.0;
-    final marketPriceRaw = detail.marketData.currentPrice['idr'];
-    final marketPrice = (marketPriceRaw is num)
-        ? marketPriceRaw.toDouble()
-        : double.tryParse(marketPriceRaw.toString()) ?? 0.0;
+    final marketPrice = _marketPrice(detail, currency);
     final total = marketPrice > 0 ? price / marketPrice : 0.0;
     _textCoinController.text = total.toString();
   }
 
-  void _currencyConverter(String value, CoinDetail detail) {
+  void _currencyConverter(
+    String value,
+    CoinDetail detail,
+    DisplayCurrency currency,
+  ) {
     final coins = double.tryParse(value) ?? 0.0;
-    final marketPriceRaw = detail.marketData.currentPrice['idr'];
-    final marketPrice = (marketPriceRaw is num)
-        ? marketPriceRaw.toDouble()
-        : double.tryParse(marketPriceRaw.toString()) ?? 0.0;
-    final total = coins * marketPrice;
+    final total = coins * _marketPrice(detail, currency);
     _textCurrencyController.text = total.toString();
   }
 
@@ -79,8 +85,9 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
   Widget build(BuildContext context) {
     final args = widget.args;
     final id = widget.id;
+    final currency = ref.watch(currencyControllerProvider);
     final isFav = ref.watch(isFavoriteProvider(id));
-    final detailAsync = ref.watch(coinDetailControllerProvider(id));
+    final detailAsync = ref.watch(coinDetailControllerProvider(id, currency));
 
     final displayName = args?.name ?? id;
     final displaySymbol = args?.symbol ?? id;
@@ -175,8 +182,9 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
         loading: () => const CoinDetailSkeleton(),
         error: (err, st) => ErrorHandler(
           errorText: 'Error: $err',
-          onPressed: () =>
-              ref.read(coinDetailControllerProvider(id).notifier).refresh(),
+          onPressed: () => ref
+              .read(coinDetailControllerProvider(id, currency).notifier)
+              .refresh(),
         ),
         data: (state) {
           final detail = state.detail;
@@ -186,7 +194,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
             return const CoinDetailSkeleton();
           }
 
-          _initConverters(detail);
+          _initConverters(detail, currency);
 
           final positive = positiveColor(context);
           final negative = negativeColor(context);
@@ -199,7 +207,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
             onRefresh: () {
               _scrub.value = null;
               return ref
-                  .read(coinDetailControllerProvider(id).notifier)
+                  .read(coinDetailControllerProvider(id, currency).notifier)
                   .refresh();
             },
             child: SingleChildScrollView(
@@ -216,14 +224,17 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                         builder: (context, scrub, _) {
                           final price =
                               scrub?.price ??
-                              detail.marketData.currentPrice['idr'];
+                              detail.marketData.currentPrice[currency.name];
 
                           return Column(
                             crossAxisAlignment: .start,
                             children: [
                               if (price != null)
                                 Text(
-                                  Formatter.formatCurrency(price),
+                                  Formatter.formatCurrency(
+                                    price,
+                                    currency: currency,
+                                  ),
                                   style: TextStyle(
                                     fontFamily: 'SFPro',
                                     fontSize: 32.0,
@@ -282,7 +293,9 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                     onSelected: (r) {
                       _scrub.value = null;
                       ref
-                          .read(coinDetailControllerProvider(id).notifier)
+                          .read(
+                            coinDetailControllerProvider(id, currency).notifier,
+                          )
                           .setRange(r);
                     },
                   ),
@@ -314,6 +327,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                               ignoring: state.isRangeLoading,
                               child: PriceChart(
                                 points: points,
+                                currency: currency,
                                 lineColor:
                                     points.first.price <= points.last.price
                                     ? positive
@@ -384,7 +398,7 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                             ),
                           ),
                           onChanged: (value) {
-                            _currencyConverter(value, detail);
+                            _currencyConverter(value, detail, currency);
                           },
                         ),
                       ),
@@ -397,13 +411,13 @@ class _CoinDetailPageState extends ConsumerState<CoinDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'IDR',
+                                currency.label,
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
                           onChanged: (value) {
-                            _cryptoConverter(value, detail);
+                            _cryptoConverter(value, detail, currency);
                           },
                         ),
                       ),

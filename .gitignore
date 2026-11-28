@@ -48,6 +48,6 @@ app.*.map.json
 env.json
 
 # kilo
-.kilo
+.kilo/plans
 # Widget Preview related
 .widget_preview/

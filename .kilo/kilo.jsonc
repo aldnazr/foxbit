@@ -1,0 +1,6 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "commit_message": {
+    "prompt": "read full change for commit and use hyphen symbol as pointing"
+  }
+}

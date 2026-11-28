@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/features/market/application/market_controller.dart';
 import 'package:foxbit/features/wallet/domain/wallet_models.dart';
 import 'package:foxbit/features/wallet/domain/watched_wallet.dart';
@@ -63,9 +64,14 @@ class PortofolioController extends _$PortofolioController {
 }
 
 @riverpod
-Future<PortfolioSummary> portfolioSummary(Ref ref) async {
+Future<PortfolioSummary> portfolioSummary(
+  Ref ref,
+  DisplayCurrency currency,
+) async {
   final watchlist = await ref.watch(portofolioControllerProvider.future);
-  final marketState = await ref.watch(marketControllerProvider.future);
+  final marketState = await ref.watch(
+    marketControllerProvider(currency).future,
+  );
   final markets = marketState.markets;
   final wallets = await ref.watch(walletsControllerProvider.future);
 
@@ -113,10 +119,14 @@ Future<PortfolioSummary> portfolioSummary(Ref ref) async {
     double price;
     String marketId;
     if (wallet.chain == Chain.btc) {
-      price = fiat?.btcIdr ?? 0;
+      price = currency == DisplayCurrency.idr
+          ? fiat?.btcIdr ?? 0
+          : fiat?.btcUsd ?? 0;
       marketId = 'bitcoin';
     } else {
-      price = fiat?.ethIdr ?? 0;
+      price = currency == DisplayCurrency.idr
+          ? fiat?.ethIdr ?? 0
+          : fiat?.ethUsd ?? 0;
       marketId = 'ethereum';
     }
 

@@ -1,17 +1,30 @@
 import 'dart:math' as math;
 
+import 'package:foxbit/core/utils/display_currency.dart';
 import 'package:foxbit/shared/models/chart_point.dart';
 import 'package:intl/intl.dart';
 
-const _locale = 'id_ID';
 const _dayMinutes = 24 * 60;
-const _units = [(1e12, 'T'), (1e9, 'M'), (1e6, 'jt'), (1e3, 'rb')];
+const _locale = 'id_ID';
+const _idrUnits = [(1e12, 'T'), (1e9, 'M'), (1e6, 'jt'), (1e3, 'rb')];
+const _usdUnits = [(1e12, 'T'), (1e9, 'B'), (1e6, 'M'), (1e3, 'K')];
 
-final _patterns = List<NumberFormat>.generate(
-  9,
-  (digits) =>
-      NumberFormat.decimalPatternDigits(locale: _locale, decimalDigits: digits),
-);
+final _patterns = {
+  DisplayCurrency.idr: List<NumberFormat>.generate(
+    9,
+    (digits) => NumberFormat.decimalPatternDigits(
+      locale: 'id_ID',
+      decimalDigits: digits,
+    ),
+  ),
+  DisplayCurrency.usd: List<NumberFormat>.generate(
+    9,
+    (digits) => NumberFormat.decimalPatternDigits(
+      locale: 'en_US',
+      decimalDigits: digits,
+    ),
+  ),
+};
 
 final _timeOfDay = DateFormat('HH.mm', _locale);
 final _dayMonth = DateFormat('d MMM', _locale);
@@ -76,16 +89,18 @@ String formatTimeLabel(TimeTick tick) => switch (tick.unit) {
   TimeTickUnit.year => _yearOnly.format(tick.time),
 };
 
-String formatAxisPrice(double value, double step) {
+String formatAxisPrice(double value, double step, DisplayCurrency currency) {
   final magnitude = value.abs();
-  for (final (size, suffix) in _units) {
+  final units = currency == DisplayCurrency.idr ? _idrUnits : _usdUnits;
+  final patterns = _patterns[currency]!;
+  for (final (size, suffix) in units) {
     if (magnitude >= size) {
       final digits = _digits(step / size, 2);
-      return 'Rp${_patterns[digits].format(value / size)}$suffix';
+      return '${currency.symbol}${patterns[digits].format(value / size)}$suffix';
     }
   }
   final digits = _digits(step, magnitude < 1 ? 8 : 2);
-  return 'Rp${_patterns[digits].format(value)}';
+  return '${currency.symbol}${patterns[digits].format(value)}';
 }
 
 int _digits(double step, int maxDigits) {
