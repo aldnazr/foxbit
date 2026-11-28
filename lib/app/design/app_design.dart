@@ -232,7 +232,7 @@ class AppDesign {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
-          fixedSize: const WidgetStatePropertyAll(Size.fromHeight(52)),
+          minimumSize: const WidgetStatePropertyAll(Size(double.maxFinite, 52)),
           foregroundColor: WidgetStatePropertyAll(textPrimary(brightness)),
           side: WidgetStatePropertyAll(BorderSide(color: hairline(brightness))),
           elevation: const WidgetStatePropertyAll(0),
@@ -244,7 +244,7 @@ class AppDesign {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          fixedSize: const WidgetStatePropertyAll(Size.fromHeight(52)),
+          minimumSize: const WidgetStatePropertyAll(Size(double.maxFinite, 52)),
           backgroundColor: WidgetStatePropertyAll(surfaceAlt(brightness)),
           foregroundColor: WidgetStatePropertyAll(textPrimary(brightness)),
           elevation: const WidgetStatePropertyAll(0),

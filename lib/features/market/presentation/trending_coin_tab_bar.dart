@@ -136,7 +136,7 @@ class const TrendingCoinTabBar({super.key}) extends ConsumerWidget {
                         const SizedBox(width: 8),
                         CircleAvatar(
                           radius: 22,
-                          foregroundImage: NetworkImage(coin.small),
+                          foregroundImage: NetworkImage(coin.large),
                           backgroundColor: Colors.transparent,
                         ),
                       ],

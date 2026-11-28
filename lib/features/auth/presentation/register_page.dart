@@ -163,7 +163,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     child: const Text('Daftar'),
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () => context.pop(),
                     child: const Text('Masuk'),
                   ),
