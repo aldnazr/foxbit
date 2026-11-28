@@ -6,12 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:foxbit/app/design/app_design.dart';
 import 'package:foxbit/core/utils/util.dart';
 
-class _NavItem {
-  final String icon;
-  final String label;
-
-  const _NavItem({required this.icon, required this.label});
-}
+class const _NavItem({
+  required final String icon,
+  required final String label,
+}) {}
 
 class const AppBottomNavBar({
   super.key,
@@ -20,6 +18,7 @@ class const AppBottomNavBar({
   static const _items = <_NavItem>[
     _NavItem(icon: 'assets/icons/finance.svg', label: 'Market'),
     _NavItem(icon: 'assets/icons/star.svg', label: 'Portfolio'),
+    _NavItem(icon: 'assets/icons/search.svg', label: 'Cari'),
     _NavItem(icon: 'assets/icons/insight.svg', label: 'Insight'),
     _NavItem(icon: 'assets/icons/wallet.svg', label: 'Wallet'),
   ];

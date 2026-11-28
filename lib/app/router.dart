@@ -7,6 +7,7 @@ import 'package:foxbit/features/home/presentation/home_shell.dart';
 import 'package:foxbit/features/insight/presentation/insight_page.dart';
 import 'package:foxbit/features/market/presentation/market_page.dart';
 import 'package:foxbit/features/portofolio/presentation/portofolio_page.dart';
+import 'package:foxbit/features/search/presentation/search_page.dart';
 import 'package:foxbit/features/settings/presentation/setting_page.dart';
 import 'package:foxbit/features/wallet/presentation/wallet_detail_page.dart';
 import 'package:foxbit/features/wallet/presentation/wallet_page.dart';
@@ -90,6 +91,15 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: '/portofolio',
                 builder: (context, state) => const PortofolioPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/search',
+                name: 'search',
+                builder: (context, state) => const SearchPage(),
               ),
             ],
           ),

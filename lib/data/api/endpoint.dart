@@ -25,4 +25,7 @@ class Endpoint {
   static String trending() {
     return "/search/trending";
   }
+
+  static String search(String query) =>
+      '/search?query=${Uri.encodeQueryComponent(query)}';
 }

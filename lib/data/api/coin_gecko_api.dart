@@ -5,6 +5,7 @@ import 'package:foxbit/core/config/env.dart';
 import 'package:foxbit/shared/models/chart_point.dart';
 import 'package:foxbit/shared/models/coin_detail.dart';
 import 'package:foxbit/shared/models/market_model.dart';
+import 'package:foxbit/shared/models/search_coin_model.dart';
 import 'package:foxbit/shared/models/top_coin_model.dart';
 
 class CoinGeckoApi {
@@ -77,6 +78,18 @@ class CoinGeckoApi {
 
       points.sort((a, b) => a.time.compareTo(b.time));
       return points;
+    } else {
+      throw Exception("Failed to fetch data: ${response.statusCode}");
+    }
+  }
+
+  Future<SearchCoinModel> searchCoins(String endpoint) async {
+    final url = Uri.parse("$_baseUrl$endpoint");
+    final response = await http.get(url, headers: _header);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> body = jsonDecode(response.body);
+      return SearchCoinModel.fromJson(body);
     } else {
       throw Exception("Failed to fetch data: ${response.statusCode}");
     }
